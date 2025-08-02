@@ -1,6 +1,7 @@
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import profileimg from '../../../../../public/images/user/owner.jpg';
 
 export const metadata: Metadata = {
@@ -60,7 +61,7 @@ export default function page() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a href="/attendance/1" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                                    <Link href="/attendance/1" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                 </td>
                             </tr>
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -83,7 +84,7 @@ export default function page() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a href="/attendance/2" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                                    <Link href="/attendance/2" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                 </td>
                             </tr>
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -106,7 +107,7 @@ export default function page() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a href="/attendance/3" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                                    <Link href="/attendance/3" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                 </td>
                             </tr>
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -129,7 +130,7 @@ export default function page() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a href="/attendance/4" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                                    <Link href="/attendance/4" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                 </td>
                             </tr>
                             <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -152,7 +153,7 @@ export default function page() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a href="/attendance/5" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                                    <Link href="/attendance/5" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                 </td>
                             </tr>
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -175,7 +176,7 @@ export default function page() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a href="/attendance/3" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                                    <Link href="/attendance/3" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                 </td>
                             </tr>
                             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -198,7 +199,7 @@ export default function page() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a href="/attendance/4" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                                    <Link href="/attendance/4" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                 </td>
                             </tr>
                             <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -221,7 +222,7 @@ export default function page() {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a href="/attendance/5" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
+                                    <Link href="/attendance/5" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                 </td>
                             </tr>
                         </tbody>
