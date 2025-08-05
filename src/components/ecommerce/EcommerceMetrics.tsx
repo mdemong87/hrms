@@ -1,99 +1,18 @@
 "use client";
-import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from "@/icons";
-import Badge from "../ui/badge/Badge";
+
+import EcommerceMetricesCard from "../../components/ecommerce/EcommerceMetricesCard";
 
 export const EcommerceMetrics = () => {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
-      {/* <!-- Metric Item Start --> */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
-          <GroupIcon className="text-gray-800 size-6 dark:text-white/90" />
-        </div>
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-5">
 
-        <div className="flex items-end justify-between mt-5">
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Employees
-            </span>
-            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              72
-            </h4>
-          </div>
-          <Badge color="success">
-            <ArrowUpIcon />
-            11.01%
-          </Badge>
-        </div>
-      </div>
-      {/* <!-- Metric Item End --> */}
+      <EcommerceMetricesCard title="Employees" value="77" rate="100%" status={"up"} head={'1'} />
+      <EcommerceMetricesCard title="On Leave Employee" value="5" rate="20%" status={"down"} head={'2'} />
+      <EcommerceMetricesCard title="Current Orders" value="11" rate="11%" status={"up"} head={'3'} />
+      <EcommerceMetricesCard title="Cencel Orders" value="1" rate="1%" status={"down"} head={'4'} />
+      <EcommerceMetricesCard title="Currently Working" value="6" rate="6%" status={"up"} head={'5'} />
+      <EcommerceMetricesCard title="Total Profit" value="$2343" rate="100%" status={"up"} head={'6'} />
 
-      {/* <!-- Metric Item Start --> */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
-          <BoxIconLine className="text-gray-800 dark:text-white/90" />
-        </div>
-        <div className="flex items-end justify-between mt-5">
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Current Orders
-            </span>
-            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              7
-            </h4>
-          </div>
-
-          <Badge color="success">
-            <ArrowUpIcon />
-            9.05%
-          </Badge>
-        </div>
-      </div>
-      {/* <!-- Metric Item End --> */}
-      {/* <!-- Metric Item Start --> */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
-          <BoxIconLine className="text-gray-800 dark:text-white/90" />
-        </div>
-        <div className="flex items-end justify-between mt-5">
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Cencel Orders
-            </span>
-            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              2
-            </h4>
-          </div>
-
-          <Badge color="error">
-            <ArrowDownIcon className="text-error-500" />
-            9.05%
-          </Badge>
-        </div>
-      </div>
-      {/* <!-- Metric Item End --> */}
-      {/* <!-- Metric Item Start --> */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
-        <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
-          <BoxIconLine className="text-gray-800 dark:text-white/90" />
-        </div>
-        <div className="flex items-end justify-between mt-5">
-          <div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              Total Profit
-            </span>
-            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              $ 54347
-            </h4>
-          </div>
-
-          <Badge color="success">
-            <ArrowUpIcon />
-            9.05%
-          </Badge>
-        </div>
-      </div>
-      {/* <!-- Metric Item End --> */}
-    </div>
+    </div >
   );
 };

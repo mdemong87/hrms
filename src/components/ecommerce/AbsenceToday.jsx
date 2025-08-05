@@ -25,52 +25,96 @@ const AbsenceToday = () => {
                     <div className="text-gray-100 mt-5">
 
 
-                        <div class="relative overflow-x-auto rounded-lg">
-                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <div className="relative overflow-x-auto rounded-lg">
+                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th className="px-6 py-3">
                                             SL
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th className="px-6 py-3">
                                             Emplyee Name
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th className="px-6 py-3">
                                             Status
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                        <td class="px-6 py-4">
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <td className="px-6 py-4">
                                             1
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             MD Emon Hossen
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             Absence
                                         </td>
                                     </tr>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                        <td class="px-6 py-4">
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <td className="px-6 py-4">
                                             2
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             Rana Ahmead
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             Absence
                                         </td>
                                     </tr>
-                                    <tr class="bg-white dark:bg-gray-800">
-                                        <td class="px-6 py-4">
+                                    <tr className="bg-white dark:bg-gray-800">
+                                        <td className="px-6 py-4">
                                             3
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             Ahsan Ahmead
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
+                                            Absence
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <td className="px-6 py-4">
+                                            2
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            Rana Ahmead
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            Absence
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white dark:bg-gray-800">
+                                        <td className="px-6 py-4">
+                                            3
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            Ahsan Ahmead
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            Absence
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                        <td className="px-6 py-4">
+                                            2
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            Rana Ahmead
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            Absence
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white dark:bg-gray-800">
+                                        <td className="px-6 py-4">
+                                            3
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            Ahsan Ahmead
+                                        </td>
+                                        <td className="px-6 py-4">
                                             Absence
                                         </td>
                                     </tr>
