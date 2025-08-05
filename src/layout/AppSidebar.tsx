@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MdOutlineHolidayVillage } from "react-icons/md";
+import { TfiAnnouncement } from "react-icons/tfi";
 import { useSidebar } from "../context/SidebarContext";
 import {
   CalenderIcon,
@@ -57,6 +58,11 @@ const navItems: NavItem[] = [
     path: "/leave",
   },
 
+  {
+    icon: <TfiAnnouncement className="text-xl" />,
+    name: "Announcement",
+    path: "/announcement",
+  },
   {
     name: "Forms",
     icon: <ListIcon />,
