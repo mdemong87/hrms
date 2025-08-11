@@ -6,7 +6,7 @@ import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
 import { useState } from "react";
 import { toast, ToastContainer } from 'react-toastify';
-import Loading from "../../components/common/Loading";
+import Loading from "../common/Loading";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
