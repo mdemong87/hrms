@@ -14,7 +14,6 @@ export default function SignInForm() {
 
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const [isloading, setisloading] = useState(false);
   const [email, setemail] = useState('');
   const [pass, setpass] = useState('');
