@@ -34,7 +34,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/layout/AppHeader.jsx",
-    "src/app/(admin)/(others-pages)/employee/attendance/[id]/page.jsx"
+    "src/app/(admin)/(others-pages)/employee/attendance/[id]/page.jsx",
+    "src/components/auth/SignInForm.jsx"
   ],
   "exclude": [
     "node_modules"

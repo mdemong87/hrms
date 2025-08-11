@@ -7,8 +7,8 @@ import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import { toast, ToastContainer } from 'react-toastify';
-import Loading from "../../components/common/Loading";
 import SetCookie from "../../helper/cookie/setcookie";
+import Loading from "../common/Loading";
 
 export default function SignInForm() {
 
