@@ -4,13 +4,81 @@ import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
+import { toast, ToastContainer } from 'react-toastify';
+import Loading from "../../components/common/Loading";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [fristName, setfristName] = useState('');
+  const [lastName, setlastName] = useState('');
+  const [email, setemail] = useState('');
+  const [pass, setpass] = useState('');
+  const [isloading, setisloading] = useState(false);
+
+
+
+  //handle handleSignUp function is here
+  const handleSignUp = async (e) => {
+    // Prevent the default form submission behavior
+    e.preventDefault();
+
+    // Example user input values (you can modify these as needed)
+    const userData = {
+      name: fristName + lastName,
+      email: email,
+      password: pass
+    };
+
+    try {
+      if (isChecked) {
+        setisloading(true);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Specify JSON request
+          },
+          body: JSON.stringify(userData) // Convert JS object to JSON string
+        });
+
+        // Handle response
+        if (response.ok) {
+          setisloading(false);
+          const data = await response.json();
+          toast.success("Signup successful");
+          console.log("Signup successful:", data);
+          // You can redirect the user or show a success message here
+        } else {
+          setisloading(false);
+          const errorData = await response.json();
+          toast.error('Signup failed');
+          console.error("Signup failed:", errorData.message || "Unknown error");
+        }
+
+      } else {
+
+        toast.warn("You Have to Accept Terms and Conditions");
+
+      }
+
+    } catch (error) {
+      setisloading(false);
+      console.error("Error during signup:", error.message);
+    }
+  };
+
+
+
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full overflow-y-auto no-scrollbar">
+      <div className="absolute flex items-center justify-center top-0 left-0 w-screen h-screen bg-gray-900 text-gray-200 z-80">
+        <div className="flex flex-col gap-5 items-center">
+          <p className="text-xl">Only Administrator SignIn Allow</p>
+          <Link className="border w-fit border-gray-700 bg-gray-800 rounded-lg py-3 px-5" href={'/signin'}>Go to Sign In Page</Link>
+        </div>
+      </div>
+      {isloading && <Loading />}
       <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
         <Link
           href="/"
@@ -92,6 +160,7 @@ export default function SignUpForm() {
                       First Name<span className="text-error-500">*</span>
                     </Label>
                     <Input
+                      onChange={(e) => { setfristName(e.target.value) }}
                       type="text"
                       id="fname"
                       name="fname"
@@ -104,6 +173,7 @@ export default function SignUpForm() {
                       Last Name<span className="text-error-500">*</span>
                     </Label>
                     <Input
+                      onChange={(e) => { setlastName(e.target.value) }}
                       type="text"
                       id="lname"
                       name="lname"
@@ -117,6 +187,7 @@ export default function SignUpForm() {
                     Email<span className="text-error-500">*</span>
                   </Label>
                   <Input
+                    onChange={(e) => { setemail(e.target.value) }}
                     type="email"
                     id="email"
                     name="email"
@@ -130,6 +201,7 @@ export default function SignUpForm() {
                   </Label>
                   <div className="relative">
                     <Input
+                      onChange={(e) => { setpass(e.target.value) }}
                       placeholder="Enter your password"
                       type={showPassword ? "text" : "password"}
                     />
@@ -165,7 +237,7 @@ export default function SignUpForm() {
                 </div>
                 {/* <!-- Button --> */}
                 <div>
-                  <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
+                  <button onClick={(e) => { handleSignUp(e) }} className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
                     Sign Up
                   </button>
                 </div>
@@ -186,6 +258,7 @@ export default function SignUpForm() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -77,6 +77,7 @@ const AppHeader = () => {
               height={32}
               className="dark:hidden"
               src={logo}
+              priority={true}
               alt="Logo"
             />
             <Image
@@ -84,6 +85,7 @@ const AppHeader = () => {
               height={32}
               className="hidden dark:block"
               src={logoDark}
+              priority={true}
               alt="Logo"
             />
           </Link>

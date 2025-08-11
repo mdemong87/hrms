@@ -1,18 +1,80 @@
 "use client";
-import Checkbox from "@/components/form/input/Checkbox";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
 import Button from "@/components/ui/button/Button";
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
+import { EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { toast, ToastContainer } from 'react-toastify';
+import Loading from "../../components/common/Loading";
+import SetCookie from "../../helper/cookie/setcookie";
 
 export default function SignInForm() {
+
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [isloading, setisloading] = useState(false);
+  const [email, setemail] = useState('');
+  const [pass, setpass] = useState('');
+
+
+
+  //hangle signin function here
+  const handleSignIn = async (e) => {
+
+
+    //prevent default dehaviour
+    e.preventDefault();
+
+    setisloading(true);
+
+    //console the user input data
+    const userdata = {
+      email,
+      password: pass
+    }
+
+    try {
+      setisloading(true);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Specify JSON request
+        },
+        body: JSON.stringify(userdata) // Convert JS object to JSON string
+      });
+
+      // Handle response
+      if (response.ok) {
+        setisloading(false);
+        const data = await response.json();
+        SetCookie("token", data.access_token, data.expires_in);
+        toast.success("SignIn successful");
+        setTimeout(() => {
+          router.push('/');
+        }, 1000);
+      } else {
+        setisloading(false);
+        const errorData = await response.json();
+        toast.error('SignIn failed');
+        console.error("SignIn failed:", errorData.message || "Unknown error");
+      }
+
+    } catch (error) {
+      setisloading(false);
+      console.error("Error during signIn:", error);
+    }
+
+
+  }
+
+
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full">
-      <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
+      {isloading && <Loading />}
+      {/* <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
         <Link
           href="/"
           className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -20,7 +82,7 @@ export default function SignInForm() {
           <ChevronLeftIcon />
           Back to dashboard
         </Link>
-      </div>
+      </div> */}
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
           <div className="mb-5 sm:mb-8">
@@ -32,7 +94,7 @@ export default function SignInForm() {
             </p>
           </div>
           <div>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5">
+            {/* <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5">
               <button className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10">
                 <svg
                   width="20"
@@ -73,8 +135,8 @@ export default function SignInForm() {
                 </svg>
                 Sign in with X
               </button>
-            </div>
-            <div className="relative py-3 sm:py-5">
+            </div> */}
+            {/* <div className="relative py-3 sm:py-5">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
               </div>
@@ -83,21 +145,21 @@ export default function SignInForm() {
                   Or
                 </span>
               </div>
-            </div>
+            </div> */}
             <form>
               <div className="space-y-6">
                 <div>
                   <Label>
                     Email <span className="text-error-500">*</span>{" "}
                   </Label>
-                  <Input placeholder="info@gmail.com" type="email" />
+                  <Input onChange={(e) => { setemail(e.target.value) }} placeholder="info@gmail.com" type="email" />
                 </div>
                 <div>
                   <Label>
                     Password <span className="text-error-500">*</span>{" "}
                   </Label>
                   <div className="relative">
-                    <Input
+                    <Input onChange={(e) => { setpass(e.target.value) }}
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                     />
@@ -114,21 +176,15 @@ export default function SignInForm() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Checkbox checked={isChecked} onChange={setIsChecked} />
-                    <span className="block font-normal text-gray-700 text-theme-sm dark:text-gray-400">
-                      Keep me logged in
-                    </span>
-                  </div>
                   <Link
-                    href="/reset-password"
+                    href="/signin/resetpass"
                     className="text-sm text-brand-500 hover:text-brand-600 dark:text-brand-400"
                   >
                     Forgot password?
                   </Link>
                 </div>
                 <div>
-                  <Button className="w-full" size="sm">
+                  <Button onClick={(e) => { handleSignIn(e) }} className="w-full" size="sm">
                     Sign in
                   </Button>
                 </div>
@@ -149,6 +205,7 @@ export default function SignInForm() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import profileimg from '../../../../../public/images/user/owner.jpg';
+import profileimg from '../../../../../../public/images/user/owner.jpg';
 
 export const metadata: Metadata = {
     title:
@@ -83,7 +83,7 @@ export default function page() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Link href="/attendance/1" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
+                                                <Link href="/employee/attendance/1" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                             </td>
                                         </tr>
                                     )
