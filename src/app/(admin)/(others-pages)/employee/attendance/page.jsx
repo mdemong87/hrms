@@ -1,21 +1,46 @@
+'use client'
+
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import profileimg from '../../../../../../public/images/user/owner.jpg';
-
-export const metadata: Metadata = {
-    title:
-        "Sardar IT - HRMS",
-    description: "Sardar IT - HRMS",
-    // other metadata
-};
+import AttendancePageFilter from "../../../../../components/ecommerce/AttendancePageFilter";
 
 
-export default function page() {
+export default async function page() {
+
+
+
+    //local state here
+    const [allemplyee, setallemplyee] = useState([]);
+
+
+    //fetching all emplyee data from the backend server here
+    // try {
+    //     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/emplyee/atendance`);
+
+    //     //check is the responsie is ok or not
+    //     if (response.ok) {
+    //         const empolyee = await response.json();
+    //         setallemplyee(empolyee);
+    //         console.log(empolyee);
+    //     } else {
+    //         console.log("Error while  fetching all Empplyee Data");
+    //     }
+
+    // } catch (error) {
+    //     console.log(error);
+    // }
+
+
+
+
     return (
         <div>
-            <PageBreadcrumb pageTitle="Attendance" />
+            <PageBreadcrumb pageTitle="Attendance" >
+                <AttendancePageFilter />
+            </PageBreadcrumb>
             <div>
 
 
@@ -36,13 +61,13 @@ export default function page() {
                                     Position
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    In Time
+                                    Check In
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Out Time
+                                    Check Out
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Status
+                                    Date
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     Action

@@ -36,7 +36,9 @@
     "src/layout/AppHeader.jsx",
     "src/app/(admin)/(others-pages)/employee/attendance/[id]/page.jsx",
     "src/components/auth/SignInForm.jsx",
-    "src/components/auth/SignUpForm.jsx"
+    "src/components/auth/SignUpForm.jsx",
+    "src/components/form/Select.jsx",
+    "src/app/(admin)/(others-pages)/employee/attendance/page.jsx"
   ],
   "exclude": [
     "node_modules"
