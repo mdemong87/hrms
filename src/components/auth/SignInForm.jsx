@@ -52,7 +52,24 @@ export default function SignInForm() {
         SetCookie("token", data.access_token, data.expires_in);
         toast.success("SignIn successful");
         setTimeout(() => {
-          router.push('/');
+          const role = 'hr';
+          switch (role) {
+            case "admin":
+              router.push('/admin');
+              break;
+            case "hr":
+              router.push('/hr');
+              break;
+            case "projectmanager":
+              router.push('/projectmanager');
+              break;
+            case "employee":
+              router.push('/employee');
+              break;
+            default:
+              console.error('Unknown role');
+              router.push('/');
+          }
         }, 1000);
       } else {
         setisloading(false);

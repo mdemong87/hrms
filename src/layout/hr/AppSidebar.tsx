@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FaDollarSign, FaTasks } from "react-icons/fa";
+import { GrUserWorker } from "react-icons/gr";
 import { MdOutlineHolidayVillage } from "react-icons/md";
 import { TfiAnnouncement } from "react-icons/tfi";
 import LogoutBtn from "../../components/auth/LogoutBtn";
@@ -13,7 +15,6 @@ import {
   GridIcon,
   HorizontaLDots,
   PageIcon,
-  TableIcon,
   UserCircleIcon
 } from "../../icons/index";
 
@@ -31,9 +32,24 @@ const navItems: NavItem[] = [
     path: "/hr",
   },
   {
-    icon: <TableIcon />,
+    icon: <GrUserWorker className="text-xl" />,
     name: "Employees",
-    subItems: [{ name: "My Attendance", path: "/hr/attendance", pro: false }],
+    subItems: [{ name: "My Attendance", path: "/hr/attendance", pro: false }, { name: "Mark Attendance", path: "/hr/attendancemark", pro: false }, { name: "Add Employee", path: "/hr/employee/add", pro: false }],
+  },
+  {
+    icon: <FaTasks className="text-xl" />,
+    name: "Task/Project",
+    subItems: [{ name: "All Project", path: "/hr/allproject", pro: false }, { name: "My Project", path: "/hr/myproject", pro: false }, { name: "Actice Project", path: "/hr/activeproject", pro: false }, { name: "Cancel Project", path: "/hr/cancelproject" }, { name: "Add Project", path: "/hr/addproject" }],
+  },
+  {
+    icon: <PageIcon />,
+    name: "My Leave",
+    subItems: [{ name: "Requested Leave", path: "/hr/leave/request", pro: false }, { name: "Apply Leave", path: "/hr/leave/apply", pro: false }, { name: "Leave Status", path: "/hr/leave/status", pro: false }, { name: "Leave History", path: "/hr/leave/history", pro: false }],
+  },
+  {
+    icon: <TfiAnnouncement className="text-xl" />,
+    name: "Announcement",
+    path: "/hr/announcement",
   },
   {
     icon: <CalenderIcon />,
@@ -41,27 +57,20 @@ const navItems: NavItem[] = [
     path: "/hr/calendar",
   },
   {
-    icon: <UserCircleIcon />,
-    name: "My Profile",
-    path: "/hr/profile",
-  },
-  {
     icon: <MdOutlineHolidayVillage className="text-2xl" />,
     name: "Holidays",
     path: "/hr/holidays",
   },
-
   {
-    icon: <PageIcon />,
-    name: "My Leave",
-    path: "/hr/leave",
+    icon: <FaDollarSign className="text-xl" />,
+    name: "Payroll",
+    subItems: [{ name: "Salary History", path: "/hr/salaryhistory", pro: false }],
   },
-
   {
-    icon: <TfiAnnouncement className="text-xl" />,
-    name: "Announcement",
-    path: "/announcement",
-  }
+    icon: <UserCircleIcon />,
+    name: "My Profile",
+    path: "/hr/profile",
+  },
 
 ];
 
@@ -344,7 +353,7 @@ const AppSidebar: React.FC = () => {
           </div>
         </nav>
         <></>
-        {isExpanded || isHovered || isMobileOpen ? <div className="mt-36"><LogoutBtn /></div> : null}
+        {isExpanded || isHovered || isMobileOpen ? <div className="mt-20"><LogoutBtn /></div> : null}
       </div>
     </aside>
   );

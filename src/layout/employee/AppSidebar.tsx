@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FaDollarSign, FaTasks } from "react-icons/fa";
+import { GrUserWorker } from "react-icons/gr";
 import { MdOutlineHolidayVillage } from "react-icons/md";
 import { TfiAnnouncement } from "react-icons/tfi";
 import LogoutBtn from "../../components/auth/LogoutBtn";
@@ -13,7 +15,6 @@ import {
   GridIcon,
   HorizontaLDots,
   PageIcon,
-  TableIcon,
   UserCircleIcon
 } from "../../icons/index";
 
@@ -31,37 +32,46 @@ const navItems: NavItem[] = [
     path: "/employee",
   },
   {
-    icon: <TableIcon />,
+    icon: <GrUserWorker className="text-xl" />,
     name: "Employees",
-    subItems: [{ name: "My Attendance", path: "/employee/attendance", pro: false }],
+    subItems: [{ name: "My Attendance", path: "/employee/attendance", pro: false }, { name: "Mark Attendance", path: "/employee/attendancemark", pro: false }],
   },
+  {
+    icon: <FaTasks className="text-xl" />,
+    name: "Task/Project",
+    subItems: [{ name: "My Project", path: "/employee/myproject", pro: false }, { name: "Actice Project", path: "/employee/activeproject", pro: false }, { name: "Cancel Project", path: "/employee/cancelproject" }],
+  },
+  {
+    icon: <PageIcon />,
+    name: "My Leave",
+    subItems: [{ name: "Apply Leave", path: "/employee/leave/apply", pro: false }, { name: "Leave Status", path: "/employee/leave/status", pro: false }, { name: "Leave History", path: "/employee/leave/history", pro: false }],
+  },
+  {
+    icon: <TfiAnnouncement className="text-xl" />,
+    name: "Announcement",
+    path: "/employee/announcement",
+  },
+
   {
     icon: <CalenderIcon />,
     name: "Calendar",
     path: "/employee/calendar",
   },
   {
-    icon: <UserCircleIcon />,
-    name: "My Profile",
-    path: "/employee/profile",
-  },
-  {
     icon: <MdOutlineHolidayVillage className="text-2xl" />,
     name: "Holidays",
     path: "/employee/holidays",
   },
-
   {
-    icon: <PageIcon />,
-    name: "My Leave",
-    path: "/employee/leave",
+    icon: <FaDollarSign className="text-xl" />,
+    name: "Payroll",
+    subItems: [{ name: "Salary History", path: "/employee/salaryhistory", pro: false }],
   },
-
   {
-    icon: <TfiAnnouncement className="text-xl" />,
-    name: "Announcement",
-    path: "/announcement",
-  }
+    icon: <UserCircleIcon />,
+    name: "My Profile",
+    path: "/employee/profile",
+  },
 
 ];
 

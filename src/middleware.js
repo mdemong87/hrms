@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // 1. Specify protected and public routes
-const protectedRoutes = ['/', '/attendance', '/calendar', '/profile', '/holidays', '/leave', '/announcement']
+const protectedRoutes = ['/admin', '/hr', '/projectmanager', '/employee', '/attendance', '/calendar', '/profile', '/holidays', '/leave', '/announcement']
 const publicRoutes = ['/signin', '/signup']
 
 export default async function middleware(req) {
@@ -15,12 +15,19 @@ export default async function middleware(req) {
 
     // Get cookie from request (Edge API)
     const token = req.cookies.get('token')?.value;
+
     if (isProtectedRoute && !token) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     }
 
-    if (isPublicRoute && token && !req.nextUrl.pathname.startsWith('/')) {
-        return NextResponse.redirect(new URL('/', req.nextUrl));
+
+    // Check if path starts with any of the given prefixes
+    const startsWithProtectedPrefix = ['/admin', '/hr', '/projectmanager', '/employee']
+        .some(prefix => path.startsWith(prefix));
+
+
+    if (!token && startsWithProtectedPrefix) {
+        return NextResponse.redirect(new URL('/signin', req.nextUrl));
     }
 
     return NextResponse.next();

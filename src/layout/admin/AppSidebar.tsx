@@ -3,20 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FaTasks } from "react-icons/fa";
 import { MdOutlineHolidayVillage } from "react-icons/md";
 import { TfiAnnouncement } from "react-icons/tfi";
 import LogoutBtn from "../../components/auth/LogoutBtn";
 import { useSidebar } from "../../context/SidebarContext";
-import {
-  CalenderIcon,
-  ChevronDownIcon,
-  GridIcon,
-  HorizontaLDots,
-  ListIcon,
-  PageIcon,
-  TableIcon,
-  UserCircleIcon
-} from "../../icons/index";
+import { CalenderIcon, ChevronDownIcon, GridIcon, HorizontaLDots, ListIcon, PageIcon, PlugInIcon, TableIcon, UserCircleIcon } from "../../icons/index";
 
 type NavItem = {
   name: string;
@@ -34,34 +26,33 @@ const navItems: NavItem[] = [
   {
     icon: <TableIcon />,
     name: "Employees",
-    subItems: [{ name: "Attendance", path: "/employee/attendance", pro: false }, { name: "Add Employee", path: "/employee/add", pro: false }],
+    subItems: [{ name: "Attendance", path: "/admin/employee/attendance", pro: false }, { name: "Add Employee", path: "/admin/employee/add", pro: false }],
+  },
+  {
+    icon: <FaTasks className="text-xl" />,
+    name: "Task/Project",
+    subItems: [{ name: "All Project", path: "/admin/allproject", pro: false }, { name: "Actice Project", path: "/admin/activeproject", pro: false }, { name: "Cancel Project", path: "/admin/cancelproject" }],
+  },
+  {
+    icon: <PageIcon />,
+    name: "My Leave",
+    subItems: [{ name: "Requested Leave", path: "/admin/leave/request", pro: false }, { name: "Leave Status", path: "/hr/leave/status", pro: false }, { name: "Leave History", path: "/hr/leave/history", pro: false }],
   },
   {
     icon: <CalenderIcon />,
     name: "Calendar",
     path: "/calendar",
   },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
-  },
+
   {
     icon: <MdOutlineHolidayVillage className="text-2xl" />,
     name: "Holidays",
     path: "/holidays",
   },
-
-  {
-    icon: <PageIcon />,
-    name: "Leave Management",
-    path: "/leave",
-  },
-
   {
     icon: <TfiAnnouncement className="text-xl" />,
     name: "Announcement",
-    path: "/announcement",
+    path: "/admin/announcement",
   },
   {
     name: "Forms",
@@ -73,18 +64,23 @@ const navItems: NavItem[] = [
     icon: <TableIcon />,
     subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
   },
+  {
+    icon: <UserCircleIcon />,
+    name: "User Profile",
+    path: "/profile",
+  },
 
 ];
 
 const othersItems: NavItem[] = [
-  // {
-  //   icon: <PlugInIcon />,
-  //   name: "Authentication",
-  //   subItems: [
-  //     { name: "Sign In", path: "/signin", pro: false },
-  //     { name: "Sign Up", path: "/signup", pro: false },
-  //   ],
-  // },
+  {
+    icon: <PlugInIcon />,
+    name: "Others Options",
+    subItems: [
+      { name: "Company Profile", path: "/signin", pro: false },
+      { name: "Company Detailes", path: "/signup", pro: false },
+    ],
+  },
 ];
 
 const AppSidebar: React.FC = () => {
@@ -337,7 +333,7 @@ const AppSidebar: React.FC = () => {
               {renderMenuItems(navItems, "main")}
             </div>
 
-            {/* <div className="">
+            <div className="">
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
                   ? "lg:justify-center"
@@ -351,11 +347,11 @@ const AppSidebar: React.FC = () => {
                 )}
               </h2>
               {renderMenuItems(othersItems, "others")}
-            </div> */}
+            </div>
           </div>
         </nav>
         <></>
-        {isExpanded || isHovered || isMobileOpen ? <div className="mt-10"><LogoutBtn /></div> : null}
+        {isExpanded || isHovered || isMobileOpen ? <LogoutBtn /> : null}
       </div>
     </aside>
   );
