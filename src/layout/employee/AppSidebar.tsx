@@ -5,18 +5,17 @@ import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MdOutlineHolidayVillage } from "react-icons/md";
 import { TfiAnnouncement } from "react-icons/tfi";
-import LogoutBtn from "../components/auth/LogoutBtn";
-import { useSidebar } from "../context/SidebarContext";
+import LogoutBtn from "../../components/auth/LogoutBtn";
+import { useSidebar } from "../../context/SidebarContext";
 import {
   CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
-  ListIcon,
   PageIcon,
   TableIcon,
   UserCircleIcon
-} from "../icons/index";
+} from "../../icons/index";
 
 type NavItem = {
   name: string;
@@ -29,50 +28,40 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    path: "/",
+    path: "/employee",
   },
   {
     icon: <TableIcon />,
     name: "Employees",
-    subItems: [{ name: "Attendance", path: "/employee/attendance", pro: false }, { name: "Add Employee", path: "/employee/add", pro: false }],
+    subItems: [{ name: "My Attendance", path: "/employee/attendance", pro: false }],
   },
   {
     icon: <CalenderIcon />,
     name: "Calendar",
-    path: "/calendar",
+    path: "/employee/calendar",
   },
   {
     icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
+    name: "My Profile",
+    path: "/employee/profile",
   },
   {
     icon: <MdOutlineHolidayVillage className="text-2xl" />,
     name: "Holidays",
-    path: "/holidays",
+    path: "/employee/holidays",
   },
 
   {
     icon: <PageIcon />,
-    name: "Leave Management",
-    path: "/leave",
+    name: "My Leave",
+    path: "/employee/leave",
   },
 
   {
     icon: <TfiAnnouncement className="text-xl" />,
     name: "Announcement",
     path: "/announcement",
-  },
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
+  }
 
 ];
 

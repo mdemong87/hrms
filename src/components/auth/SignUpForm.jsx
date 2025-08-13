@@ -74,7 +74,7 @@ export default function SignUpForm() {
     <div className="flex flex-col flex-1 lg:w-1/2 w-full overflow-y-auto no-scrollbar">
       <div className="absolute flex items-center justify-center top-0 left-0 w-screen h-screen bg-gray-900 text-gray-200 z-80">
         <div className="flex flex-col gap-5 items-center">
-          <p className="text-xl">Only Administrator SignIn Allow</p>
+          <p className="text-xl">Only Administrator SignUp Allow</p>
           <Link className="border w-fit border-gray-700 bg-gray-800 rounded-lg py-3 px-5" href={'/signin'}>Go to Sign In Page</Link>
         </div>
       </div>

@@ -38,7 +38,11 @@
     "src/components/auth/SignInForm.jsx",
     "src/components/auth/SignUpForm.jsx",
     "src/components/form/Select.jsx",
-    "src/app/(admin)/(others-pages)/employee/attendance/page.jsx"
+    "src/app/(admin)/(others-pages)/employee/attendance/page.jsx",
+    "src/app/(deshboard)/admin/layout.jsx",
+    "src/app/(deshboard)/projectmanager/layout.jsx",
+    "src/app/(deshboard)/hr/layout.jsx",
+    "src/app/(deshboard)/employee/layout.jsx"
   ],
   "exclude": [
     "node_modules"

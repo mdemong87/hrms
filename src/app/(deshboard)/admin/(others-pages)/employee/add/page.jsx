@@ -5,10 +5,10 @@ import Select from "@/components/form/Select";
 import Image from "next/image";
 import { useState } from "react";
 import { toast, ToastContainer } from 'react-toastify';
-import profile from "../../../../../../public/images/user/user-37.jpg";
-import Label from "../../../../../components/form/Label";
-import Input from "../../../../../components/form/input/InputField";
-import Button from "../../../../../components/ui/button/Button";
+import profile from "../../../../../../../public/images/user/user-37.jpg";
+import Label from "../../../../../../components/form/Label";
+import Input from "../../../../../../components/form/input/InputField";
+import Button from "../../../../../../components/ui/button/Button";
 
 const addEmplyee = () => {
 
@@ -99,9 +99,18 @@ const addEmplyee = () => {
                             Add Emplyee in the System
                         </p>
                     </div>
-                    <div>
-                        <div className="text-gray-200 w-[135px] h-[150px] border border-gray-300 rounded-md">
-                            <Image src={profile} alt="profile-image" className="rounded-md w-full h-full" />
+                    <div className="flex flex-col gap-1 items-center justify-center">
+                        <div className="text-gray-200 w-[150px] h-[150px] border border-gray-300 rounded-full">
+                            <Image src={profile} alt="profile-image" className="rounded-full w-full h-full" />
+                        </div>
+                        <div className="col-span-2 lg:col-span-1">
+                            <Label>Profile Photo</Label>
+                            <Input type="file" onChange={(e) =>
+                                setformdate((prev) => ({
+                                    ...prev,
+                                    image: e.target.value
+                                }))
+                            } />
                         </div>
                     </div>
                 </div>
@@ -349,6 +358,8 @@ const addEmplyee = () => {
                                         }))
                                     } />
                                 </div>
+
+
                             </div>
                         </div>
 

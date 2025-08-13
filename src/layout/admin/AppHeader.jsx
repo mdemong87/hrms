@@ -6,8 +6,8 @@ import { useSidebar } from "@/context/SidebarContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import logoDark from "../../public/images/logo/logo-dark.png";
-import logo from "../../public/images/logo/logo.png";
+import logoDark from "../../../public/images/logo/logo-dark.png";
+import logo from "../../../public/images/logo/logo.png";
 
 const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);

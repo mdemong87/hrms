@@ -1,12 +1,12 @@
+import AbsenceToday from "@/components/ecommerce/AbsenceToday";
+import Announcement from "@/components/ecommerce/Announcement";
 import DemographicCard from "@/components/ecommerce/DemographicCard";
 import { EcommerceMetrics } from "@/components/ecommerce/EcommerceMetrics";
+import MeetingSchedule from '@/components/ecommerce/MeetingSchedule';
 import MonthlySalesChart from "@/components/ecommerce/MonthlySalesChart";
 import MonthlyTarget from "@/components/ecommerce/MonthlyTarget";
 import StatisticsChart from "@/components/ecommerce/StatisticsChart";
 import type { Metadata } from "next";
-import AbsenceToday from "../../components/ecommerce/AbsenceToday";
-import Announcement from "../../components/ecommerce/Announcement";
-import MeetingSchedule from '../../components/ecommerce/MeetingSchedule';
 
 export const metadata: Metadata = {
   title:
