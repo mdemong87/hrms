@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 
-const PageBreadcrumb = ({ pageTitle, children }) => {
+const PageBreadcrumb = ({ pageTitle, children = null }) => {
   return (
     <div className="flex justify-between items-start">
       <div className="flex flex-wrap items-center gap-3 mb-6">
