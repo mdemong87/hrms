@@ -2,16 +2,15 @@ import { NextResponse } from 'next/server';
 
 // 1. Specify protected and public routes
 const protectedRoutes = ['/admin', '/hr', '/projectmanager', '/employee', '/attendance', '/calendar', '/profile', '/holidays', '/leave', '/announcement']
-const publicRoutes = ['/signin', '/signup']
+
 
 export default async function middleware(req) {
 
-    // console.log(req);
 
     // 2. Check if the current route is protected or public
     const path = req.nextUrl.pathname;
     const isProtectedRoute = protectedRoutes.includes(path);
-    const isPublicRoute = publicRoutes.includes(path);
+
 
     // Get cookie from request (Edge API)
     const token = req.cookies.get('token')?.value;
