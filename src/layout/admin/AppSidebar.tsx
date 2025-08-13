@@ -355,7 +355,7 @@ const AppSidebar: React.FC = () => {
           </div>
         </nav>
         <></>
-        {isExpanded || isHovered || isMobileOpen ? <LogoutBtn /> : null}
+        {isExpanded || isHovered || isMobileOpen ? <div className="mt-10"><LogoutBtn /></div> : null}
       </div>
     </aside>
   );
