@@ -1,11 +1,7 @@
 import Link from "next/link";
-import React from "react";
 
-interface BreadcrumbProps {
-  pageTitle: string;
-}
 
-const PageBreadcrumb: React.FC<BreadcrumbProps> = ({ pageTitle, children }) => {
+const PageBreadcrumb = ({ pageTitle, children }) => {
   return (
     <div className="flex justify-between items-start">
       <div className="flex flex-wrap items-center gap-3 mb-6">
