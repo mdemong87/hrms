@@ -1,11 +1,10 @@
 import UnderDevelopment from "@/components/common/UnderDevelopment";
 
-const EmployeePage = () => {
+const HRLeaveRequest = () => {
     return (
-        <main className="text-gray-500">
+        <div>
             <UnderDevelopment />
-        </main>
+        </div>
     )
 }
-
-export default EmployeePage;
+export default HRLeaveRequest;

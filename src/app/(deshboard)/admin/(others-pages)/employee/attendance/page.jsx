@@ -108,7 +108,7 @@ export default async function page() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Link href="/employee/attendance/1" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
+                                                <Link href="/admin/employee/attendance/1" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
                                             </td>
                                         </tr>
                                     )

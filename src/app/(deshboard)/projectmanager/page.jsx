@@ -1,7 +1,9 @@
+import UnderDevelopment from "@/components/common/UnderDevelopment";
+
 const ProjectManagerPage = () => {
     return (
         <main className="text-gray-500">
-            this is project manager page
+            <UnderDevelopment />
         </main>
     )
 }

@@ -1,7 +1,13 @@
+import PageBreadcrumb from "@/components/common/PageBreadCrumb";
+import AttendanceSummary from "../../../../components/common/AttandanceSummaryWrper";
+
 const EmployeeAttendance = () => {
     return (
         <div>
-            <h1 className="text-gray-500 text-2xl">This is the Employee Attendance page...</h1>
+            <PageBreadcrumb pageTitle={"My Attendance"}>
+                fsadf
+            </PageBreadcrumb>
+            <AttendanceSummary />
         </div>
     )
 }

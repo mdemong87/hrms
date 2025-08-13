@@ -1,7 +1,9 @@
+import UnderDevelopment from "@/components/common/UnderDevelopment";
+
 const HrPage = () => {
     return (
         <main className="text-gray-500">
-            this is Hr page
+            <UnderDevelopment />
         </main>
     )
 }
