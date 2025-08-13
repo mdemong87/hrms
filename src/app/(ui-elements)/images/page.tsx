@@ -4,7 +4,6 @@ import ResponsiveImage from "@/components/ui/images/ResponsiveImage";
 import ThreeColumnImageGrid from "@/components/ui/images/ThreeColumnImageGrid";
 import TwoColumnImageGrid from "@/components/ui/images/TwoColumnImageGrid";
 import { Metadata } from "next";
-import React from "react";
 
 export const metadata: Metadata = {
   title:
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
 export default function Images() {
   return (
     <div>
-      <PageBreadcrumb pageTitle="Images" />
+      <PageBreadcrumb pageTitle="Images" ></PageBreadcrumb>
       <div className="space-y-5 sm:space-y-6">
         <ComponentCard title="Responsive image">
           <ResponsiveImage />

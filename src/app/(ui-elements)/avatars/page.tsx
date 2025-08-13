@@ -2,10 +2,9 @@ import ComponentCard from "@/components/common/ComponentCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import Avatar from "@/components/ui/avatar/Avatar";
 import { Metadata } from "next";
-import React from "react";
 
 export const metadata: Metadata = {
- title:
+  title:
     "Sardar IT - HRMS",
   description: "Sardar IT - HRMS",
 };
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
 export default function AvatarPage() {
   return (
     <div>
-      <PageBreadcrumb pageTitle="Avatar" />
+      <PageBreadcrumb pageTitle="Avatar"></PageBreadcrumb>
       <div className="space-y-5 sm:space-y-6">
         <ComponentCard title="Default Avatar">
           {/* Default Avatar (No Status) */}
