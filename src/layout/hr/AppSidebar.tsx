@@ -34,7 +34,7 @@ const navItems: NavItem[] = [
   {
     icon: <GrUserWorker className="text-xl" />,
     name: "Employees",
-    subItems: [{ name: "My Attendance", path: "/hr/attendance", pro: false }, { name: "Mark Attendance", path: "/hr/attendancemark", pro: false }, { name: "Add Employee", path: "/hr/employee/add", pro: false }],
+    subItems: [{ name: "My Attendance", path: "/hr/attendance", pro: false }, { name: "Mark Attendance", path: "/hr/attendancemark", pro: false }, { name: "All Employee", path: "/hr/employee", pro: false }, { name: "Add Employee", path: "/hr/employee/add", pro: false }],
   },
   {
     icon: <FaTasks className="text-xl" />,
