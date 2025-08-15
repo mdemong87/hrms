@@ -28,6 +28,7 @@ function Logout() {
             if (response.ok) {
                 const data = await response.json();
                 SetCookie("token", "", "");
+                SetCookie("role", "");
                 toast.success("SignOut successful");
                 router.push('/signin');
                 // You can redirect the user or show a success message here

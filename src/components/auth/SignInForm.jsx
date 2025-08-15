@@ -49,10 +49,11 @@ export default function SignInForm() {
       if (response.ok) {
         setisloading(false);
         const data = await response.json();
+        const role = data?.user?.role;
         SetCookie("token", data.access_token, data.expires_in);
+        SetCookie("role", role);
         toast.success("SignIn successful");
         setTimeout(() => {
-          const role = 'hr';
           switch (role) {
             case "admin":
               router.push('/admin');

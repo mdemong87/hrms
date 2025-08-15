@@ -14,6 +14,9 @@ export default async function middleware(req) {
 
     // Get cookie from request (Edge API)
     const token = req.cookies.get('token')?.value;
+    const role = req.cookies.get('role')?.value;
+
+
 
     if (isProtectedRoute && !token) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
@@ -26,6 +29,17 @@ export default async function middleware(req) {
 
 
     if (!token && startsWithProtectedPrefix) {
+        return NextResponse.redirect(new URL('/signin', req.nextUrl));
+    }
+
+
+    if (role != "admin" && path.startsWith('/admin')) {
+        return NextResponse.redirect(new URL('/signin', req.nextUrl));
+    } else if (role != "hr" && path.startsWith('/hr')) {
+        return NextResponse.redirect(new URL('/signin', req.nextUrl));
+    } else if (role != "projectmanager" && path.startsWith('/projectmanager')) {
+        return NextResponse.redirect(new URL('/signin', req.nextUrl));
+    } else if (role != "employee" && path.startsWith('/employee')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     }
 
