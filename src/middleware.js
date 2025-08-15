@@ -33,6 +33,8 @@ export default async function middleware(req) {
     }
 
 
+
+
     if (role != "admin" && path.startsWith('/admin')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     } else if (role != "hr" && path.startsWith('/hr')) {
@@ -41,6 +43,18 @@ export default async function middleware(req) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     } else if (role != "employee" && path.startsWith('/employee')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
+    }
+
+    if (token && role && path.startsWith('/signin')) {
+        if (role === 'admin') {
+            return NextResponse.redirect(new URL('/admin', req.nextUrl));
+        } else if (role === 'hr') {
+            return NextResponse.redirect(new URL('/hr', req.nextUrl));
+        } else if (role === 'projectmanager') {
+            return NextResponse.redirect(new URL('/projectmanager', req.nextUrl));
+        } else if (role === 'employee') {
+            return NextResponse.redirect(new URL('/employee', req.nextUrl));
+        }
     }
 
     return NextResponse.next();
