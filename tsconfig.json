@@ -45,7 +45,8 @@
     "src/app/(deshboard)/employee/layout.jsx",
     "src/components/common/PageBreadCrumb.jsx",
     "src/components/form/input/TextArea.jsx",
-    "src/components/form/input/InputField.jsx"
+    "src/components/form/input/InputField.jsx",
+    "src/components/example/ModalExample/FormInModal.jsx"
   ],
   "exclude": [
     "node_modules"
