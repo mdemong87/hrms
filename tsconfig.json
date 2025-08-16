@@ -46,7 +46,12 @@
     "src/components/common/PageBreadCrumb.jsx",
     "src/components/form/input/TextArea.jsx",
     "src/components/form/input/InputField.jsx",
-    "src/components/example/ModalExample/FormInModal.jsx"
+    "src/components/example/ModalExample/FormInModal.jsx",
+    "src/components/form/form-elements/InputGroup.jsx",
+    "src/components/form/form-elements/InputStates.jsx",
+    "src/components/form/form-elements/RadioButtons.jsx",
+    "src/components/form/form-elements/TextAreaInput.jsx",
+    "src/components/form/form-elements/ToggleSwitch.jsx"
   ],
   "exclude": [
     "node_modules"

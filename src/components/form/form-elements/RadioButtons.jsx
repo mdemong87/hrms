@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import ComponentCard from "../../common/ComponentCard";
 import Radio from "../input/Radio";
 
 export default function RadioButtons() {
-  const [selectedValue, setSelectedValue] = useState<string>("option2");
+  const [selectedValue, setSelectedValue] = useState("option2");
 
   const handleRadioChange = (value: string) => {
     setSelectedValue(value);
