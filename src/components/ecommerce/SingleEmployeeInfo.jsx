@@ -5,7 +5,10 @@ import getCookie from "@/helper/cookie/gettooken";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { IoMdAdd } from "react-icons/io";
+import { FaEdit, FaSave } from "react-icons/fa";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
+import { RiDeleteBin5Fill } from "react-icons/ri";
 import { toast, ToastContainer } from 'react-toastify';
 import demoprofile from "../../../public/images/user/demo.jpeg";
 import handleFileChange from "../../helper/handlefilechange";
@@ -13,20 +16,21 @@ import Loading from "../common/Loading";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import Select from "../form/Select";
-import Button from "../ui/button/Button";
 
 
-const AddAmployeeWper = () => {
+const SingleEmployeeInfo = () => {
 
 
     const token = getCookie();
     const role = getRole();
     const router = useRouter();
+    const [isdisable, setisdisable] = useState(true);
     const [Departments, setDepartments] = useState([]);
     const [isloading, setisloading] = useState(false);
     const [imagepreview, setimagepreview] = useState('');
     const [imageFile, setimageFile] = useState(null);
     const [formdata, setformdata] = useState({
+        eid: '',
         fname: '',
         lname: '',
         dob: '',
@@ -51,12 +55,14 @@ const AddAmployeeWper = () => {
     });
 
 
+    //final pass data object
     const newobj = {
         ...formdata,
         image: imageFile
     }
 
 
+    //hanlde save function here
     async function handlesave(e) {
 
         e.preventDefault();
@@ -167,6 +173,18 @@ const AddAmployeeWper = () => {
 
 
 
+    //hanlde employee delete function here
+    function handledelect(e) {
+        e.preventDefault();
+
+        confirm("Are you Sure to Delete This Employee");
+
+        console.log('delete,,,,,,,,,');
+    }
+
+
+
+    //just check and debuging here
     console.log(imageFile);
     console.log(imagepreview);
 
@@ -176,33 +194,46 @@ const AddAmployeeWper = () => {
                 <div className="no-scrollbar relative w-full w-full rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
                     {isloading && <Loading />}
                     <div className="flex gap-20 w-full items-end justify-between">
-                        <div className="w-full flex flex-col gap-14">
-                            <div className="px-2 pr-14 w-full">
-                                <h4 className="mb-2 text-4xl font-semibold text-gray-800 dark:text-white/90">
-                                    Add Emplyee
-                                </h4>
-                                <p className="mb-6 text-lg text-gray-500 dark:text-gray-400 lg:mb-7">
-                                    Add Employee section lets you create a new employee profile by entering personal, contact, and job details. The information will be used across attendance, payroll, and leave management modules.
-                                </p>
-                            </div>
-                            <div className="w-full">
-                                <Label>Employee ID</Label>
-                                <Input disabled type="text" onChange={(e) =>
-                                    setformdata((prev) => ({
-                                        ...prev,
-                                        fname: e.target.value
-                                    }))
-                                } />
-                            </div>
-                        </div>
                         <div className="flex flex-col gap-1 items-center justify-center">
                             <div className="text-gray-200 w-[155px] h-[182px] border border-gray-500 bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden">
                                 <Image src={imagepreview ? imagepreview : demoprofile} alt="profile-image" width={1000} height={1000} className="rounded-lg w-full h-full object-cover" />
                             </div>
                             <div className="col-span-2 lg:col-span-1 w-[200px] pt-4">
-                                <Input type="file" accept=".jpg,.jpeg,.png" onChange={(e) => { handleFileChange(e, setimageFile, setimagepreview) }} />
+                                <Input disabled={isdisable} type="file" accept=".jpg,.jpeg,.png" onChange={(e) => { handleFileChange(e, setimageFile, setimagepreview) }} />
                             </div>
+                        </div>
+                        <div className="">
+                            <div className="flex items-center gap-4">
+                                <button onClick={() => { router.back() }} className="border w-fit border-gray-300 dark:border-gray-700 bg-gray-200 dark:bg-gray-700 rounded-lg py-2 px-3 text-gray-900 dark:text-white flex items-center gap-2 font-medium">
+                                    <IoMdArrowRoundBack className="text-md" />
+                                    <span className="text-sm">Back</span>
+                                </button>
+                                {
+                                    isdisable && <button onClick={(e) => { setisdisable(false) }} className="bg-green-700 font-medium flex items-center gap-1 px-4 py-2 rounded-md text-white cursor-pointer font-medium">
+                                        <FaEdit className="text-md" />
+                                        <span className="text-sm">Edit</span>
+                                    </button>
+                                }
+                                <button onClick={(e) => { handledelect(e) }} className="bg-red-700 font-medium flex items-center gap-1 p-2 rounded-md text-white cursor-pointer font-medium">
+                                    <RiDeleteBin5Fill className="text-md" />
+                                    <span className="text-sm">Delete</span>
+                                </button>
+                                {
 
+                                    !isdisable && (
+                                        <>
+                                            <button onClick={(e) => { setisdisable(true) }} className="bg-yellow-700 font-medium flex items-center gap-1 px-4 py-2 rounded-md text-white cursor-pointer font-medium">
+                                                <MdCancel className="text-md" />
+                                                <span className="text-sm">Cencel</span>
+                                            </button>
+                                            <button onClick={(e) => handlesave(e)} className="bg-blue-700 w-full justify-center font-medium flex items-center gap-1 px-3 py-2 rounded-md text-white cursor-pointer font-medium">
+                                                <FaSave className="text-md" />
+                                                <span className="text-sm">Save</span>
+                                            </button>
+                                        </>
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
                     <form className="flex flex-col">
@@ -214,11 +245,19 @@ const AddAmployeeWper = () => {
                                 </h5>
 
                                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-
+                                    <div className="col-span-2 lg:col-span-1">
+                                        <Label>Employee ID</Label>
+                                        <Input disabled type="text" onChange={(e) =>
+                                            setformdata((prev) => ({
+                                                ...prev,
+                                                eid: e.target.value
+                                            }))
+                                        } />
+                                    </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>First Name <span className="text-error-500">*</span></Label>
-                                        <Input type="text" onChange={(e) =>
+                                        <Label>First Name</Label>
+                                        <Input disabled={isdisable} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 fname: e.target.value
@@ -228,7 +267,7 @@ const AddAmployeeWper = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Last Name</Label>
-                                        <Input type="text" onChange={(e) =>
+                                        <Input disabled={isdisable} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 lname: e.target.value
@@ -237,8 +276,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Date of Birth <span className="text-error-500">*</span></Label>
-                                        <Input type="date" onChange={(e) =>
+                                        <Label>Date of Birth</Label>
+                                        <Input disabled={isdisable} type="date" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 dob: e.target.value
@@ -247,8 +286,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Gender <span className="text-error-500">*</span></Label>
-                                        <Select options={["Select Gender", "Male", "Female"]} onChange={(e) =>
+                                        <Label>Gender</Label>
+                                        <Select disabled={isdisable} options={["Select Gender", "Male", "Female"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 gender: e.target.value
@@ -257,7 +296,7 @@ const AddAmployeeWper = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Marital Status</Label>
-                                        <Select options={["Select Marital Status", "Married", "Unmarried", "Engaged"]} onChange={(e) =>
+                                        <Select disabled={isdisable} options={["Select Marital Status", "Married", "Unmarried", "Engaged"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 meritalstatus: e.target.value
@@ -276,8 +315,8 @@ const AddAmployeeWper = () => {
 
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Email Address <span className="text-error-500">*</span></Label>
-                                        <Input type="email" onChange={(e) =>
+                                        <Label>Email Address</Label>
+                                        <Input disabled={isdisable} type="email" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 email: e.target.value
@@ -286,8 +325,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Phone <span className="text-error-500">*</span></Label>
-                                        <Input type="phone" onChange={(e) =>
+                                        <Label>Phone</Label>
+                                        <Input disabled={isdisable} type="phone" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 phone: e.target.value
@@ -297,8 +336,8 @@ const AddAmployeeWper = () => {
 
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Emergency Contact Name <span className="text-error-500">*</span></Label>
-                                        <Input type="text" onChange={(e) =>
+                                        <Label>Emergency Contact Name</Label>
+                                        <Input disabled={isdisable} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 emergencycontactname: e.target.value
@@ -307,8 +346,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Emergency Contact Phone <span className="text-error-500">*</span></Label>
-                                        <Input type="phone" onChange={(e) =>
+                                        <Label>Emergency Contact Phone</Label>
+                                        <Input disabled={isdisable} type="phone" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 emergencycontactphone: e.target.value
@@ -317,8 +356,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Address <span className="text-error-500">*</span></Label>
-                                        <Input type="text" onChange={(e) =>
+                                        <Label>Address</Label>
+                                        <Input disabled={isdisable} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 address: e.target.value
@@ -329,8 +368,8 @@ const AddAmployeeWper = () => {
 
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>National ID <span className="text-error-500">*</span></Label>
-                                        <Input type="number" onChange={(e) =>
+                                        <Label>National ID</Label>
+                                        <Input disabled={isdisable} type="number" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 nationalid: e.target.value
@@ -350,8 +389,8 @@ const AddAmployeeWper = () => {
 
                                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Department <span className="text-error-500">*</span></Label>
-                                        <select onChange={(e) =>
+                                        <Label>Department</Label>
+                                        <select disabled={isdisable} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 department_id: e.target.value
@@ -370,8 +409,8 @@ const AddAmployeeWper = () => {
 
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Designation / Job Title <span className="text-error-500">*</span></Label>
-                                        <Input type="text" onChange={(e) =>
+                                        <Label>Designation / Job Title</Label>
+                                        <Input disabled={isdisable} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 designation: e.target.value
@@ -380,8 +419,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Employment Type <span className="text-error-500">*</span></Label>
-                                        <Select options={["Select Employment Type", "Full Time", "Remote", "Hybride"]} onChange={(e) =>
+                                        <Label>Employment Type</Label>
+                                        <Select disabled={isdisable} options={["Select Employment Type", "Full Time", "Remote", "Hybride"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 emplyeetype: e.target.value
@@ -390,8 +429,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Joining Date <span className="text-error-500">*</span></Label>
-                                        <Input type="date" onChange={(e) =>
+                                        <Label>Joining Date</Label>
+                                        <Input disabled={isdisable} type="date" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 joindate: e.target.value
@@ -399,8 +438,8 @@ const AddAmployeeWper = () => {
                                         } />
                                     </div>
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Probation Period <span className="text-error-500">*</span></Label>
-                                        <Select options={["Select Probation Period", "0 Day", "15 Days", "1 Month", "2 Months", "3 Manths"]} onChange={(e) =>
+                                        <Label>Probation Period</Label>
+                                        <Select disabled={isdisable} options={["Select Probation Period", "0 Day", "15 Days", "1 Month", "2 Months", "3 Manths"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 probitionprioed: e.target.value
@@ -409,8 +448,8 @@ const AddAmployeeWper = () => {
 
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Reporting Manager <span className="text-error-500">*</span></Label>
-                                        <Input type="text" onChange={(e) =>
+                                        <Label>Reporting Manager</Label>
+                                        <Input disabled={isdisable} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 reportingmanager: e.target.value
@@ -419,8 +458,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Work Shift <span className="text-error-500">*</span></Label>
-                                        <Select options={["Select Working Shift", "Day", "Night", "Roster"]} onChange={(e) =>
+                                        <Label>Work Shift</Label>
+                                        <Select disabled={isdisable} options={["Select Working Shift", "Day", "Night", "Roster"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 workshift: e.target.value
@@ -439,8 +478,8 @@ const AddAmployeeWper = () => {
                                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Role / Access Level <span className="text-error-500">*</span></Label>
-                                        <Select options={["Select Role", "Admin", "HR", "Employee", "Project Manager"]} onChange={(e) =>
+                                        <Label>Role / Access Level</Label>
+                                        <Select disabled={isdisable} options={["Select Role", "Admin", "HR", "Employee", "Project Manager"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 role: e.target.value
@@ -448,8 +487,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Level / Grade <span className="text-error-500">*</span></Label>
-                                        <Select options={[
+                                        <Label>Level / Grade</Label>
+                                        <Select disabled={isdisable} options={[
                                             "Select Lavel/grade",
                                             "Unpaid-Intern-G0",
                                             "Paid Intern-G0",
@@ -467,8 +506,8 @@ const AddAmployeeWper = () => {
                                     </div>
 
                                     <div className="col-span-2 lg:col-span-1">
-                                        <Label>Password / Temporary Password <span className="text-error-500">*</span></Label>
-                                        <Input type="text" onChange={(e) =>
+                                        <Label>Password / Temporary Password</Label>
+                                        <Input disabled={isdisable} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 password: e.target.value
@@ -482,12 +521,6 @@ const AddAmployeeWper = () => {
 
 
                         </div>
-                        <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                            <Button onClick={(e) => handlesave(e)} size="sm">
-                                Add Employee
-                                <IoMdAdd className="text-xl" />
-                            </Button>
-                        </div>
                     </form>
                 </div>
                 <ToastContainer position="bottom-right" />
@@ -496,4 +529,4 @@ const AddAmployeeWper = () => {
     )
 }
 
-export default AddAmployeeWper;
+export default SingleEmployeeInfo;
