@@ -1,7 +1,9 @@
-'use client'
+// 'use client'
 
+import BackBtn from "@/components/common/BackBtn";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import { useState } from "react";
+// import { useState } from "react";
+import AttendancePageFilter from "@/components/ecommerce/AttendancePageFilter";
 import SingleAttendance from "../../../../../../../components/ecommerce/SingleAttendance";
 
 const singleUserProfile = ({ params }) => {
@@ -13,7 +15,7 @@ const singleUserProfile = ({ params }) => {
     // console.log(id);
 
     //local state here
-    const [signleemplyee, setsingleemplyee] = useState([]);
+    // const [signleemplyee, setsingleemplyee] = useState([]);
 
 
     //fetching single emplyee data from the backend server here
@@ -39,7 +41,12 @@ const singleUserProfile = ({ params }) => {
 
     return (
         <div>
-            <PageBreadcrumb pageTitle={"Single Employee Attendance"} />
+            <PageBreadcrumb pageTitle={"Single Employee Attendance"}>
+                <div className="flex items-center gap-2">
+                    <BackBtn />
+                    <AttendancePageFilter />
+                </div>
+            </PageBreadcrumb>
             <div className="space-y-6">
                 <SingleAttendance />
             </div>

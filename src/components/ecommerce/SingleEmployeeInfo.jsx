@@ -1,12 +1,12 @@
 'use client'
 
+import BackBtn from "@/components/common/BackBtn";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { FaEdit, FaSave } from "react-icons/fa";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { toast, ToastContainer } from 'react-toastify';
@@ -204,10 +204,7 @@ const SingleEmployeeInfo = () => {
                         </div>
                         <div className="">
                             <div className="flex items-center gap-4">
-                                <button onClick={() => { router.back() }} className="border w-fit border-gray-300 dark:border-gray-700 bg-gray-200 dark:bg-gray-700 rounded-lg py-2 px-3 text-gray-900 dark:text-white flex items-center gap-2 font-medium">
-                                    <IoMdArrowRoundBack className="text-md" />
-                                    <span className="text-sm">Back</span>
-                                </button>
+                                <BackBtn />
                                 {
                                     isdisable && <button onClick={(e) => { setisdisable(false) }} className="bg-green-700 font-medium flex items-center gap-1 px-4 py-2 rounded-md text-white cursor-pointer font-medium">
                                         <FaEdit className="text-md" />

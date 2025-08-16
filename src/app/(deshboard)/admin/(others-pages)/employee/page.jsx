@@ -6,6 +6,10 @@ import profileimg from "../../../../../../public/images/user/user-06.jpg";
 import PageBreadcrumb from "../../../../../components/common/PageBreadCrumb";
 
 const AllEmployee = () => {
+
+
+
+
     return (
         <div>
             <div>

@@ -1,24 +1,20 @@
 "use client";
+
 import FilterSearch from "@/components/common/FilterSearch";
-import {
-    CalendarDays,
-    CheckCircle,
-    Clock,
-    Plane,
-    Star,
-    XCircle
-} from "lucide-react";
+import { CalendarDays, CheckCircle, Clock, Plane, Star, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import demoimage from "../../../public/images/user/demo.jpeg";
 
-const AttendanceTable = () => {
+const AttendanceCalendar = () => {
+
 
     const employees = [
         { name: "John Doe", image: "/user1.jpg", attendance: ["present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present"] },
         { name: "Jane Smith", image: "/user2.jpg", attendance: ["present", "leave", "half", "half", "holiday", "late", "present", "absent", "leave", "half", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present"] },
         { name: "Robert Johnson", image: "/user3.jpg", attendance: ["leave", "present", "present", "half", "half", "present", "holiday", "late", "present", "absent", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present"] },
-        { name: "John Doe", image: "/user1.jpg", attendance: ["present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present"] },
+        { name: "Emon", image: "/user1.jpg", attendance: ["present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present"] },
         { name: "Jane Smith", image: "/user2.jpg", attendance: ["present", "leave", "half", "half", "holiday", "late", "present", "absent", "leave", "half", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present"] },
         { name: "Robert Johnson", image: "/user3.jpg", attendance: ["leave", "present", "present", "half", "half", "present", "holiday", "late", "present", "absent", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present"] },
         { name: "John Doe", image: "/user1.jpg", attendance: ["present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present", "present", "half", "present", "leave", "late", "present", "half", "holiday", "present", "present"] },
@@ -48,13 +44,37 @@ const AttendanceTable = () => {
         }
     };
 
+
+
+
+
+    const [idorname, setidorname] = useState('');
+
+
+
+
+    // search functionality
+    // var filter = [];
+    // for (let i = 0; i < employees.length; i++) {
+
+    //     // check if the search text match the system or not
+    //     if (employees[i].name.indexOf(idorname) > -1) {
+    //         filter.push(employees[i]);
+    //     }
+    // }
+
+
+    const filter = employees.filter(emp => emp?.name?.toUpperCase().includes(idorname?.toUpperCase()));
+
+
+
     return (
         <div className={`w-full`}>
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Attendance Calendar</h2>
                 <div className="w-[300px]">
-                    <FilterSearch />
+                    <FilterSearch seter={setidorname} />
                 </div>
             </div>
 
@@ -81,7 +101,7 @@ const AttendanceTable = () => {
             </div>
 
             {/* Table */}
-            <div className="rounded-lg shadow-lg border dark:border-gray-700 overflow-x-scroll lg:w-[75vw]">
+            <div className="rounded-lg shadow-lg border dark:border-gray-700 overflow-x-scroll lg:w-[78vw]">
                 <table className="w-full border-collapse overflow-x-scroll">
                     <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm ">
                         <tr>
@@ -95,7 +115,7 @@ const AttendanceTable = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-white dark:bg-gray-800 text-sm">
-                        {employees.map((emp, idx) => (
+                        {filter.map((emp, idx) => (
                             <tr key={idx} className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                                 <td className="p-3 text-center text-gray-700 dark:text-gray-300 font-medium">
                                     {idx + 1}
@@ -125,4 +145,4 @@ const AttendanceTable = () => {
     );
 };
 
-export default AttendanceTable;
+export default AttendanceCalendar;

@@ -1,8 +1,8 @@
-'use client'
+// 'use client'
 
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import AttendanceTable from "@/components/ecommerce/AttendanceCalendar";
-import { useState } from "react";
+import AttendanceCalendar from "@/components/ecommerce/AttendanceCalendar";
+// import { useState } from "react";
 import AttendancePageFilter from "../../../../../../components/ecommerce/AttendancePageFilter";
 
 
@@ -11,7 +11,7 @@ export default async function page() {
 
 
     //local state here
-    const [allemplyee, setallemplyee] = useState([]);
+    // const [allemplyee, setallemplyee] = useState([]);
 
 
     //fetching all emplyee data from the backend server here
@@ -34,6 +34,10 @@ export default async function page() {
 
 
 
+
+
+
+
     return (
         <div>
             <PageBreadcrumb pageTitle="Attendance" >
@@ -41,7 +45,7 @@ export default async function page() {
             </PageBreadcrumb>
             <div className="pt-8">
 
-                <AttendanceTable />
+                <AttendanceCalendar />
             </div>
         </div>
     );
