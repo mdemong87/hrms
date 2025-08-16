@@ -151,7 +151,6 @@ const Department = () => {
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Enter Department Name"
                         type="text"
-                        value={name}
                     />
                 </div>
 
