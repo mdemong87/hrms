@@ -51,7 +51,8 @@
     "src/components/form/form-elements/InputStates.jsx",
     "src/components/form/form-elements/RadioButtons.jsx",
     "src/components/form/form-elements/TextAreaInput.jsx",
-    "src/components/form/form-elements/ToggleSwitch.jsx"
+    "src/components/form/form-elements/ToggleSwitch.jsx",
+    "src/components/user-profile/UserAddressCard.jsx"
   ],
   "exclude": [
     "node_modules"
