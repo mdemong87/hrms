@@ -10,13 +10,7 @@ const Select = ({ options, placeholder = "Select an option", selectedValue, clas
       value={selectedValue}
       onChange={onChange}
     >
-      <option
-        value=""
-        disabled
-        className="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
-      >
-        {placeholder}
-      </option>
+
 
       {options.map((option, index) => (
         <option

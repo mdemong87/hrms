@@ -43,7 +43,9 @@
     "src/app/(deshboard)/projectmanager/layout.jsx",
     "src/app/(deshboard)/hr/layout.jsx",
     "src/app/(deshboard)/employee/layout.jsx",
-    "src/components/common/PageBreadCrumb.jsx"
+    "src/components/common/PageBreadCrumb.jsx",
+    "src/components/form/input/TextArea.jsx",
+    "src/components/form/input/InputField.jsx"
   ],
   "exclude": [
     "node_modules"

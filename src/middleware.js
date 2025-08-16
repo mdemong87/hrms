@@ -32,9 +32,6 @@ export default async function middleware(req) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     }
 
-
-
-
     if (role != "admin" && path.startsWith('/admin')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     } else if (role != "hr" && path.startsWith('/hr')) {

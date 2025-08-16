@@ -3,7 +3,10 @@ import AddAmployeeWper from "../../../../../../components/ecommerce/AddEmplyeeWr
 const addEmplyee = () => {
 
     return (
-        <AddAmployeeWper />
+        <div>
+            {/* <PageBreadcrumb pageTitle={'Employee Add'} /> */}
+            <AddAmployeeWper />
+        </div>
     )
 }
 

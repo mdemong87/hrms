@@ -49,6 +49,7 @@ export default function SignInForm() {
       if (response.ok) {
         setisloading(false);
         const data = await response.json();
+        console.log(data);
         const role = data?.user?.role;
         SetCookie("token", data.access_token, data.expires_in);
         SetCookie("role", role);

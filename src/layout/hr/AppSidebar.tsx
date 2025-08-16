@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaDollarSign, FaTasks } from "react-icons/fa";
 import { GrUserWorker } from "react-icons/gr";
 import { MdOutlineHolidayVillage } from "react-icons/md";
+import { PiOfficeChairBold } from "react-icons/pi";
 import { TfiAnnouncement } from "react-icons/tfi";
 import LogoutBtn from "../../components/auth/LogoutBtn";
 import { useSidebar } from "../../context/SidebarContext";
@@ -43,8 +44,13 @@ const navItems: NavItem[] = [
   },
   {
     icon: <PageIcon />,
-    name: "My Leave",
+    name: "Leave",
     subItems: [{ name: "Requested Leave", path: "/hr/leave/request", pro: false }, { name: "Apply Leave", path: "/hr/leave/apply", pro: false }, { name: "Leave Status", path: "/hr/leave/status", pro: false }, { name: "Leave History", path: "/hr/leave/history", pro: false }],
+  },
+  {
+    icon: <PiOfficeChairBold className="text-2xl" />,
+    name: "Departments",
+    subItems: [{ name: "Add Department", path: "/hr/department", pro: false }],
   },
   {
     icon: <TfiAnnouncement className="text-xl" />,

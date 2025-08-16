@@ -1,23 +1,6 @@
-import React, { FC } from "react";
 
-interface InputProps {
-  type?: "text" | "number" | "email" | "password" | "date" | "time" | string;
-  id?: string;
-  name?: string;
-  placeholder?: string;
-  defaultValue?: string | number;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  className?: string;
-  min?: string;
-  max?: string;
-  step?: number;
-  disabled?: boolean;
-  success?: boolean;
-  error?: boolean;
-  hint?: string; // Optional hint text
-}
 
-const Input: FC<InputProps> = ({
+const Input = ({
   type = "text",
   id,
   name,
@@ -28,6 +11,7 @@ const Input: FC<InputProps> = ({
   min,
   max,
   step,
+  value,
   disabled = false,
   success = false,
   error = false,
@@ -61,22 +45,8 @@ const Input: FC<InputProps> = ({
         step={step}
         disabled={disabled}
         className={inputClasses}
+        value={value}
       />
-
-      {/* Optional Hint Text */}
-      {hint && (
-        <p
-          className={`mt-1.5 text-xs ${
-            error
-              ? "text-error-500"
-              : success
-              ? "text-success-500"
-              : "text-gray-500"
-          }`}
-        >
-          {hint}
-        </p>
-      )}
     </div>
   );
 };
