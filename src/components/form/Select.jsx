@@ -15,7 +15,7 @@ const Select = ({ options, placeholder = "Select an option", selectedValue, clas
       {options.map((option, index) => (
         <option
           key={index}
-          value={option.value}
+          value={option}
           className="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
         >
           {option}

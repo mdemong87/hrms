@@ -1,122 +1,80 @@
 'use client'
 
 import FilterSearch from "@/components/common/FilterSearch";
+import getRole from "@/helper/cookie/getrole";
+import getCookie from "@/helper/cookie/gettooken";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GrView } from "react-icons/gr";
-import profileimg from "../../../../../../public/images/user/user-06.jpg";
+import { IoMdAdd } from "react-icons/io";
+import demoprofile from "../../../../../../public/images/user/demo.jpeg";
 import PageBreadcrumb from "../../../../../components/common/PageBreadCrumb";
 
 const AllEmployee = () => {
 
-    const employees = [
-        {
-            sl: 1,
-            id: 10000,
-            name: "Neil Sims",
-            email: "neil.sims@example.com",
-            department: "Custom Code",
-            employeeType: "Full Time",
-            dateOfBirth: "20-04-1990",
-            position: "Full Stack Developer",
-            levelGrade: "Mid Level - G2",
-        },
-        {
-            sl: 2,
-            id: 10001,
-            name: "Emma Johnson",
-            email: "emma.johnson@example.com",
-            department: "Design",
-            employeeType: "Part Time",
-            dateOfBirth: "15-07-1992",
-            position: "UI/UX Designer",
-            levelGrade: "Entry Level - G1",
-        },
-        {
-            sl: 3,
-            id: 10002,
-            name: "Liam Brown",
-            email: "liam.brown@example.com",
-            department: "Marketing",
-            employeeType: "Full Time",
-            dateOfBirth: "05-03-1988",
-            position: "Marketing Specialist",
-            levelGrade: "Mid Level - G2",
-        },
-        {
-            sl: 4,
-            id: 10003,
-            name: "Olivia Wilson",
-            email: "olivia.wilson@example.com",
-            department: "HR",
-            employeeType: "Full Time",
-            dateOfBirth: "12-12-1995",
-            position: "HR Manager",
-            levelGrade: "Senior Level - G3",
-        },
-        {
-            sl: 5,
-            id: 10004,
-            name: "Noah Davis",
-            email: "noah.davis@example.com",
-            department: "Finance",
-            employeeType: "Full Time",
-            dateOfBirth: "28-09-1985",
-            position: "Accountant",
-            levelGrade: "Mid Level - G2",
-        },
-        {
-            sl: 6,
-            id: 10005,
-            name: "Ava Martinez",
-            email: "ava.martinez@example.com",
-            department: "Support",
-            employeeType: "Part Time",
-            dateOfBirth: "03-06-1993",
-            position: "Customer Support",
-            levelGrade: "Entry Level - G1",
-        },
-        {
-            sl: 7,
-            id: 10006,
-            name: "William Anderson",
-            email: "william.anderson@example.com",
-            department: "Development",
-            employeeType: "Full Time",
-            dateOfBirth: "17-11-1987",
-            position: "Backend Developer",
-            levelGrade: "Senior Level - G3",
-        },
-        {
-            sl: 8,
-            id: 10007,
-            name: "Sophia Thomas",
-            email: "sophia.thomas@example.com",
-            department: "Sales",
-            employeeType: "Full Time",
-            dateOfBirth: "22-08-1991",
-            position: "Sales Executive",
-            levelGrade: "Mid Level - G2",
-        }
-    ];
-
-
-
-
+    const token = getCookie();
+    const accessRole = getRole()
     const [idorname, setidorname] = useState('');
+    const [allemployees, setallemployees] = useState([]);
 
-    const filter = employees.filter(emp => emp?.name?.toUpperCase().includes(idorname?.toUpperCase()));
+
+
+    // Fetch all Employee here
+    const getAllEmployees = useCallback(async () => {
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.ok) {
+                const res = await response.json();
+                setallemployees(res);
+            } else {
+                console.error("Failed to fetch All Employees");
+            }
+        } catch (error) {
+            console.error("Error fetching All Employees:", error);
+        }
+    }, [token]);
+
+    // Run once on component mount
+    useEffect(() => {
+        getAllEmployees();
+    }, [getAllEmployees]);
+
+
+
+
+    // add search filter functionalaty here
+    const filter = allemployees?.employees?.filter(emp => emp?.fname?.toUpperCase().includes(idorname?.toUpperCase()));
 
 
     console.log(filter);
+
+
 
 
     return (
         <div>
             <div>
                 <PageBreadcrumb pageTitle={"All Employee"}>
-                    <FilterSearch seter={setidorname} />
+                    <div className="flex gap-3 items-center">
+                        <Link className="flex items-center bg-blue-700 px-3 rounded-lg py-2 gap-1" href={`${accessRole === 'Admin' ? "/admin/employee/add" : accessRole === 'Hr' ? "/hr/employee/add" : null}`} size="sm">
+                            <span>
+                                Add
+                            </span>
+                            <IoMdAdd className="text-xl" />
+                        </Link>
+                        <FilterSearch seter={setidorname} />
+                    </div>
                 </PageBreadcrumb>
                 <div className="relative overflow-x-auto rounded-md">
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -165,30 +123,30 @@ const AllEmployee = () => {
                                             <td className="w-4 p-4">
                                                 {item?.sl}
                                             </td>
-                                            <td>{item?.id}</td>
+                                            <td>{item?.eid}</td>
                                             <th scope="row" className="flex items-center px-6 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300">
-                                                <Image className="w-10 h-10 rounded-full" src={profileimg} alt="Jese image" />
+                                                <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="Jese image" />
                                                 <div className="ps-3">
-                                                    <div className="text-base font-semibold">{item?.name}</div>
+                                                    <div className="text-base font-semibold">{item?.fname + item?.lname}</div>
                                                 </div>
                                             </th>
                                             <td className="px-6 py-4">
                                                 {item?.email}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {item?.department}
+                                                {item?.department?.name}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {item?.employeeType}
+                                                {item?.emplyeetype}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {item?.dateOfBirth}
+                                                {item?.dob}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {item?.position}
+                                                {item?.designation}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {item?.levelGrade}
+                                                {item?.level}
                                             </td>
                                             <td className="px-6 py-4">
                                                 <Link className="underline flex gap-1 items-center flex-col text-gray-700 dark:text-gray-300" href={`/admin/employee/${item?.id}`}>

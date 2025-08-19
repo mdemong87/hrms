@@ -56,16 +56,16 @@ export default function SignInForm() {
         toast.success("SignIn successful");
         setTimeout(() => {
           switch (role) {
-            case "admin":
+            case "Admin":
               router.push('/admin');
               break;
-            case "hr":
+            case "Hr":
               router.push('/hr');
               break;
-            case "projectmanager":
+            case "Projectmanager":
               router.push('/projectmanager');
               break;
-            case "employee":
+            case "Employee":
               router.push('/employee');
               break;
             default:

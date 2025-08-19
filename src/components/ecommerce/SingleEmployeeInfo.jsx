@@ -18,14 +18,15 @@ import Label from "../form/Label";
 import Select from "../form/Select";
 
 
-const SingleEmployeeInfo = () => {
+const SingleEmployeeInfo = ({ id }) => {
 
 
     const token = getCookie();
-    const role = getRole();
+    const accessrole = getRole();
     const router = useRouter();
     const [isdisable, setisdisable] = useState(true);
     const [Departments, setDepartments] = useState([]);
+    const [SingleEmployee, setSingleEmployee] = useState([]);
     const [isloading, setisloading] = useState(false);
     const [imagepreview, setimagepreview] = useState('');
     const [imageFile, setimageFile] = useState(null);
@@ -55,92 +56,61 @@ const SingleEmployeeInfo = () => {
     });
 
 
-    //final pass data object
-    const newobj = {
-        ...formdata,
-        image: imageFile
-    }
-
-
-    //hanlde save function here
-    async function handlesave(e) {
-
-        e.preventDefault();
-
-        console.log(newobj);
-
-        if (formdata.fname.trim() !== '' &&
-            formdata.lname.trim() !== '' &&
-            formdata.dob.trim() !== '' &&
-            formdata.gender.trim() !== '' &&
-            formdata.meritalstatus.trim() !== '' &&
-            formdata.email.trim() !== '' &&
-            formdata.phone.trim() !== '' &&
-            formdata.emergencycontactname.trim() !== '' &&
-            formdata.emergencycontactphone.trim() !== '' &&
-            formdata.address.trim() !== '' &&
-            formdata.department_id.trim() !== '' &&
-            formdata.designation.trim() !== '' &&
-            formdata.emplyeetype.trim() !== '' &&
-            formdata.joindate.trim() !== '' &&
-            formdata.probitionprioed.trim() !== '' &&
-            formdata.reportingmanager.trim() !== '' &&
-            formdata.workshift.trim() !== '' &&
-            formdata.nationalid.trim() !== '' &&
-            formdata.role.trim() !== '' &&
-            formdata.password.trim() !== '' &&
-            formdata.level.trim() !== '') {
-
-            try {
-                setisloading(true);
-
-
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees`, {
-                    method: "POST",
+    // Fetch single employee information here
+    const getSingleEmployee = useCallback(async (id) => {
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees/${id}`,
+                {
+                    method: "GET",
                     headers: {
-                        "Content-Type": "Application/Json",
-                        "Authorization": `Bearer ${token}`, // <-- send token here
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
                     },
-                    body: JSON.stringify(newobj) // Convert JS object to JSON string
-                });
-
-                // Handle response
-                if (response.ok) {
-                    setisloading(false);
-                    const data = await response.json();
-                    toast.success("Employee Added successful");
-                    setTimeout(() => {
-                        switch (role) {
-                            case "admin":
-                                router.push('/admin/employee');
-                                break;
-                            case "hr":
-                                router.push('/hr/employee');
-                                break;
-                            default:
-                                console.error('Unknown role');
-                        }
-                    }, 200);
-                } else {
-                    setisloading(false);
-                    const errorData = await response.json();
-                    toast.error('Employee Added failed');
-                    console.error("Employee Added failed:", errorData);
                 }
+            );
 
-            } catch (error) {
-                setisloading(false);
-                console.error(error);
+            if (response.ok) {
+                const res = await response.json();
+                setSingleEmployee(res?.employee);
+                setformdata((prev) => ({
+                    ...prev,
+                    eid: res?.employee?.eid || '',
+                    fname: res?.employee?.fname || '',
+                    lname: res?.employee?.lname || '',
+                    dob: res?.employee?.dob || '',
+                    gender: res?.employee?.gender || '',
+                    meritalstatus: res?.employee?.meritalstatus || '',
+                    email: res?.employee?.email || '',
+                    phone: res?.employee?.phone || '',
+                    emergencycontactname: res?.employee?.emergencycontactname || '',
+                    emergencycontactphone: res?.employee?.emergencycontactphone || '',
+                    address: res?.employee?.address || '',
+                    department_id: res?.employee?.department_id || '',
+                    designation: res?.employee?.designation || '',
+                    emplyeetype: res?.employee?.emplyeetype || '',
+                    joindate: res?.employee?.joindate || '',
+                    probitionprioed: res?.employee?.probitionprioed || '',
+                    reportingmanager: res?.employee?.reportingmanager || '',
+                    workshift: res?.employee?.workshift || '',
+                    nationalid: res?.employee?.nationalid || '',
+                    role: res?.employee?.user?.role || '',
+                    password: res?.employee?.password || '',
+                    level: res?.employee?.level || '',
+
+                }));
+                setimagepreview(res?.employee?.avatar);
+
+            } else {
+                console.error("Failed to fetch departments");
             }
-
-        } else {
-            toast.warn('Full Up All Required Fileds');
+        } catch (error) {
+            console.error("Error fetching departments:", error);
         }
+    }, [token]);
 
-    }
 
-
-    // Fetch all departments
+    // Fetch all departments here
     const getDepartments = useCallback(async () => {
         try {
             const response = await fetch(
@@ -168,25 +138,141 @@ const SingleEmployeeInfo = () => {
     // Run once on component mount
     useEffect(() => {
         getDepartments();
-    }, [getDepartments]);
-
+        getSingleEmployee(id);
+    }, [getDepartments, getSingleEmployee, id]);
 
 
 
     //hanlde employee delete function here
-    function handledelect(e) {
+    async function handledelect(e, id) {
         e.preventDefault();
+        const isdeletetrue = confirm("Are you Sure to Delete This Employee");
+        if (!isdeletetrue) return;
 
-        confirm("Are you Sure to Delete This Employee");
 
-        console.log('delete,,,,,,,,,');
+        try {
+            setisloading(true);
+
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees/${id}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            // Handle response
+            if (response.ok) {
+                setisloading(false);
+                const data = await response.json();
+                toast.success("Employee Delete successful");
+                setTimeout(() => {
+                    switch (accessrole) {
+                        case "Admin":
+                            router.push('/admin/employee');
+                            break;
+                        case "Hr":
+                            router.push('/hr/employee');
+                            break;
+                        default:
+                            console.error('Unknown role');
+                    }
+                }, 200);
+            } else {
+                setisloading(false);
+                const errorData = await response.json();
+                toast.error('Employee Delete failed');
+                console.error("Employee Delete failed:", errorData);
+            }
+
+        } catch (error) {
+            setisloading(false);
+            console.error(error);
+        }
+
+
+
+
+
+
     }
 
 
 
-    //just check and debuging here
-    console.log(imageFile);
-    console.log(imagepreview);
+
+
+
+    async function handlesave(e, id) {
+        e.preventDefault();
+
+        try {
+            setisloading(true);
+
+            // Use FormData instead of JSON.stringify
+            const fd = new FormData();
+
+            // Append all formdata values
+            Object.keys(formdata).forEach((key) => {
+                fd.append(key, formdata[key]);
+            });
+
+            // // Append image file if exists
+            // if (imageFile) {
+            //     fd.append("image", imageFile);
+            // }
+
+
+
+            console.log(formdata);
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(formdata)
+            });
+
+            if (response.ok) {
+                setisloading(false);
+                const data = await response.json();
+                toast.success("Employee Edit successful");
+                setTimeout(() => {
+                    switch (accessrole) {
+                        case "Admin":
+                            router.push('/admin/employee');
+                            break;
+                        case "Hr":
+                            router.push('/hr/employee');
+                            break;
+                        default:
+                            console.error('Unknown role');
+                    }
+                }, 200);
+            } else {
+                setisloading(false);
+                const errorData = await response.json();
+                toast.error('Employee Edit failed');
+                console.error("Employee Edit failed:", errorData);
+            }
+
+        } catch (error) {
+            setisloading(false);
+            console.error(error);
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     return (
         <div>
@@ -211,7 +297,7 @@ const SingleEmployeeInfo = () => {
                                         <span className="text-sm">Edit</span>
                                     </button>
                                 }
-                                <button onClick={(e) => { handledelect(e) }} className="bg-red-700 font-medium flex items-center gap-1 p-2 rounded-md text-white cursor-pointer font-medium">
+                                <button onClick={(e) => { handledelect(e, id) }} className="bg-red-700 font-medium flex items-center gap-1 p-2 rounded-md text-white cursor-pointer font-medium">
                                     <RiDeleteBin5Fill className="text-md" />
                                     <span className="text-sm">Delete</span>
                                 </button>
@@ -223,7 +309,7 @@ const SingleEmployeeInfo = () => {
                                                 <MdCancel className="text-md" />
                                                 <span className="text-sm">Cencel</span>
                                             </button>
-                                            <button onClick={(e) => handlesave(e)} className="bg-blue-700 w-full justify-center font-medium flex items-center gap-1 px-3 py-2 rounded-md text-white cursor-pointer font-medium">
+                                            <button onClick={(e) => handlesave(e, id)} className="bg-blue-700 w-full justify-center font-medium flex items-center gap-1 px-3 py-2 rounded-md text-white cursor-pointer font-medium">
                                                 <FaSave className="text-md" />
                                                 <span className="text-sm">Save</span>
                                             </button>
@@ -244,7 +330,7 @@ const SingleEmployeeInfo = () => {
                                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Employee ID</Label>
-                                        <Input disabled type="text" onChange={(e) =>
+                                        <Input disabled value={formdata?.eid} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 eid: e.target.value
@@ -254,7 +340,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>First Name</Label>
-                                        <Input disabled={isdisable} type="text" onChange={(e) =>
+                                        <Input disabled={isdisable} value={formdata?.fname} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 fname: e.target.value
@@ -264,7 +350,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Last Name</Label>
-                                        <Input disabled={isdisable} type="text" onChange={(e) =>
+                                        <Input disabled={isdisable} value={formdata?.lname} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 lname: e.target.value
@@ -274,7 +360,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Date of Birth</Label>
-                                        <Input disabled={isdisable} type="date" onChange={(e) =>
+                                        <Input disabled={isdisable} value={formdata?.dob} type="date" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 dob: e.target.value
@@ -284,7 +370,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Gender</Label>
-                                        <Select disabled={isdisable} options={["Select Gender", "Male", "Female"]} onChange={(e) =>
+                                        <Select disabled={isdisable} selectedValue={formdata?.gender} options={["Select Gender", "Male", "Female"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 gender: e.target.value
@@ -293,7 +379,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Marital Status</Label>
-                                        <Select disabled={isdisable} options={["Select Marital Status", "Married", "Unmarried", "Engaged"]} onChange={(e) =>
+                                        <Select disabled={isdisable} selectedValue={formdata?.meritalstatus} options={["Select Marital Status", "Married", "Unmarried", "Engaged"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 meritalstatus: e.target.value
@@ -313,7 +399,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Email Address</Label>
-                                        <Input disabled={isdisable} type="email" onChange={(e) =>
+                                        <Input value={formdata?.email} disabled={isdisable} type="email" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 email: e.target.value
@@ -323,7 +409,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Phone</Label>
-                                        <Input disabled={isdisable} type="phone" onChange={(e) =>
+                                        <Input value={formdata?.phone} disabled={isdisable} type="phone" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 phone: e.target.value
@@ -334,7 +420,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Emergency Contact Name</Label>
-                                        <Input disabled={isdisable} type="text" onChange={(e) =>
+                                        <Input value={formdata?.emergencycontactname} disabled={isdisable} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 emergencycontactname: e.target.value
@@ -344,7 +430,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Emergency Contact Phone</Label>
-                                        <Input disabled={isdisable} type="phone" onChange={(e) =>
+                                        <Input value={formdata?.emergencycontactphone} disabled={isdisable} type="phone" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 emergencycontactphone: e.target.value
@@ -354,7 +440,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Address</Label>
-                                        <Input disabled={isdisable} type="text" onChange={(e) =>
+                                        <Input value={formdata?.address} disabled={isdisable} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 address: e.target.value
@@ -366,7 +452,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>National ID</Label>
-                                        <Input disabled={isdisable} type="number" onChange={(e) =>
+                                        <Input value={formdata?.nationalid} disabled={isdisable} type="number" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 nationalid: e.target.value
@@ -387,7 +473,7 @@ const SingleEmployeeInfo = () => {
                                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Department</Label>
-                                        <select disabled={isdisable} onChange={(e) =>
+                                        <select disabled={isdisable} value={formdata?.department_id} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 department_id: e.target.value
@@ -407,7 +493,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Designation / Job Title</Label>
-                                        <Input disabled={isdisable} type="text" onChange={(e) =>
+                                        <Input disabled={isdisable} value={formdata?.designation} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 designation: e.target.value
@@ -417,7 +503,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Employment Type</Label>
-                                        <Select disabled={isdisable} options={["Select Employment Type", "Full Time", "Remote", "Hybride"]} onChange={(e) =>
+                                        <Select disabled={isdisable} selectedValue={formdata?.emplyeetype} options={["Select Employment Type", "Full Time", "Remote", "Hybride"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 emplyeetype: e.target.value
@@ -427,7 +513,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Joining Date</Label>
-                                        <Input disabled={isdisable} type="date" onChange={(e) =>
+                                        <Input disabled={isdisable} value={formdata?.joindate} type="date" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 joindate: e.target.value
@@ -436,7 +522,7 @@ const SingleEmployeeInfo = () => {
                                     </div>
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Probation Period</Label>
-                                        <Select disabled={isdisable} options={["Select Probation Period", "0 Day", "15 Days", "1 Month", "2 Months", "3 Manths"]} onChange={(e) =>
+                                        <Select disabled={isdisable} selectedValue={formdata?.probitionprioed} options={["Select Probation Period", "0 Day", "15 Days", "1 Month", "2 Months", "3 Manths"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 probitionprioed: e.target.value
@@ -446,7 +532,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Reporting Manager</Label>
-                                        <Input disabled={isdisable} type="text" onChange={(e) =>
+                                        <Input disabled={isdisable} value={formdata?.reportingmanager} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 reportingmanager: e.target.value
@@ -456,7 +542,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Work Shift</Label>
-                                        <Select disabled={isdisable} options={["Select Working Shift", "Day", "Night", "Roster"]} onChange={(e) =>
+                                        <Select disabled={isdisable} selectedValue={formdata?.workshift} value={formdata?.workshift} options={["Select Working Shift", "Day", "Night", "Roster"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 workshift: e.target.value
@@ -476,7 +562,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Role / Access Level</Label>
-                                        <Select disabled={isdisable} options={["Select Role", "Admin", "HR", "Employee", "Project Manager"]} onChange={(e) =>
+                                        <Select disabled={isdisable} selectedValue={formdata?.role} options={["Select Role", "Admin", "Hr", "Employee", "Project Manager"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 role: e.target.value
@@ -485,7 +571,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Level / Grade</Label>
-                                        <Select disabled={isdisable} options={[
+                                        <Select disabled={isdisable} selectedValue={formdata?.level} options={[
                                             "Select Lavel/grade",
                                             "Unpaid-Intern-G0",
                                             "Paid Intern-G0",
@@ -504,7 +590,7 @@ const SingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Password / Temporary Password</Label>
-                                        <Input disabled={isdisable} type="text" onChange={(e) =>
+                                        <Input disabled={isdisable} value={formdata?.password} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 password: e.target.value

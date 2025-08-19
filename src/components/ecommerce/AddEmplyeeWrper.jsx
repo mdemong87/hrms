@@ -20,7 +20,7 @@ const AddAmployeeWper = () => {
 
 
     const token = getCookie();
-    const role = getRole();
+    const accessrole = getRole();
     const router = useRouter();
     const [Departments, setDepartments] = useState([]);
     const [isloading, setisloading] = useState(false);
@@ -29,7 +29,7 @@ const AddAmployeeWper = () => {
     const [formdata, setformdata] = useState({
         fname: '',
         lname: '',
-        dob: '',
+        dob: 0,
         gender: '',
         meritalstatus: '',
         email: '',
@@ -37,10 +37,10 @@ const AddAmployeeWper = () => {
         emergencycontactname: '',
         emergencycontactphone: '',
         address: '',
-        department_id: '',
+        department_id: -1,
         designation: '',
         emplyeetype: '',
-        joindate: '',
+        joindate: 0,
         probitionprioed: '',
         reportingmanager: '',
         workshift: '',
@@ -51,21 +51,17 @@ const AddAmployeeWper = () => {
     });
 
 
-    const newobj = {
-        ...formdata,
-        image: imageFile
-    }
+
+
 
 
     async function handlesave(e) {
-
         e.preventDefault();
 
-        console.log(newobj);
-
-        if (formdata.fname.trim() !== '' &&
+        if (
+            formdata.fname.trim() !== '' &&
             formdata.lname.trim() !== '' &&
-            formdata.dob.trim() !== '' &&
+            formdata.dob !== 0 &&
             formdata.gender.trim() !== '' &&
             formdata.meritalstatus.trim() !== '' &&
             formdata.email.trim() !== '' &&
@@ -73,42 +69,53 @@ const AddAmployeeWper = () => {
             formdata.emergencycontactname.trim() !== '' &&
             formdata.emergencycontactphone.trim() !== '' &&
             formdata.address.trim() !== '' &&
-            formdata.department_id.trim() !== '' &&
+            formdata.department_id > -1 &&
             formdata.designation.trim() !== '' &&
             formdata.emplyeetype.trim() !== '' &&
-            formdata.joindate.trim() !== '' &&
+            formdata.joindate !== 0 &&
             formdata.probitionprioed.trim() !== '' &&
             formdata.reportingmanager.trim() !== '' &&
             formdata.workshift.trim() !== '' &&
             formdata.nationalid.trim() !== '' &&
             formdata.role.trim() !== '' &&
             formdata.password.trim() !== '' &&
-            formdata.level.trim() !== '') {
-
+            formdata.level.trim() !== ''
+        ) {
             try {
                 setisloading(true);
 
+                // Use FormData instead of JSON.stringify
+                const fd = new FormData();
+
+                // Append all formdata values
+                Object.keys(formdata).forEach((key) => {
+                    fd.append(key, formdata[key]);
+                });
+
+                // Append image file if exists
+                if (imageFile) {
+                    fd.append("image", imageFile);
+                }
 
                 const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees`, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "Application/Json",
-                        "Authorization": `Bearer ${token}`, // <-- send token here
+                        "Authorization": `Bearer ${token}`,
                     },
-                    body: JSON.stringify(newobj) // Convert JS object to JSON string
+                    body: fd,
                 });
 
-                // Handle response
                 if (response.ok) {
                     setisloading(false);
                     const data = await response.json();
+                    console.log(response);
                     toast.success("Employee Added successful");
                     setTimeout(() => {
-                        switch (role) {
-                            case "admin":
+                        switch (accessrole) {
+                            case "Admin":
                                 router.push('/admin/employee');
                                 break;
-                            case "hr":
+                            case "Hr":
                                 router.push('/hr/employee');
                                 break;
                             default:
@@ -121,17 +128,17 @@ const AddAmployeeWper = () => {
                     toast.error('Employee Added failed');
                     console.error("Employee Added failed:", errorData);
                 }
-
             } catch (error) {
                 setisloading(false);
                 console.error(error);
             }
-
         } else {
             toast.warn('Full Up All Required Fileds');
         }
-
     }
+
+
+
 
 
     // Fetch all departments
@@ -166,9 +173,8 @@ const AddAmployeeWper = () => {
 
 
 
-
-    console.log(imageFile);
-    console.log(imagepreview);
+    // console.log(newobj?.department_id);
+    // console.log(typeof newobj?.department_id);
 
     return (
         <div>
@@ -354,7 +360,7 @@ const AddAmployeeWper = () => {
                                         <select onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
-                                                department_id: e.target.value
+                                                department_id: Number(e.target.value)
                                             }))} className="h-11 w-full appearance-none rounded-lg border border-gray-300 px-4 py-2.5 pr-11 text-sm shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800">
                                             <option className="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value={''}>Select Department</option>
                                             {
@@ -440,7 +446,7 @@ const AddAmployeeWper = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Role / Access Level <span className="text-error-500">*</span></Label>
-                                        <Select options={["Select Role", "Admin", "HR", "Employee", "Project Manager"]} onChange={(e) =>
+                                        <Select options={["Select Role", "Admin", "Hr", "Employee", "Project Manager"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 role: e.target.value

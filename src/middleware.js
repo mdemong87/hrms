@@ -32,24 +32,24 @@ export default async function middleware(req) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     }
 
-    if (role != "admin" && path.startsWith('/admin')) {
+    if (role != "Admin" && path.startsWith('/admin')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
-    } else if (role != "hr" && path.startsWith('/hr')) {
+    } else if (role != "Hr" && path.startsWith('/hr')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
-    } else if (role != "projectmanager" && path.startsWith('/projectmanager')) {
+    } else if (role != "Projectmanager" && path.startsWith('/projectmanager')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
-    } else if (role != "employee" && path.startsWith('/employee')) {
+    } else if (role != "Employee" && path.startsWith('/employee')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     }
 
     if (token && role && path.startsWith('/signin')) {
-        if (role === 'admin') {
+        if (role === 'Admin') {
             return NextResponse.redirect(new URL('/admin', req.nextUrl));
-        } else if (role === 'hr') {
+        } else if (role === 'Hr') {
             return NextResponse.redirect(new URL('/hr', req.nextUrl));
-        } else if (role === 'projectmanager') {
+        } else if (role === 'Projectmanager') {
             return NextResponse.redirect(new URL('/projectmanager', req.nextUrl));
-        } else if (role === 'employee') {
+        } else if (role === 'Employee') {
             return NextResponse.redirect(new URL('/employee', req.nextUrl));
         }
     }
