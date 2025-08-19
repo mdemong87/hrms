@@ -67,7 +67,7 @@ const AllEmployee = () => {
             <div>
                 <PageBreadcrumb pageTitle={"All Employee"}>
                     <div className="flex gap-3 items-center">
-                        <Link className="flex items-center bg-blue-700 px-3 rounded-lg py-2 gap-1" href={`${accessRole === 'Admin' ? "/admin/employee/add" : accessRole === 'Hr' ? "/hr/employee/add" : null}`} size="sm">
+                        <Link className="flex items-center bg-blue-700 px-3 rounded-lg py-2 gap-1" href={`${accessRole === 'Admin' ? "/admin/employee/add" : accessRole === 'Hr' ? "/hr/employee/add" : '/signin'}`} size="sm">
                             <span>
                                 Add
                             </span>
@@ -83,7 +83,7 @@ const AllEmployee = () => {
                                 <th scope="col" className="p-4">
                                     SL
                                 </th>
-                                <th scope="col" className="p-4">
+                                <th scope="col" className="p-4 text-center">
                                     ID
                                 </th>
                                 <th scope="col" className="px-6 py-3">
@@ -123,7 +123,7 @@ const AllEmployee = () => {
                                             <td className="w-4 p-4">
                                                 {index + 1}
                                             </td>
-                                            <td>{item?.eid}</td>
+                                            <td className="text-center">{item?.eid}</td>
                                             <th scope="row" className="flex items-center px-6 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300">
                                                 <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="Jese image" />
                                                 <div className="ps-3">

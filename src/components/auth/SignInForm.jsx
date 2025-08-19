@@ -45,6 +45,8 @@ export default function SignInForm() {
         body: JSON.stringify(userdata) // Convert JS object to JSON string
       });
 
+
+      console.log(response);
       // Handle response
       if (response.ok) {
         setisloading(false);

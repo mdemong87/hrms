@@ -1,11 +1,33 @@
+import { jwtVerify } from 'jose';
 import { NextResponse } from 'next/server';
+
 
 // 1. Specify protected and public routes
 const protectedRoutes = ['/admin', '/hr', '/projectmanager', '/employee', '/attendance', '/calendar', '/profile', '/holidays', '/leave', '/announcement']
 
 
+
+
+
+async function verifyJWT(token) {
+    try {
+        const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET); // make sure you set this
+        const { payload } = await jwtVerify(token, secret);
+        return payload; // valid token → return payload
+    } catch (err) {
+        return null; // invalid or expired
+    }
+}
+
+
+
+
+
 export default async function middleware(req) {
 
+
+
+    const res = NextResponse.next();
 
     // 2. Check if the current route is protected or public
     const path = req.nextUrl.pathname;
@@ -17,8 +39,16 @@ export default async function middleware(req) {
     const role = req.cookies.get('role')?.value;
 
 
+    let decoded = null;
 
-    if (isProtectedRoute && !token) {
+    if (token) {
+        decoded = await verifyJWT(token);
+
+    }
+
+    console.log(typeof decoded);
+
+    if (isProtectedRoute && !decoded) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     }
 
@@ -28,7 +58,7 @@ export default async function middleware(req) {
         .some(prefix => path.startsWith(prefix));
 
 
-    if (!token && startsWithProtectedPrefix) {
+    if (!decoded && startsWithProtectedPrefix) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     }
 
@@ -42,7 +72,7 @@ export default async function middleware(req) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     }
 
-    if (token && role && path.startsWith('/signin')) {
+    if (decoded && role && path.startsWith('/signin')) {
         if (role === 'Admin') {
             return NextResponse.redirect(new URL('/admin', req.nextUrl));
         } else if (role === 'Hr') {
@@ -62,3 +92,8 @@ export default async function middleware(req) {
 export const config = {
     matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 }
+
+
+
+
+
