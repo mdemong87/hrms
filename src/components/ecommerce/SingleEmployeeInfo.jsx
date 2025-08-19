@@ -210,6 +210,7 @@ const SingleEmployeeInfo = ({ id }) => {
         try {
             setisloading(true);
 
+
             // Use FormData instead of JSON.stringify
             const fd = new FormData();
 
@@ -218,22 +219,21 @@ const SingleEmployeeInfo = ({ id }) => {
                 fd.append(key, formdata[key]);
             });
 
-            // // Append image file if exists
-            // if (imageFile) {
-            //     fd.append("image", imageFile);
-            // }
+            // Append image file if exists
+            if (imageFile) {
+                fd.append("image", imageFile);
+            }
 
 
-
-            console.log(formdata);
+            // Laravel doesn’t like PUT with FormData, so fake it:
+            fd.append("_method", "PUT");
 
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees/${id}`, {
-                method: "PUT",
+                method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(formdata)
+                body: fd
             });
 
             if (response.ok) {

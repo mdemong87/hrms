@@ -121,7 +121,7 @@ const AllEmployee = () => {
                                     return (
                                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-600 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                             <td className="w-4 p-4">
-                                                {item?.sl}
+                                                {index + 1}
                                             </td>
                                             <td>{item?.eid}</td>
                                             <th scope="row" className="flex items-center px-6 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300">
