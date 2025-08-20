@@ -6,7 +6,6 @@ import getCookie from "@/helper/cookie/gettooken";
 import { useCallback, useEffect, useState } from "react";
 import AttendancePageFilter from "../../../../../../components/ecommerce/AttendancePageFilter";
 
-
 const SingleEmployeeAttendancesPage = () => {
 
 
@@ -17,7 +16,7 @@ const SingleEmployeeAttendancesPage = () => {
     const getAllEmployeesAttendance = useCallback(async () => {
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees/attendance`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/attendances`,
                 {
                     method: "GET",
                     headers: {
@@ -45,9 +44,6 @@ const SingleEmployeeAttendancesPage = () => {
 
 
 
-    console.log(allsmployessattendances);
-
-
 
     return (
         <div>
@@ -55,8 +51,7 @@ const SingleEmployeeAttendancesPage = () => {
                 <AttendancePageFilter />
             </PageBreadcrumb>
             <div className="pt-8">
-
-                <AttendanceCalendar />
+                <AttendanceCalendar AttendanceData={allsmployessattendances} />
             </div>
         </div>
     );
