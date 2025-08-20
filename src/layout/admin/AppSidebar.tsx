@@ -9,7 +9,7 @@ import { PiOfficeChairBold } from "react-icons/pi";
 import { TfiAnnouncement } from "react-icons/tfi";
 import LogoutBtn from "../../components/auth/LogoutBtn";
 import { useSidebar } from "../../context/SidebarContext";
-import { CalenderIcon, ChevronDownIcon, GridIcon, HorizontaLDots, ListIcon, PageIcon, PlugInIcon, TableIcon, UserCircleIcon } from "../../icons/index";
+import { CalenderIcon, ChevronDownIcon, GridIcon, HorizontaLDots, PageIcon, PlugInIcon, TableIcon, UserCircleIcon } from "../../icons/index";
 
 type NavItem = {
   name: string;
@@ -61,19 +61,9 @@ const navItems: NavItem[] = [
     path: "/admin/announcement",
   },
   {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
     icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
+    name: "My Profile",
+    path: "/admin/profile",
   },
 
 ];

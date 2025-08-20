@@ -1,15 +1,80 @@
+'use client'
+
+import FilterSearch from "@/components/common/FilterSearch";
+import getRole from "@/helper/cookie/getrole";
+import getCookie from "@/helper/cookie/gettooken";
 import Image from "next/image";
 import Link from "next/link";
-import profileimg from "../../../../../public/images/user/user-06.jpg";
-import FilterSearch from "../../../../components/common/FilterSearch";
+import { useCallback, useEffect, useState } from "react";
+import { GrView } from "react-icons/gr";
+import { IoMdAdd } from "react-icons/io";
+import demoprofile from "../../../../../public/images/user/demo.jpeg";
 import PageBreadcrumb from "../../../../components/common/PageBreadCrumb";
 
 const AllEmployee = () => {
+
+    const token = getCookie();
+    const accessRole = getRole()
+    const [idorname, setidorname] = useState('');
+    const [allemployees, setallemployees] = useState([]);
+
+
+
+    // Fetch all Employee here
+    const getAllEmployees = useCallback(async () => {
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.ok) {
+                const res = await response.json();
+                setallemployees(res);
+            } else {
+                console.error("Failed to fetch All Employees");
+            }
+        } catch (error) {
+            console.error("Error fetching All Employees:", error);
+        }
+    }, [token]);
+
+    // Run once on component mount
+    useEffect(() => {
+        getAllEmployees();
+    }, [getAllEmployees]);
+
+
+
+
+    // add search filter functionalaty here
+    const filter = allemployees?.employees?.filter(emp => emp?.fname?.toUpperCase().includes(idorname?.toUpperCase()));
+
+
+    console.log(filter);
+
+
+
+
     return (
         <div>
             <div>
                 <PageBreadcrumb pageTitle={"All Employee"}>
-                    <FilterSearch />
+                    <div className="flex gap-3 items-center">
+                        <Link className="flex items-center bg-blue-700 px-3 rounded-lg py-2 gap-1" href={`${accessRole === 'Admin' ? "/admin/employee/add" : accessRole === 'Hr' ? "/hr/employee/add" : '/signin'}`} size="sm">
+                            <span>
+                                Add
+                            </span>
+                            <IoMdAdd className="text-xl" />
+                        </Link>
+                        <FilterSearch seter={setidorname} />
+                    </div>
                 </PageBreadcrumb>
                 <div className="relative overflow-x-auto rounded-md">
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -18,26 +83,32 @@ const AllEmployee = () => {
                                 <th scope="col" className="p-4">
                                     SL
                                 </th>
-                                <th scope="col" className="p-4">
+                                <th scope="col" className="p-4 text-center">
                                     ID
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     Name
                                 </th>
                                 <th scope="col" className="px-6 py-3">
+                                    Email
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Department
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Employee Type
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Date of Birth
+                                </th>
+                                <th scope="col" className="px-6 py-3">
                                     Position
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Check In
+                                    Level / Grade
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Check Out
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Date
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Action
+                                    View Full
                                 </th>
                             </tr>
                         </thead>
@@ -46,36 +117,42 @@ const AllEmployee = () => {
 
 
                             {
-                                Array.from({ length: 12 }).map((item, index) => {
+                                filter?.map((item, index) => {
                                     return (
-                                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-600 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                             <td className="w-4 p-4">
                                                 {index + 1}
                                             </td>
-                                            <td>1000{index}</td>
-                                            <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                                <Image className="w-10 h-10 rounded-full" src={profileimg} alt="Jese image" />
+                                            <td className="text-center">{item?.eid}</td>
+                                            <th scope="row" className="flex items-center px-6 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300">
+                                                <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="Jese image" />
                                                 <div className="ps-3">
-                                                    <div className="text-base font-semibold">Neil Sims</div>
-                                                    <div className="font-normal text-gray-500">emonhossen@Sardarit.com</div>
+                                                    <div className="text-base font-semibold">{item?.fname + " " + item?.lname}</div>
                                                 </div>
                                             </th>
                                             <td className="px-6 py-4">
-                                                React Developer
+                                                {item?.email}
                                             </td>
                                             <td className="px-6 py-4">
-                                                Sep 20, 2024 - 08:45 AM
+                                                {item?.department?.name}
                                             </td>
                                             <td className="px-6 py-4">
-                                                Sep 20, 2024 - 05:45 PM
+                                                {item?.emplyeetype}
                                             </td>
                                             <td className="px-6 py-4">
-                                                <div className="flex items-center">
-                                                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
-                                                </div>
+                                                {item?.dob}
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Link href="/admin/employee/attendance/1" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</Link>
+                                                {item?.designation}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {item?.level}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <Link className="underline flex gap-1 items-center flex-col text-gray-700 dark:text-gray-300" href={`/hr/employee/${item?.id}`}>
+                                                    <GrView className="" />
+                                                    <span>view</span>
+                                                </Link>
                                             </td>
                                         </tr>
                                     )
