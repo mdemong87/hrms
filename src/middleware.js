@@ -22,12 +22,8 @@ async function verifyJWT(token) {
 
 
 
-
 export default async function middleware(req) {
 
-
-
-    const res = NextResponse.next();
 
     // 2. Check if the current route is protected or public
     const path = req.nextUrl.pathname;
@@ -43,13 +39,12 @@ export default async function middleware(req) {
 
     if (token) {
         decoded = await verifyJWT(token);
-
     }
 
-    console.log(typeof decoded);
 
     if (isProtectedRoute && !decoded) {
-        return NextResponse.redirect(new URL('/signin', req.nextUrl));
+        const response = NextResponse.redirect(new URL('/signin', req.nextUrl));
+        return response;
     }
 
 

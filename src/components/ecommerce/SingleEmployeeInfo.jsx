@@ -228,6 +228,9 @@ const SingleEmployeeInfo = ({ id }) => {
             // Laravel doesn’t like PUT with FormData, so fake it:
             fd.append("_method", "PUT");
 
+            console.log(fd);
+            console.log(formdata);
+
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees/${id}`, {
                 method: "POST",
                 headers: {

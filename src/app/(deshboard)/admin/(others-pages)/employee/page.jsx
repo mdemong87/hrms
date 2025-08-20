@@ -127,7 +127,7 @@ const AllEmployee = () => {
                                             <th scope="row" className="flex items-center px-6 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300">
                                                 <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="Jese image" />
                                                 <div className="ps-3">
-                                                    <div className="text-base font-semibold">{item?.fname + item?.lname}</div>
+                                                    <div className="text-base font-semibold">{item?.fname + " " + item?.lname}</div>
                                                 </div>
                                             </th>
                                             <td className="px-6 py-4">

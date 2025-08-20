@@ -38,6 +38,8 @@ export default function ResetPass() {
             email
         }
 
+        console.log(userdata);
+
         try {
             setisloading(true);
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/forgotpassword`, {

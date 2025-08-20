@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ["sardarit.developerahsan.com"], // add your domain here
+    domains: ["hrms.sardaritskillshare.com"], // add your domain here
   },
   webpack(config) {
     config.module.rules.push({

@@ -53,8 +53,10 @@ export default function SignInForm() {
         const data = await response.json();
         console.log(data);
         const role = data?.user?.role;
+        const id = data?.employee?.id;
         SetCookie("token", data.access_token, data.expires_in);
         SetCookie("role", role);
+        SetCookie("id", id);
         toast.success("SignIn successful");
         setTimeout(() => {
           switch (role) {
