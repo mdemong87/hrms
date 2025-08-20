@@ -14,7 +14,7 @@ async function verifyJWT(token) {
         const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET); // make sure you set this
         const { payload } = await jwtVerify(token, secret);
         return payload; // valid token → return payload
-    } catch (err) {
+    } catch () {
         return null; // invalid or expired
     }
 }
