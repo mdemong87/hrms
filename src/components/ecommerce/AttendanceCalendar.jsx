@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 import demoimage from "../../../public/images/user/demo.jpeg";
 import AttendanceSummary from "../..//components/common/AttandanceSummaryWrper";
+import Loading from "../common/Loading";
 
 const AttendanceCalendar = ({ AttendanceData }) => {
 
@@ -51,11 +52,14 @@ const AttendanceCalendar = ({ AttendanceData }) => {
 
 
 
+    console.log(AttendanceData);
 
 
 
     return (
         <div className={`w-full`}>
+
+            {AttendanceData.length === 0 && <Loading />}
 
             <AttendanceSummary summarydata={AttendanceData?.counters} />
 

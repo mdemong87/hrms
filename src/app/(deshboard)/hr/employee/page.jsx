@@ -10,6 +10,7 @@ import { GrView } from "react-icons/gr";
 import { IoMdAdd } from "react-icons/io";
 import demoprofile from "../../../../../public/images/user/demo.jpeg";
 import PageBreadcrumb from "../../../../components/common/PageBreadCrumb";
+import Loading from "../../../../components/common/Loading";
 
 const AllEmployee = () => {
 
@@ -64,6 +65,7 @@ const AllEmployee = () => {
 
     return (
         <div>
+            {{ allemployees.length === 0 && <Loading /> }}
             <div>
                 <PageBreadcrumb pageTitle={"All Employee"}>
                     <div className="flex gap-3 items-center">

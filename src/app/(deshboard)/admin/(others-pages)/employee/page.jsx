@@ -1,6 +1,7 @@
 'use client'
 
 import FilterSearch from "@/components/common/FilterSearch";
+import Loading from "@/components/common/Loading";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
 import Image from "next/image";
@@ -57,13 +58,15 @@ const AllEmployee = () => {
     const filter = allemployees?.employees?.filter(emp => emp?.fname?.toUpperCase().includes(idorname?.toUpperCase()));
 
 
-    console.log(filter);
+    console.log(allemployees);
+
 
 
 
 
     return (
         <div>
+            {allemployees.length === 0 && <Loading />}
             <div>
                 <PageBreadcrumb pageTitle={"All Employee"}>
                     <div className="flex gap-3 items-center">
