@@ -1,41 +1,14 @@
-// 'use client'
-
 import BackBtn from "@/components/common/BackBtn";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-// import { useState } from "react";
 import AttendancePageFilter from "@/components/ecommerce/AttendancePageFilter";
 import SingleAttendance from "../../../../../../../components/ecommerce/SingleAttendance";
 
-const singleUserProfile = ({ params }) => {
+const singleUserProfile = async ({ params }) => {
 
 
 
     //single route unique id
-    // const id = params?.id;
-    // console.log(id);
-
-    //local state here
-    // const [signleemplyee, setsingleemplyee] = useState([]);
-
-
-    //fetching single emplyee data from the backend server here
-    // try {
-    //     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/emplyee/atendance/${id}`);
-
-    //     //check if the respose is ok or not
-    //     if (response.ok) {
-    //         const res = await response.json();
-    //         setsingleemplyee(res);
-    //         console.log(singleemplyee);
-    //     } else {
-    //         console.log("error while fetcing single emplyee data");
-    //     }
-
-    // } catch (error) {
-    //     console.log(error);
-    // }
-
-
+    const { id } = await params;
 
 
 
@@ -48,7 +21,7 @@ const singleUserProfile = ({ params }) => {
                 </div>
             </PageBreadcrumb>
             <div className="space-y-6">
-                <SingleAttendance />
+                <SingleAttendance id={id} />
             </div>
         </div>
     )

@@ -22,7 +22,7 @@ const AddAmployeeWper = () => {
     const token = getCookie();
     const accessrole = getRole();
     const router = useRouter();
-    const [Departments, setDepartments] = useState([]);
+    const [Departmentshift, setDepartmentshift] = useState([]);
     const [isloading, setisloading] = useState(false);
     const [imagepreview, setimagepreview] = useState('');
     const [imageFile, setimageFile] = useState(null);
@@ -43,7 +43,7 @@ const AddAmployeeWper = () => {
         joindate: 0,
         probitionprioed: '',
         reportingmanager: '',
-        workshift: '',
+        workshift: -1,
         nationalid: '',
         role: '',
         password: '',
@@ -75,7 +75,7 @@ const AddAmployeeWper = () => {
             formdata.joindate !== 0 &&
             formdata.probitionprioed.trim() !== '' &&
             formdata.reportingmanager.trim() !== '' &&
-            formdata.workshift.trim() !== '' &&
+            formdata.workshift > -1 &&
             formdata.nationalid.trim() !== '' &&
             formdata.role.trim() !== '' &&
             formdata.password.trim() !== '' &&
@@ -142,10 +142,10 @@ const AddAmployeeWper = () => {
 
 
     // Fetch all departments
-    const getDepartments = useCallback(async () => {
+    const getDepartmentsAndShift = useCallback(async () => {
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/departments`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employee/attributes`,
                 {
                     method: "GET",
                     headers: {
@@ -157,7 +157,7 @@ const AddAmployeeWper = () => {
 
             if (response.ok) {
                 const res = await response.json();
-                setDepartments(res);
+                setDepartmentshift(res);
             } else {
                 console.error("Failed to fetch departments");
             }
@@ -168,13 +168,12 @@ const AddAmployeeWper = () => {
 
     // Run once on component mount
     useEffect(() => {
-        getDepartments();
-    }, [getDepartments]);
+        getDepartmentsAndShift();
+    }, [getDepartmentsAndShift]);
 
 
 
-    // console.log(newobj?.department_id);
-    // console.log(typeof newobj?.department_id);
+    console.log(Departmentshift);
 
     return (
         <div>
@@ -364,7 +363,7 @@ const AddAmployeeWper = () => {
                                             }))} className="h-11 w-full appearance-none rounded-lg border border-gray-300 px-4 py-2.5 pr-11 text-sm shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800">
                                             <option className="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value={''}>Select Department</option>
                                             {
-                                                Departments?.map((item, index) => {
+                                                Departmentshift?.departments?.map((item, index) => {
                                                     return (
                                                         <option key={index} className="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value={item?.id}>{item?.name}</option>
                                                     )
@@ -426,11 +425,20 @@ const AddAmployeeWper = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Work Shift <span className="text-error-500">*</span></Label>
-                                        <Select options={["Select Working Shift", "Day", "Night", "Roster"]} onChange={(e) =>
+                                        <select onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
-                                                workshift: e.target.value
-                                            }))} />
+                                                workshift: Number(e.target.value)
+                                            }))} className="h-11 w-full appearance-none rounded-lg border border-gray-300 px-4 py-2.5 pr-11 text-sm shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800">
+                                            <option className="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value={''}>Select Department</option>
+                                            {
+                                                Departmentshift?.shifts?.map((item, index) => {
+                                                    return (
+                                                        <option key={index} className="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value={item?.id}>{item?.shift_name}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
                                     </div>
 
                                 </div>

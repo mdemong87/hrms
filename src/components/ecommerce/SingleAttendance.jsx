@@ -1,7 +1,12 @@
 "use client";
 
+import getCookie from "@/helper/cookie/gettooken";
+import { useCallback, useEffect, useState } from "react";
+import minutestohoursandminutesconvarter from "../../helper/minutestohoursandminutesconvarter";
+import timeformate from "../../helper/timeformate";
 
-const SingleAttendance = () => {
+
+const SingleAttendance = ({ id }) => {
 
     const data = [
         {
@@ -225,6 +230,54 @@ const SingleAttendance = () => {
         },
     ];
 
+
+
+    const token = getCookie();
+    const [SingleEmployeeAttendance, setSingleEmployeeAttendance] = useState([]);
+
+
+    // Fetch single employee information here
+    const getSingleEmployeeAttendance = useCallback(async (id) => {
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employee/attendance/${id}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.ok) {
+                const res = await response.json();
+                setSingleEmployeeAttendance(res);
+
+            } else {
+                console.error("Failed to fetch single employee attendance");
+            }
+        } catch (error) {
+            console.error("Error fetching single employee attendance:", error);
+        }
+    }, [token]);
+
+
+
+
+    // Run once on component mount
+    useEffect(() => {
+        getSingleEmployeeAttendance(id);
+    }, [getSingleEmployeeAttendance, id]);
+
+
+
+
+
+    //log here
+    console.log(SingleEmployeeAttendance);
+
+
     return (
         <div className={''}>
 
@@ -232,44 +285,39 @@ const SingleAttendance = () => {
                 <table className="min-w-full border-collapse">
                     <thead>
                         <tr className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
-                            <th className="px-4 py-3 text-left">Date</th>
-                            <th className="px-4 py-3 text-left">Check In</th>
-                            <th className="px-4 py-3 text-left">Status</th>
-                            <th className="px-4 py-3 text-left">Check Out</th>
-                            <th className="px-4 py-3 text-left">Break</th>
-                            <th className="px-4 py-3 text-left">Late</th>
-                            <th className="px-4 py-3 text-left">Overtime</th>
-                            <th className="px-4 py-3 text-left">Production Hours</th>
+                            <th className="px-4 py-3 text-left text-center">Date</th>
+                            <th className="px-4 py-3 text-left text-center">Check In</th>
+                            <th className="px-4 py-3 text-left text-center">Status</th>
+                            <th className="px-4 py-3 text-left text-center">Check Out</th>
+                            <th className="px-4 py-3 text-left text-center">Late</th>
+                            <th className="px-4 py-3 text-left text-center">Overtime</th>
+                            <th className="px-4 py-3 text-left text-center">Production Hours</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((row, i) => (
+                        {SingleEmployeeAttendance.map((row, i) => (
                             <tr
                                 key={i}
                                 className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition"
                             >
-                                <td className="px-4 py-3 text-sm">{row.date}</td>
-                                <td className="px-4 py-3 text-sm">{row.checkIn}</td>
+                                <td className="px-4 py-3 text-sm">{row?.date}</td>
+                                <td className="px-4 py-3 text-sm">{timeformate(row?.in_time)}</td>
                                 <td className="px-4 py-3 text-sm">
                                     <span
-                                        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.status === "Present"
+                                        className={`px-2 py-1 rounded-full text-xs font-semibold ${row?.status === "Present"
                                             ? "bg-green-100 text-green-700 dark:bg-green-700 dark:text-green-100"
-                                            : "bg-red-100 text-red-700 dark:bg-red-700 dark:text-red-100"
+                                            : row?.status === "Half" ? "bg-yellow-400 text-red-700 dark:bg-yellow-700 dark:text-red-100" : row?.status === "Holiday" ? "bg-blue-400 text-gray-100 dark:bg-blue-700 dark:text-red-100" : row?.status === "Late" ? "bg-violet-400 text-gray-100 dark:bg-violet-700 dark:text-red-100" : "bg-red-100 text-red-700 dark:bg-red-700 dark:text-red-100"
                                             }`}
                                     >
                                         {row.status}
                                     </span>
                                 </td>
-                                <td className="px-4 py-3 text-sm">{row.checkOut}</td>
-                                <td className="px-4 py-3 text-sm">{row.break}</td>
-                                <td className="px-4 py-3 text-sm">{row.late}</td>
-                                <td className="px-4 py-3 text-sm">{row.overtime}</td>
+                                <td className="px-4 py-3 text-sm">{timeformate(row?.out_time)}</td>
+                                <td className="px-4 py-3 text-sm">{minutestohoursandminutesconvarter(row?.late)}</td>
+                                <td className="px-4 py-3 text-sm">{minutestohoursandminutesconvarter(row?.
+                                    overtime)}</td>
                                 <td className="px-4 py-3 text-sm">
-                                    <span
-                                        className={`px-3 py-1 rounded-lg text-white text-xs font-medium ${row.productionColor}`}
-                                    >
-                                        {row.production}
-                                    </span>
+                                    {minutestohoursandminutesconvarter(row?.production_hours)}
                                 </td>
                             </tr>
                         ))}

@@ -3,13 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FaTasks } from "react-icons/fa";
-import { MdOutlineHolidayVillage } from "react-icons/md";
+import { FaShekelSign, FaTasks } from "react-icons/fa";
+import { MdOutlineHolidayVillage, MdOutlineSettings } from "react-icons/md";
 import { PiOfficeChairBold } from "react-icons/pi";
 import { TfiAnnouncement } from "react-icons/tfi";
 import LogoutBtn from "../../components/auth/LogoutBtn";
 import { useSidebar } from "../../context/SidebarContext";
-import { CalenderIcon, ChevronDownIcon, GridIcon, HorizontaLDots, PageIcon, PlugInIcon, TableIcon, UserCircleIcon } from "../../icons/index";
+import { CalenderIcon, ChevronDownIcon, GridIcon, HorizontaLDots, PageIcon, TableIcon, UserCircleIcon } from "../../icons/index";
 
 type NavItem = {
   name: string;
@@ -61,6 +61,11 @@ const navItems: NavItem[] = [
     path: "/admin/announcement",
   },
   {
+    icon: <FaShekelSign className="text-2xl" />,
+    name: "Duty Shift",
+    subItems: [{ name: "Add Shift", path: "/admin/shift", pro: false }, { name: "Assign to Shift", path: "/admin/assigntoshift", pro: false }],
+  },
+  {
     icon: <UserCircleIcon />,
     name: "My Profile",
     path: "/admin/profile",
@@ -70,11 +75,11 @@ const navItems: NavItem[] = [
 
 const othersItems: NavItem[] = [
   {
-    icon: <PlugInIcon />,
+    icon: <MdOutlineSettings className="text-xl" />,
     name: "Others Options",
     subItems: [
       { name: "Company Profile", path: "/signin", pro: false },
-      { name: "Company Detailes", path: "/signup", pro: false },
+      { name: "Site Settings", path: "/admin/setting", pro: false },
     ],
   },
 ];
