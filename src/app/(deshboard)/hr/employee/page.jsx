@@ -58,14 +58,14 @@ const AllEmployee = () => {
     const filter = allemployees?.employees?.filter(emp => emp?.fname?.toUpperCase().includes(idorname?.toUpperCase()));
 
 
-    console.log(filter);
+    console.log(allemployees.length);
 
 
 
 
     return (
         <div>
-            {{ allemployees.length === 0 && <Loading /> }}
+            {{ allemployees?.length === 0 && <Loading />}}
             <div>
                 <PageBreadcrumb pageTitle={"All Employee"}>
                     <div className="flex gap-3 items-center">

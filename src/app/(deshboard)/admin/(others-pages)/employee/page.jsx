@@ -66,7 +66,7 @@ const AllEmployee = () => {
 
     return (
         <div>
-            {allemployees.length === 0 && <Loading />}
+            {allemployees?.length === 0 && <Loading />}
             <div>
                 <PageBreadcrumb pageTitle={"All Employee"}>
                     <div className="flex gap-3 items-center">
