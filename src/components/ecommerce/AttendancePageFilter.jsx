@@ -1,15 +1,15 @@
 'use client'
 
+const AttendancePageFilter = ({ SelectedYear, setsetSelectedYear, SelectedMonth, setsetSelectedMonth, hangleDownloadRecord }) => {
 
-const AttendancePageFilter = ({ setSelectedYear, setSelectedMnth, hangleDownload }) => {
 
 
 
     return (
         <div className="flex items-center gap-2">
             <div className="border border-gray-300 dark:border-gray-700 py-1 px-3 rounded-md">
-                <select onChange={(e) => { setSelectedYear(e.target.value) }} className="bg-gray-50 text-gray-900 dark:text-gray-50 dark:bg-gray-900 outline-none px-2" name="" id="">
-                    <option value="">Select Year</option>
+                <select disabled value={SelectedYear} onChange={(e) => { setsetSelectedYear(e.target.value) }} className="bg-gray-50 text-gray-900 dark:text-gray-50 dark:bg-gray-900 outline-none px-2" name="" id="">
+                    <option value=''>Select Year</option>
 
                     <option value="2022">2022</option>
                     <option value="2023">2023</option>
@@ -25,8 +25,8 @@ const AttendancePageFilter = ({ setSelectedYear, setSelectedMnth, hangleDownload
 
 
             <div className="border border-gray-300 dark:border-gray-700 py-1 px-3 rounded-md">
-                <select onChange={(e) => { setSelectedMnth(e.target.value) }} className="bg-gray-50 text-gray-900 dark:text-gray-50 dark:bg-gray-900 outline-none px-2" name="" id="">
-                    <option value="">Select Month</option>
+                <select disabled value={SelectedMonth} onChange={(e) => { setsetSelectedMonth(e.target.value) }} className="bg-gray-50 text-gray-900 dark:text-gray-50 dark:bg-gray-900 outline-none px-2" name="" id="">
+                    <option value=''>Select Month</option>
                     <option value="january">January</option>
                     <option value="february">February</option>
                     <option value="march">March</option>
@@ -43,7 +43,7 @@ const AttendancePageFilter = ({ setSelectedYear, setSelectedMnth, hangleDownload
                 </select>
             </div>
 
-            <button className="border border-gray-300 dark:border-gray-700 py-1 px-3 cursor-pointer rounded-md bg-blue-700">
+            <button onClick={(e) => { hangleDownloadRecord(e) }} className="border border-gray-300 dark:border-gray-700 py-1 px-3 cursor-pointer rounded-md bg-blue-700">
                 Download Record
             </button>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import AssignOnShift from "../../../../../components/ecommerce/AssignOnShift";
 
 export default function AssignShift() {
     const [selectedShift, setSelectedShift] = useState("");
@@ -103,31 +104,23 @@ export default function AssignShift() {
             </div>
 
             {/* Preview Section */}
-            {assignments.length > 0 && (
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
-                    <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
-                        Assigned Employees
-                    </h2>
-                    <ul className="space-y-2">
-                        {assignments.map((a, index) => (
-                            <li
-                                key={index}
-                                className="flex items-center gap-3 p-3 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
-                            >
-                                <span className="text-xl">👤</span>
-                                <div>
-                                    <p className="font-medium text-gray-900 dark:text-gray-100">
-                                        {a.emp.name}
-                                    </p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                                        {a.shift.name}
-                                    </p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
+                <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
+                    Assigned Employees on Shift
+                </h2>
+
+
+                <div className="grid grid-cols-9 gap-5">
+                    <AssignOnShift />
+                    <AssignOnShift />
+                    <AssignOnShift />
+                    <AssignOnShift />
                 </div>
-            )}
+
+
+            </div>
+
         </div>
     );
 }

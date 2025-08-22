@@ -3,237 +3,20 @@
 import getCookie from "@/helper/cookie/gettooken";
 import { useCallback, useEffect, useState } from "react";
 import minutestohoursandminutesconvarter from "../../helper/minutestohoursandminutesconvarter";
+import generateSingleEmployeeAttendanceRecoard from "../../helper/pdfGenerator/generateSingleEmployeeAttendanceRecoard";
 import timeformate from "../../helper/timeformate";
+import BackBtn from "../common/BackBtn";
+import Loading from "../common/Loading";
+import AttendancePageFilter from "./AttendancePageFilter";
 
 
 const SingleAttendance = ({ id }) => {
 
-    const data = [
-        {
-            date: "14 Jan 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "06:45 PM",
-            break: "30 Min",
-            late: "32 Min",
-            overtime: "20 Min",
-            production: "8.55 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "21 Jan 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "06:12 PM",
-            break: "20 Min",
-            late: "-",
-            overtime: "45 Min",
-            production: "7.54 Hrs",
-            productionColor: "bg-red-500",
-        },
-        {
-            date: "20 Feb 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "06:13 PM",
-            break: "50 Min",
-            late: "-",
-            overtime: "33 Min",
-            production: "8.45 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "15 Mar 2024",
-            checkIn: "-",
-            status: "Absent",
-            checkOut: "-",
-            break: "-",
-            late: "-",
-            overtime: "-",
-            production: "-",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "12 Apr 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "06:43 PM",
-            break: "23 Min",
-            late: "-",
-            overtime: "10 Min",
-            production: "8.22 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "20 May 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "07:15 PM",
-            break: "03 Min",
-            late: "-",
-            overtime: "-",
-            production: "8.32 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "06 Jul 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "07:13 PM",
-            break: "32 Min",
-            late: "-",
-            overtime: "-",
-            production: "9.15 Hrs",
-            productionColor: "bg-blue-500",
-        },
-        {
-            date: "02 Sep 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "09:17 PM",
-            break: "14 Min",
-            late: "12 Min",
-            overtime: "-",
-            production: "8.35 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "10 Dec 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "09:23 PM",
-            break: "10 Min",
-            late: "-",
-            overtime: "45 Min",
-            production: "9.25 Hrs",
-            productionColor: "bg-blue-500",
-        },
-        {
-            date: "15 Nov 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "08:15 PM",
-            break: "12 Min",
-            late: "-",
-            overtime: "-",
-            production: "8.35 Hrs",
-            productionColor: "bg-green-500",
-        }, {
-            date: "14 Jan 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "06:45 PM",
-            break: "30 Min",
-            late: "32 Min",
-            overtime: "20 Min",
-            production: "8.55 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "21 Jan 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "06:12 PM",
-            break: "20 Min",
-            late: "-",
-            overtime: "45 Min",
-            production: "7.54 Hrs",
-            productionColor: "bg-red-500",
-        },
-        {
-            date: "20 Feb 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "06:13 PM",
-            break: "50 Min",
-            late: "-",
-            overtime: "33 Min",
-            production: "8.45 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "15 Mar 2024",
-            checkIn: "09:00 AM",
-            status: "Absent",
-            checkOut: "06:23 PM",
-            break: "41 Min",
-            late: "-",
-            overtime: "50 Min",
-            production: "8.35 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "12 Apr 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "06:43 PM",
-            break: "23 Min",
-            late: "-",
-            overtime: "10 Min",
-            production: "8.22 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "20 May 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "07:15 PM",
-            break: "03 Min",
-            late: "-",
-            overtime: "-",
-            production: "8.32 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "06 Jul 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "07:13 PM",
-            break: "32 Min",
-            late: "-",
-            overtime: "-",
-            production: "9.15 Hrs",
-            productionColor: "bg-blue-500",
-        },
-        {
-            date: "02 Sep 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "09:17 PM",
-            break: "14 Min",
-            late: "12 Min",
-            overtime: "-",
-            production: "8.35 Hrs",
-            productionColor: "bg-green-500",
-        },
-        {
-            date: "10 Dec 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "09:23 PM",
-            break: "10 Min",
-            late: "-",
-            overtime: "45 Min",
-            production: "9.25 Hrs",
-            productionColor: "bg-blue-500",
-        },
-        {
-            date: "15 Nov 2024",
-            checkIn: "09:00 AM",
-            status: "Present",
-            checkOut: "08:15 PM",
-            break: "12 Min",
-            late: "-",
-            overtime: "-",
-            production: "8.35 Hrs",
-            productionColor: "bg-green-500",
-        },
-    ];
-
-
 
     const token = getCookie();
     const [SingleEmployeeAttendance, setSingleEmployeeAttendance] = useState([]);
+    const [SelectedYear, setsetSelectedYear] = useState('');
+    const [SelectedMonth, setsetSelectedMonth] = useState('');
 
 
     // Fetch single employee information here
@@ -253,7 +36,6 @@ const SingleAttendance = ({ id }) => {
             if (response.ok) {
                 const res = await response.json();
                 setSingleEmployeeAttendance(res);
-
             } else {
                 console.error("Failed to fetch single employee attendance");
             }
@@ -275,11 +57,52 @@ const SingleAttendance = ({ id }) => {
 
 
     //log here
+    console.log('this is the log');
     console.log(SingleEmployeeAttendance);
+
+
+    //handle download record here
+    const handledownloadrecord = (e) => {
+
+        // --- Table Data ---
+        // Table data
+        const headers = [["Date", "Status", "CheckIn", "CheckOut", "Late", "OverTime", "Production Hours"]];
+
+
+        const passdata = [];
+        SingleEmployeeAttendance?.map((i, index) => {
+            const subarr = [];
+            subarr.push(i?.date);
+            subarr.push(i?.in_time);
+            subarr.push(i?.status);
+            subarr.push(i?.out_time);
+            subarr.push(i?.late);
+            subarr.push(i?.overtime);
+            subarr.push(i?.production_hours);
+            passdata.push(subarr);
+        })
+
+
+
+
+        // call to generator the pdf file recoard
+        generateSingleEmployeeAttendanceRecoard(headers, passdata, SingleEmployeeAttendance[0].employee_eid, SingleEmployeeAttendance[0]?.employee_name, SingleEmployeeAttendance[0]?.employee_designation, SingleEmployeeAttendance[0]?.monthYear, SingleEmployeeAttendance[0]?.shifts);
+
+    }
+
 
 
     return (
         <div className={''}>
+
+            {SingleEmployeeAttendance?.length < 1 && <Loading />}
+
+            <div className="flex justify-end">
+                <div className="flex text-white p-5 items-center gap-2">
+                    <BackBtn />
+                    <AttendancePageFilter SelectedYear={SelectedYear} setsetSelectedYear={setsetSelectedYear} SelectedMonth={SelectedMonth} setsetSelectedMonth={setsetSelectedMonth} hangleDownloadRecord={handledownloadrecord} />
+                </div>
+            </div>
 
             <div className="overflow-x-auto rounded-md">
                 <table className="min-w-full border-collapse">

@@ -1,151 +1,408 @@
 "use client";
 
-import FilterSearch from "@/components/common/FilterSearch";
-import getRole from "@/helper/cookie/getrole";
-import { CalendarDays, CheckCircle, Clock, Plane, Star, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import demoimage from "../../../public/images/user/demo.jpeg";
-import AttendanceSummary from "../..//components/common/AttandanceSummaryWrper";
-import Loading from "../common/Loading";
+import demoprofil from "../../../public/images/user/demo.jpeg";
+
 
 const AttendanceCalendar = ({ AttendanceData }) => {
 
 
-    const role = getRole();
 
-    const renderIcon = (status) => {
-        switch (status) {
-            case "Present":
-                return <CheckCircle className="w-5 h-5 text-green-500" />;
-            case "Absent":
-                return <XCircle className="w-5 h-5 text-red-500" />;
-            case "Late":
-                return <Clock className="w-5 h-5 text-yellow-500" />;
-            case "Half":
-                return <Star className="w-5 h-5 text-orange-500" />;
-            case "Leave":
-                return <Plane className="w-5 h-5 text-purple-500" />;
-            case "Holiday":
-                return <CalendarDays className="w-5 h-5 text-blue-500" />;
-            default:
-                return null;
+
+    // Utility function to get the appropriate class for late percentage
+    const getLateClass = (latePercentage) => {
+        // Check if the percentage is a number and above a certain threshold for the red background
+        const numericPercentage = parseInt(latePercentage, 10);
+        if (!isNaN(numericPercentage) && numericPercentage > 10) {
+            return 'bg-red-200 dark:bg-red-800 dark:text-red-100';
         }
+        return '';
     };
-    const [idorname, setidorname] = useState('');
-    const filter = AttendanceData?.employees?.filter((emp) => {
-
-        return emp?.employee?.employee?.user?.name?.toUpperCase().includes(idorname?.toUpperCase())
-    });
 
 
-    // console.log(AttendanceData?.employees);
 
-
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth(); // 0 = Jan, 1 = Feb, ...
-
-    // get total days in this month
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    // Hardcoded data to populate the table.
+    const tableData = [
+        {
+            date: '5',
+            name: 'Ziaul',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: '8%',
+            worked: '25',
+        },
+        {
+            date: '4',
+            name: 'Shahin',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '26',
+        },
+        {
+            date: '4',
+            name: 'Showrov',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '27',
+        },
+        {
+            date: '5',
+            name: 'Sakib',
+            totalDay: '5',
+            weekend: '2',
+            leave: '1',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '24',
+        },
+        {
+            date: '2',
+            name: 'Saidul',
+            totalDay: '4',
+            weekend: '4',
+            leave: '2',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: '25%',
+            worked: '25.5',
+        },
+        {
+            date: '2',
+            name: 'Ashik',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '1',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '24%',
+            worked: '25.5',
+        },
+        {
+            date: '3',
+            name: 'Hossain',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '25',
+        },
+        {
+            date: '1',
+            name: 'Reyhan',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '1',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '24.5',
+        },
+        {
+            date: '1',
+            name: 'Shamsul',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '1',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '24.5',
+        },
+        {
+            date: '2',
+            name: 'Abir',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '2',
+            absent: '0',
+            late: '14',
+            latePercentage: '50%',
+            worked: '25.5',
+        },
+        {
+            date: '2',
+            name: 'Noyem',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '23.5',
+        },
+        {
+            date: '3',
+            name: 'Ashiqur',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '24.5',
+        },
+        {
+            date: '3',
+            name: 'Hasan',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '24.5',
+        },
+        {
+            date: '3',
+            name: 'Mahabub',
+            totalDay: '5',
+            weekend: '0',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '24.5',
+        },
+        {
+            date: '2',
+            name: 'Sagor',
+            totalDay: '4',
+            weekend: '4',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '25.5',
+        },
+        {
+            date: '2',
+            name: 'Saiful',
+            totalDay: '4',
+            weekend: '4',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '25.5',
+        },
+        {
+            date: '2',
+            name: 'Amena',
+            totalDay: '4',
+            weekend: '4',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '0',
+            latePercentage: 'No late',
+            worked: '25.5',
+        },
+        {
+            date: '2',
+            name: 'Tareq',
+            totalDay: '4',
+            weekend: '1',
+            leave: '1',
+            halfDay: '0',
+            absent: '0',
+            late: '2',
+            latePercentage: '10%',
+            worked: '26',
+        },
+        {
+            date: '4',
+            name: 'Hasib',
+            totalDay: '4',
+            weekend: '4',
+            leave: '1',
+            halfDay: '1',
+            absent: '0',
+            late: '4',
+            latePercentage: '18%',
+            worked: '26.5',
+        },
+        {
+            date: '4',
+            name: 'Hooib',
+            totalDay: '5',
+            weekend: '5',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '4',
+            latePercentage: '4%',
+            worked: '27',
+        },
+        {
+            date: '5',
+            name: 'Istiyak',
+            totalDay: '5',
+            weekend: '5',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '4',
+            latePercentage: '4%',
+            worked: '27',
+        },
+        {
+            date: '5',
+            name: 'Mitu',
+            totalDay: '2',
+            weekend: '0',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '1',
+            latePercentage: 'No late',
+            worked: '28',
+        },
+        {
+            date: '2',
+            name: 'Abdullah',
+            totalDay: '0',
+            weekend: '2',
+            leave: '0',
+            halfDay: '0',
+            absent: '0',
+            late: '2',
+            latePercentage: '28',
+            worked: '25',
+        },
+    ];
 
 
 
     console.log(AttendanceData);
 
 
-
     return (
-        <div className={`w-full`}>
+        <div className={`bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50 transition-colors duration-300 min-h-screen`}>
+            <h1 className="pt-1 pb-5 text-gray-600 dark:text-gray-200 text-xl font-bold">Report of the Month and Year: <span className="text-gray-400 font-semibold text-2xl">{AttendanceData[0]?.monthYear}</span> </h1>
+            <div className="overflow-x-auto rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead className="bg-gray-100 dark:bg-gray-800">
 
-            {AttendanceData.length === 0 && <Loading />}
-
-            <AttendanceSummary summarydata={AttendanceData?.counters} />
-
-            {/* Header */}
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Attendance Calendar</h2>
-                <div className="w-[300px]">
-                    <FilterSearch seter={setidorname} />
-                </div>
-            </div>
-
-            {/* Legend */}
-            <div className="flex flex-wrap gap-4 text-sm mb-6">
-                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                    <CheckCircle className="w-4 h-4 text-green-500" /> Present
-                </div>
-                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                    <XCircle className="w-4 h-4 text-red-500" /> Absent
-                </div>
-                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                    <Clock className="w-4 h-4 text-yellow-500" /> Late
-                </div>
-                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                    <Star className="w-4 h-4 text-orange-500" /> Half Day
-                </div>
-                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                    <Plane className="w-4 h-4 text-purple-500" /> On Leave
-                </div>
-                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                    <CalendarDays className="w-4 h-4 text-blue-500" /> Holiday
-                </div>
-            </div>
-
-            {/* Table */}
-            <div className="rounded-lg shadow-lg border dark:border-gray-700 overflow-x-scroll lg:w-[78vw]">
-                <table className="w-full border-collapse overflow-x-scroll">
-                    <thead className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm ">
                         <tr>
-                            <th className="p-3 text-left font-semibold">Sl</th>
-                            <th className="p-3 text-left font-semibold">ID </th>
-                            <th className="p-3 text-left font-semibold">Employee</th>
-                            <th className="p-3 text-left font-semibold">View Full</th>
-                            {Array.from({ length: daysInMonth }, (_, i) => (
-                                <th key={i} className="p-3 text-center font-semibold">{i + 1}</th>
-                            ))}
+                            {/* Main table headers */}
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center border-r border-gray-200 dark:border-gray-700">
+                                Sl
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-left border-r border-gray-200 dark:border-gray-700">
+                                ID
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-left border-r border-gray-200 dark:border-gray-700">
+                                Name/Image/View
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center border-r border-gray-200 dark:border-gray-700">
+                                Weekend
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center border-r border-gray-200 dark:border-gray-700">
+                                Leave
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center border-r border-gray-200 dark:border-gray-700">
+                                Half Day
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center border-r border-gray-200 dark:border-gray-700">
+                                Absent
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center border-r border-gray-200 dark:border-gray-700">
+                                Late
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center border-r border-gray-200 dark:border-gray-700">
+                                Late (%)
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center border-r border-gray-200 dark:border-gray-700">
+                                Worked
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center border-r border-gray-200 dark:border-gray-700">
+                                Total Day
+                            </th>
+                            <th scope="col" className="px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">
+                                Shift
+                            </th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-gray-800 text-sm">
-                        {filter?.map((item, index) => {
-                            return (
-                                <tr key={index} className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                                    <td className="p-3 text-center text-gray-700 dark:text-gray-300 font-medium">
-                                        {index + 1}
-                                    </td>
-                                    <td className="p-3 text-center text-gray-700 dark:text-gray-300 font-medium">
-                                        {item?.employee?.employee?.eid}
-                                    </td>
-
-                                    <td className="flex w-[150px] items-center gap-3 p-3">
-                                        <Image width={1000} height={1000} src={item?.image ? item?.image : demoimage} alt={item?.employee?.employee?.fname + " " + item?.employee?.employee?.lname} className="w-8 h-8 rounded-full border dark:border-gray-600" />
-                                        <span className="text-gray-700 dark:text-gray-300 font-medium">{item?.employee?.employee?.fname + " " + item?.employee?.employee?.lname}</span>
-                                    </td>
-                                    <td className="p-3 text-center text-blue-700 dark:text-blue-300 font-medium">
-                                        <Link
-                                            href={
-                                                role === "Admin"
-                                                    ? `/admin/employee/attendance/${item?.employee?.employee?.id}`
-                                                    : `/hr/employee/attendance/${item?.employee?.employee?.id}`
-                                            }
-                                        >
-                                            View
-                                        </Link>
-                                    </td>
-                                    {
-                                        item?.attendance?.map((aItem, index) => (
-                                            <td key={index} className="p-3 text-center text-white">
-                                                {renderIcon(aItem?.status)}
-                                            </td>
-                                        ))
-                                    }
-                                </tr>
-                            )
-                        })}
+                    <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                        {/* Map through the data to render table rows */}
+                        {AttendanceData?.map((row, index) => (
+                            <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                                <td className="px-1 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
+                                    {index + 1}
+                                </td>
+                                <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
+                                    {row?.employee_eid}
+                                </td>
+                                <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400 font-medium border-r border-gray-200 dark:border-gray-700">
+                                    <Link className="flex items-center gap-2" href={`/admin/employee/attendance/${row?.employee_id}`}>
+                                        <Image width={1000} height={1000} src={row?.avatar || demoprofil} className="rounded-full w-[30px] border border-gray-500 h-[30px]" alt="employee-profile" />
+                                        <span className="underline decoration-solid">{row?.employee_name}</span>
+                                    </Link>
+                                </td>
+                                <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
+                                    {row?.summary?.Holiday}
+                                </td>
+                                <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
+                                    {row?.summary?.Leave}
+                                </td>
+                                <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
+                                    {row?.summary?.Half}
+                                </td>
+                                <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
+                                    {row?.summary?.Absent}
+                                </td>
+                                <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
+                                    {row?.summary?.Late}
+                                </td>
+                                <td className={`px-3 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400 text-center ${getLateClass(row?.late_percentage)} font-semibold border-r border-gray-200 dark:border-gray-700`}>
+                                    {row?.late_percentage}%
+                                </td>
+                                <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
+                                    {row?.summary?.Present}
+                                </td>
+                                <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
+                                    {row?.total_days}
+                                </td>
+                                <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                    {row?.shift}
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
-            </div >
+            </div>
         </div >
     );
 };
