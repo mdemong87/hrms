@@ -4,6 +4,8 @@ import SingleEmployeeInfo from "@/components/ecommerce/SingleEmployeeInfo";
 
 const SingleEmployee = async ({ params }) => {
 
+
+    /************* get the single employee id from the params **************/
     const { id } = await params;
 
     return (

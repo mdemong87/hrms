@@ -1,7 +1,5 @@
 function minutestohoursandminutesconvarter(value) {
 
-    console.log(value);
-
     if (typeof value !== "number" || isNaN(value)) {
         return `-`
     }

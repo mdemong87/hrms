@@ -5,12 +5,8 @@ const singleUserProfile = async ({ params }) => {
 
 
 
-    //single route unique id
+    /********* single route unique id get from the params *******/
     const { id } = await params;
-
-
-
-
 
 
 

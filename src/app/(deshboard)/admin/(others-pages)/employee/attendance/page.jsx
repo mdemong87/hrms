@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import AttendancePageFilter from "../../../../../../components/ecommerce/AttendancePageFilter";
 import generateAllEmployeeAttendanceDataRecord from "../../../../../../helper/pdfGenerator/generateAllEmployeeAttendanceDataRecord";
 
+
 const SingleEmployeeAttendancesPage = () => {
 
 
@@ -15,7 +16,9 @@ const SingleEmployeeAttendancesPage = () => {
     const [SelectedYear, setsetSelectedYear] = useState('');
     const [SelectedMonth, setsetSelectedMonth] = useState('');
 
-    // Fetch all Employee here
+
+
+    /****************** Get All Employee Attendance information Here *******************/
     const getAllEmployeesAttendance = useCallback(async () => {
         try {
             const response = await fetch(
@@ -40,7 +43,9 @@ const SingleEmployeeAttendancesPage = () => {
         }
     }, [token]);
 
-    // Run once on component mount
+
+
+    /************* Run once on component mount **************/
     useEffect(() => {
         getAllEmployeesAttendance();
     }, [getAllEmployeesAttendance]);
@@ -49,20 +54,17 @@ const SingleEmployeeAttendancesPage = () => {
 
 
 
-
-
-
-
-
-    //handle download record here
+    /************* Download All Employee Record From Here *************/
     const handledownloadrecord = (e) => {
 
 
 
-        // --- Table Data ---
-        // Table data
+
+        // Table genaratable pdf record table Title Assign here
         const headers = [["Sl", "Id", "Name", "Weekend", "Leave", "Half Day", "Absent", "Late", "Late (%)", "Worked", "Total Day", "Working Shift"]];
 
+
+        // preper the pdf body data here
         const passdata = [];
         allsmployessattendances?.map((i, index) => {
             const subarr = [];
@@ -83,12 +85,10 @@ const SingleEmployeeAttendancesPage = () => {
 
 
 
-        // call to generator the pdf file recoard
+        // call to generator of the pdf recoard of ALL Employee information of a month
         generateAllEmployeeAttendanceDataRecord(headers, passdata, allsmployessattendances[0]?.monthYear);
 
     }
-
-
 
 
     return (

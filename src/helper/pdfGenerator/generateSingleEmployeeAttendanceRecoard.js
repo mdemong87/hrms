@@ -3,24 +3,37 @@ import autoTable from "jspdf-autotable";
 import logo from "../../../public/images/logo/logo.png";
 
 const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name, position, monthyear, shiftname) => {
+
+
+    /******** initialize the doc from jspdf  *********/
     const doc = new jsPDF();
 
+
+
+    /*********** get the page width and height ************/
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
 
-    // Header rectangle
+
+    /************ Header rectangle area (for frist page only) ************/
     doc.setFillColor(21, 68, 230); // dark blue
     doc.rect(0, 0, doc.internal.pageSize.getWidth(), 40, "F"); // height 40
+
 
 
     const companyName = "";
     const textWidth = doc.getTextWidth(companyName);
     const x = (pageWidth - textWidth) / 2; // center
     doc.text(companyName, x, 15);
-    // --- Add Company Logo ---
+
+
+
+    /************ Add Company Logo *************/
     doc.addImage(logo.src, "PNG", 78, 8, 53, 15); // x, y, width, height
 
-    // --- Report Title ---
+
+
+    /********** Report Title ************/
     doc.setFontSize(14);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(255, 255, 255);
@@ -31,7 +44,7 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
 
 
 
-    // --- Report Title ---
+    /*********** Employee Information ***********/
     doc.setFontSize(14);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(0, 0, 0);
@@ -49,13 +62,15 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
 
 
 
-    // --- Optional: Date / metadata ---
+    /*************** printing date ***************/
     const today = new Date().toLocaleDateString();
     doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
     doc.text(`Date: ${today}`, pageWidth - 40, 82);
 
 
+
+    /************** make a table from the all data *****************/
     autoTable(doc, {
         head: headers,
         body: data,
@@ -64,6 +79,8 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
         headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: "bold" },
         alternateRowStyles: { fillColor: [245, 245, 245] },
 
+
+        /******* page number added ******/
         didDrawPage: () => {
             const pageCount = doc.internal.getNumberOfPages();
             const pageCurrent = doc.internal.getCurrentPageInfo().pageNumber;
@@ -77,6 +94,8 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
         },
     });
 
+
+    /**************** save the document as a pdf document *****************/
     doc.save("Single Employee Mohthly Attendance Report.pdf");
 };
 

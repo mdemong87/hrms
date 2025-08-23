@@ -4,7 +4,6 @@ const addEmplyee = () => {
 
     return (
         <div>
-            {/* <PageBreadcrumb pageTitle={'Employee Add'} /> */}
             <AddAmployeeWper />
         </div>
     )

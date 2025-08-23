@@ -13,6 +13,10 @@ import { IoMdAdd } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
 
 const Shift = () => {
+
+
+    const router = useRouter();
+    const token = getCookie();
     const [name, setName] = useState('');
     const [endtime, setendtime] = useState('');
     const [starttime, setstarttime] = useState('');
@@ -20,10 +24,9 @@ const Shift = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [shift, setshift] = useState([]);
 
-    const router = useRouter();
-    const token = getCookie();
 
-    // Fetch all departments
+
+    /*************** Get All Shift Here ******************/
     const getshift = useCallback(async () => {
         try {
             const response = await fetch(
@@ -48,12 +51,16 @@ const Shift = () => {
         }
     }, [token]);
 
-    // Run once on component mount
+
+
+    /****************** Run once on component mount ********************/
     useEffect(() => {
         getshift();
     }, [getshift]);
 
-    //handle add function here
+
+
+    /*************** Added New shift function here ******************/
     const handleAddshift = async () => {
         if (name == '' || starttime == '' || endtime == '' || latecount == '') {
             toast.warn("Shift name is required");
@@ -106,7 +113,10 @@ const Shift = () => {
         }
     };
 
-    //handle delete function here
+
+
+
+    /******************** Delete Shift function here *********************/
     async function hanldedelete(e, id) {
         e.preventDefault();
         setIsLoading(true);
@@ -150,6 +160,8 @@ const Shift = () => {
 
 
     }
+
+
 
     return (
         <div>

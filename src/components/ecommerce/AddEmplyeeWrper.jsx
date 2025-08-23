@@ -53,18 +53,21 @@ const AddAmployeeWper = () => {
 
 
 
+    /*************** added new Employee on the system***************/
     async function handlesave(e) {
         e.preventDefault();
 
+        //check the password is less then 8 characters
         if (formdata.password?.length < 8) {
             toast.warn("Password is too short. It must be at least 8 characters.");
+            setIsError(true);
             return;
         }
 
 
+        //check user Fill up all required feilds or not
         if (!formdata?.fname || !formdata?.lname || !formdata?.gender || !formdata?.meritalstatus || !formdata?.emergencycontactname || !formdata?.emergencycontactphone || !formdata?.address || !formdata?.designation || !formdata?.emplyeetype || !formdata?.probitionprioed || !formdata?.reportingmanager || !formdata?.nationalid || !formdata?.role || !formdata?.password || !formdata?.level || (formdata.department_id <= -1) || (formdata.workshift <= -1) || formdata.dob == 0 || formdata.joindate == 0) {
             setIsError(true);
-            console.log(formdata);
             return;
         }
 
@@ -85,6 +88,8 @@ const AddAmployeeWper = () => {
                 fd.append("image", imageFile);
             }
 
+
+            //send a post request in the backend
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees`, {
                 method: "POST",
                 headers: {
@@ -98,6 +103,8 @@ const AddAmployeeWper = () => {
                 const data = await response.json();
                 console.log(response);
                 toast.success("Employee Added successful");
+
+                // role base redirect all employee page after successfully employee added
                 setTimeout(() => {
                     switch (accessrole) {
                         case "Admin":
@@ -126,7 +133,7 @@ const AddAmployeeWper = () => {
     }
 
 
-    // Fetch all departments
+    /************* Fetch all departments and shift here **************/
     const getDepartmentsAndShift = useCallback(async () => {
         try {
             const response = await fetch(
@@ -151,7 +158,8 @@ const AddAmployeeWper = () => {
         }
     }, [token]);
 
-    // Run once on component mount
+
+    /******************* Run once on component mount *****************/
     useEffect(() => {
         getDepartmentsAndShift();
     }, [getDepartmentsAndShift]);

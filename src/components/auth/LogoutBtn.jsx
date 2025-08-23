@@ -5,16 +5,24 @@ import SetCookie from "../../helper/cookie/setcookie";
 
 function Logout() {
 
+
+    //get the router
     const router = useRouter();
 
-    //handle signout functin here
+
+
+    /****************** logout function  ********************/
     async function handlesignout(e) {
         e.preventDefault();
 
         try {
 
+            // get the token from cookie
             const token = getCookie();
 
+
+
+            /************* send the token in the server and signout *************/
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/logout`, {
                 method: "POST",
                 headers: {
@@ -41,7 +49,6 @@ function Logout() {
         } catch (error) {
             console.error("Error during signOut:", error);
         }
-
     }
 
 

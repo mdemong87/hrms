@@ -15,15 +15,18 @@ import { toast, ToastContainer } from "react-toastify";
 
 
 const Department = () => {
+
+
+    const router = useRouter();
+    const token = getCookie();
     const [name, setName] = useState("");
     const [des, setDes] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [departments, setDepartments] = useState([]);
 
-    const router = useRouter();
-    const token = getCookie();
 
-    // Fetch all departments
+
+    /**************** Get All Departments ****************/
     const getDepartments = useCallback(async () => {
         try {
             const response = await fetch(
@@ -48,12 +51,16 @@ const Department = () => {
         }
     }, [token]);
 
-    // Run once on component mount
+
+
+    /************** Run once on component mount ************/
     useEffect(() => {
         getDepartments();
     }, [getDepartments]);
 
-    //handle add function here
+
+
+    /******************* Department Add function here ******************/
     const handleAddDepartment = async () => {
         if (name == '') {
             toast.warn("Department name is required");
@@ -95,7 +102,10 @@ const Department = () => {
         }
     };
 
-    //handle delete function here
+
+
+
+    /******************* Department Delete function here *********************/
     async function hanldedelete(e, id) {
         e.preventDefault();
         setIsLoading(true);

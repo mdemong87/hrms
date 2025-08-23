@@ -34,7 +34,7 @@ const SingleEmployeeInfo = ({ id }) => {
         eid: '',
         fname: '',
         lname: '',
-        dob: '',
+        dob: 0,
         gender: '',
         meritalstatus: '',
         email: '',
@@ -42,13 +42,13 @@ const SingleEmployeeInfo = ({ id }) => {
         emergencycontactname: '',
         emergencycontactphone: '',
         address: '',
-        department_id: '',
+        department_id: -1,
         designation: '',
         emplyeetype: '',
-        joindate: '',
+        joindate: 0,
         probitionprioed: '',
         reportingmanager: '',
-        workshift: '',
+        workshift: -1,
         nationalid: '',
         role: '',
         password: '',
@@ -56,7 +56,7 @@ const SingleEmployeeInfo = ({ id }) => {
     });
 
 
-    // Fetch single employee information here
+    /**************** Fetch Single Employee information here ****************/
     const getSingleEmployee = useCallback(async (id) => {
         try {
             const response = await fetch(
@@ -110,7 +110,9 @@ const SingleEmployeeInfo = ({ id }) => {
     }, [token]);
 
 
-    // Fetch all departments here
+
+
+    /***************** Fetch all departments here *******************/
     const getDepartmentsAndShift = useCallback(async () => {
         try {
             const response = await fetch(
@@ -135,7 +137,9 @@ const SingleEmployeeInfo = ({ id }) => {
         }
     }, [token]);
 
-    // Run once on component mount
+
+
+    /************* Run once on component mount **************/
     useEffect(() => {
         getDepartmentsAndShift();
         getSingleEmployee(id);
@@ -143,10 +147,9 @@ const SingleEmployeeInfo = ({ id }) => {
 
 
 
-    console.log(DepartmentsAndShift);
 
 
-    //hanlde employee delete function here
+    /**************** A Single Employee delete functionality here *****************/
     async function handledelect(e, id) {
         e.preventDefault();
         const isdeletetrue = confirm("Are you Sure to Delete This Employee");
@@ -205,8 +208,7 @@ const SingleEmployeeInfo = ({ id }) => {
 
 
 
-
-
+    /**************** A Single Employee Update/Edit functionality here *****************/
     async function handlesave(e, id) {
         e.preventDefault();
 
@@ -270,10 +272,6 @@ const SingleEmployeeInfo = ({ id }) => {
             console.error(error);
         }
     }
-
-
-
-
 
 
 
@@ -605,7 +603,7 @@ const SingleEmployeeInfo = ({ id }) => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Password / Temporary Password</Label>
-                                        <Input disabled={isdisable} value={formdata?.password} type="text" onChange={(e) =>
+                                        <Input disabled={isdisable} value={formdata?.password} placeholder={"************"} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 password: e.target.value

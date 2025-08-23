@@ -45,13 +45,10 @@ export default function SignInForm() {
         body: JSON.stringify(userdata) // Convert JS object to JSON string
       });
 
-
-      console.log(response);
       // Handle response
       if (response.ok) {
         setisloading(false);
         const data = await response.json();
-        console.log(data);
         const role = data?.user?.role;
         const id = data?.employee?.id;
         SetCookie("token", data.access_token, data.expires_in);

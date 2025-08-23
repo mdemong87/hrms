@@ -6,19 +6,26 @@ const generateAllEmployeeAttendanceDataRecord = async (headers, data, monthyear)
 
 
 
+    /******* initialaze the doc from jspdf *******/
     const doc = new jsPDF("landscape");
 
+
+
+    /******** get the page width and height**********/
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
 
-    // --- Header rectangle (first page only) ---
+
+    /******** Header rectangle area (first page only) ******/
     doc.setFillColor(21, 68, 230);
     doc.rect(0, 0, pageWidth, 40, "F");
 
-    // --- Add Company Logo ---
+
+    /*********** Add Company Logo ************/
     doc.addImage(logo.src, "PNG", 122, 8, 53, 15);
 
-    // --- Report Title ---
+
+    /********** Report Title ********/
     doc.setFontSize(14);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(255, 255, 255);
@@ -26,19 +33,22 @@ const generateAllEmployeeAttendanceDataRecord = async (headers, data, monthyear)
     const reportWidth = doc.getTextWidth(reportTitle);
     doc.text(reportTitle, (pageWidth - reportWidth) / 2, 30);
 
-    // --- Employee Info ---
+
+    /********* print report of the mothe and year *********/
     doc.setFontSize(14);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(0, 0, 0);
     doc.text(`Report of the Month: ${monthyear}`, 15, 52);
 
-    // --- Date ---
+
+    /********* print date ********/
     const today = new Date().toLocaleDateString();
     doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
     doc.text(`Printing Date: ${today}`, pageWidth - 55, 52);
 
-    // --- Table with Page Numbers ---
+
+    /********* make a table *******/
     autoTable(doc, {
         head: headers,
         body: data,
@@ -47,6 +57,8 @@ const generateAllEmployeeAttendanceDataRecord = async (headers, data, monthyear)
         headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: "bold" },
         alternateRowStyles: { fillColor: [245, 245, 245] },
 
+
+        /******** Table with Page Numbers ******/
         didDrawPage: () => {
             const pageCount = doc.internal.getNumberOfPages();
             const pageCurrent = doc.internal.getCurrentPageInfo().pageNumber;
@@ -60,6 +72,8 @@ const generateAllEmployeeAttendanceDataRecord = async (headers, data, monthyear)
         },
     });
 
+
+    /*********** save as a pdf document ********/
     doc.save("All Employee Attendance.pdf");
 };
 

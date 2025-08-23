@@ -19,7 +19,7 @@ const SingleAttendance = ({ id }) => {
     const [SelectedMonth, setsetSelectedMonth] = useState('');
 
 
-    // Fetch single employee information here
+    /****************** Get Single Employee Information Here *******************/
     const getSingleEmployeeAttendance = useCallback(async (id) => {
         try {
             const response = await fetch(
@@ -47,7 +47,7 @@ const SingleAttendance = ({ id }) => {
 
 
 
-    // Run once on component mount
+    /**************** Run once on component mount *****************/
     useEffect(() => {
         getSingleEmployeeAttendance(id);
     }, [getSingleEmployeeAttendance, id]);
@@ -55,20 +55,15 @@ const SingleAttendance = ({ id }) => {
 
 
 
-
-    //log here
-    console.log('this is the log');
-    console.log(SingleEmployeeAttendance);
-
-
-    //handle download record here
+    /************* Download Single Employee Record From Here *************/
     const handledownloadrecord = (e) => {
 
-        // --- Table Data ---
-        // Table data
+
+        // Table genaratable pdf record table Title Assign here
         const headers = [["Date", "Status", "CheckIn", "CheckOut", "Late", "OverTime", "Production Hours"]];
 
 
+        // preper the pdf body data here
         const passdata = [];
         SingleEmployeeAttendance?.map((i, index) => {
             const subarr = [];
@@ -83,9 +78,7 @@ const SingleAttendance = ({ id }) => {
         })
 
 
-
-
-        // call to generator the pdf file recoard
+        // call to generator of the pdf recoard of single employee information of a month
         generateSingleEmployeeAttendanceRecoard(headers, passdata, SingleEmployeeAttendance[0].employee_eid, SingleEmployeeAttendance[0]?.employee_name, SingleEmployeeAttendance[0]?.employee_designation, SingleEmployeeAttendance[0]?.monthYear, SingleEmployeeAttendance[0]?.shifts);
 
     }
