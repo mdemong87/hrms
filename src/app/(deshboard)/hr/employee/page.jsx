@@ -6,7 +6,6 @@ import getCookie from "@/helper/cookie/gettooken";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { GrView } from "react-icons/gr";
 import { IoMdAdd } from "react-icons/io";
 import demoprofile from "../../../../../public/images/user/demo.jpeg";
 import Loading from "../../../../components/common/Loading";
@@ -109,9 +108,6 @@ const AllEmployee = () => {
                                 <th scope="col" className="px-6 py-3">
                                     Level / Grade
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    View Full
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,12 +122,14 @@ const AllEmployee = () => {
                                                 {index + 1}
                                             </td>
                                             <td className="text-center">{item?.eid}</td>
-                                            <th scope="row" className="flex items-center px-6 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300">
-                                                <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="Jese image" />
-                                                <div className="ps-3">
-                                                    <div className="text-base font-semibold">{item?.fname + " " + item?.lname}</div>
-                                                </div>
-                                            </th>
+                                            <td className="px-6 py-4">
+                                                <Link className="flex items-center gap-1 text-gray-700 whitespace-nowrap dark:text-gray-300" href={`/hr/employee/${item?.id}`}>
+                                                    <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="Jese image" />
+                                                    <div className="ps-3 pl-0 underline">
+                                                        <div className="text-base font-semibold">{item?.fname + " " + item?.lname}</div>
+                                                    </div>
+                                                </Link>
+                                            </td>
                                             <td className="px-6 py-4">
                                                 {item?.email}
                                             </td>
@@ -149,12 +147,6 @@ const AllEmployee = () => {
                                             </td>
                                             <td className="px-6 py-4">
                                                 {item?.level}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <Link className="underline flex gap-1 items-center flex-col text-gray-700 dark:text-gray-300" href={`/hr/employee/${item?.id}`}>
-                                                    <GrView className="" />
-                                                    <span>view</span>
-                                                </Link>
                                             </td>
                                         </tr>
                                     )

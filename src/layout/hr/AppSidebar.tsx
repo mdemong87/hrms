@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FaDollarSign, FaTasks } from "react-icons/fa";
+import { FaDollarSign, FaShekelSign, FaTasks } from "react-icons/fa";
 import { GrUserWorker } from "react-icons/gr";
 import { MdOutlineHolidayVillage } from "react-icons/md";
 import { PiOfficeChairBold } from "react-icons/pi";
@@ -35,7 +35,7 @@ const navItems: NavItem[] = [
   {
     icon: <GrUserWorker className="text-xl" />,
     name: "Employees",
-    subItems: [{ name: "My Attendance", path: "/hr/attendance", pro: false }, { name: "Mark Attendance", path: "/hr/attendancemark", pro: false }, { name: "All Employee", path: "/hr/employee", pro: false }, { name: "Add Employee", path: "/hr/employee/add", pro: false }],
+    subItems: [{ name: "My Attendance", path: "/hr/myattendance", pro: false }, { name: "Mark Attendance", path: "/hr/attendancemark", pro: false }, { name: "All Attendance", path: "/hr/allattendance", pro: false }, { name: "All Employee", path: "/hr/employee", pro: false }, { name: "Add Employee", path: "/hr/employee/add", pro: false }],
   },
   {
     icon: <FaTasks className="text-xl" />,
@@ -56,6 +56,11 @@ const navItems: NavItem[] = [
     icon: <TfiAnnouncement className="text-xl" />,
     name: "Announcement",
     path: "/hr/announcement",
+  },
+  {
+    icon: <FaShekelSign className="text-2xl" />,
+    name: "Duty Shift",
+    subItems: [{ name: "Add Shift", path: "/hr/shift", pro: false }, { name: "Assign to Shift", path: "/hr/assigntoshift", pro: false }],
   },
   {
     icon: <CalenderIcon />,
