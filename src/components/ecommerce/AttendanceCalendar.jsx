@@ -2,12 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import demoprofil from "../../../public/images/user/demo.jpeg";
+import FilterSearch from "../common/FilterSearch";
 
 
 const AttendanceCalendar = ({ AttendanceData }) => {
 
 
+
+    const [searchvalue, setsearchvalue] = useState('');
 
 
     // Utility function to get the appropriate class for late percentage
@@ -305,12 +309,21 @@ const AttendanceCalendar = ({ AttendanceData }) => {
 
 
 
+    // add search filter functionalaty here
+    const filter = AttendanceData?.filter(emp => emp?.employee_name?.toUpperCase().includes(searchvalue?.toUpperCase()));
+
+
     console.log(AttendanceData);
 
 
     return (
         <div className={`bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50 transition-colors duration-300 min-h-screen`}>
-            <h1 className="pt-1 pb-5 text-gray-600 dark:text-gray-200 text-xl font-bold">Report of the Month and Year: <span className="text-gray-400 font-semibold text-2xl">{AttendanceData[0]?.monthYear}</span> </h1>
+            <div className="flex items-center justify-between">
+                <h1 className="pt-1 pb-5 text-gray-600 dark:text-gray-200 text-xl font-bold">Report of the Month and Year: <span className="text-gray-400 font-semibold text-2xl">{AttendanceData[0]?.monthYear}</span> </h1>
+                <div className="w-[300px] pb-5">
+                    <FilterSearch seter={setsearchvalue} />
+                </div>
+            </div>
             <div className="overflow-x-auto rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead className="bg-gray-100 dark:bg-gray-800">
@@ -357,7 +370,7 @@ const AttendanceCalendar = ({ AttendanceData }) => {
                     </thead>
                     <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                         {/* Map through the data to render table rows */}
-                        {AttendanceData?.map((row, index) => (
+                        {filter?.map((row, index) => (
                             <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                                 <td className="px-1 py-4 whitespace-nowrap text-sm text-gray-500 text-center border-r border-gray-200 dark:border-gray-700">
                                     {index + 1}
