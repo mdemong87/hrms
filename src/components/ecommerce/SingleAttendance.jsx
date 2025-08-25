@@ -180,6 +180,9 @@ const SingleAttendance = ({ id }) => {
 
 
 
+    /*************** log Here ***************/
+    console.log(SingleEmployeeAttendance);
+
 
     return (
         <div className={''}>

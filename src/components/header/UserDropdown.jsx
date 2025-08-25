@@ -1,6 +1,13 @@
 "use client";
+
+import getRole from "@/helper/cookie/getrole";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
+import demoprofile from "../../../public/images/user/demo.jpeg";
+import getAvatar from "../../helper/cookie/getavatar";
+import getemail from "../../helper/cookie/getemail";
+import getfname from "../../helper/cookie/getfname";
+import getlname from "../../helper/cookie/getlname";
 import Logout from "../auth/LogoutBtn";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
@@ -8,7 +15,16 @@ import { DropdownItem } from "../ui/dropdown/DropdownItem";
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
-  function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+
+  /******* get signin user info from cookie ********/
+  const userFname = getfname();
+  const userLname = getlname();
+  const userEmail = getemail();
+  const userAvatar = getAvatar();
+  const userRole = getRole();
+
+
+  function toggleDropdown(e) {
     e.stopPropagation();
     setIsOpen((prev) => !prev);
   }
@@ -22,7 +38,7 @@ export default function UserDropdown() {
         onClick={toggleDropdown}
         className="flex items-center text-gray-700 dark:text-gray-400 dropdown-toggle"
       >
-        <span className="block mr-1 font-medium text-lg">Emon</span>
+        <span className="block mr-1 font-medium text-lg">{userFname}</span>
 
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""
@@ -42,11 +58,11 @@ export default function UserDropdown() {
           />
         </svg>
 
-        <span className="ml-2 overflow-hidden rounded-full h-11 w-11">
+        <span className="ml-2 border overflow-hidden rounded-full h-11 w-11">
           <Image
             width={44}
             height={44}
-            src="/images/user/owner.jpg"
+            src={userAvatar || demoprofile}
             alt="User"
           />
         </span>
@@ -55,15 +71,25 @@ export default function UserDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
+        className="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 pb-0 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
       >
-        <div>
-          <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            Musharof Chowdhury
+        <div className="flex items-center gap-3">
+          <span className="ml-2 overflow-hidden rounded-full h-11 w-11 border">
+            <Image
+              width={44}
+              height={44}
+              src={userAvatar || demoprofile}
+              alt="User"
+            />
           </span>
-          <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
-          </span>
+          <div>
+            <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
+              {userFname + " " + userLname}
+            </span>
+            <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
+              {userEmail}
+            </span>
+          </div>
         </div>
 
         <ul className="flex flex-col gap-1 pt-4 pb-3 border-b border-gray-200 dark:border-gray-800">
@@ -71,7 +97,7 @@ export default function UserDropdown() {
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
-              href="/profile"
+              href={userRole === "Admin" ? "/admin/profile" : userRole === "Hr" ? "/hr/profile" : userRole === "Employee" ? "/employee/profile" : userRole === "Project Manager" ? "/projectmanager/profile" : "/signin"}
               className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
               <svg
@@ -89,10 +115,10 @@ export default function UserDropdown() {
                   fill=""
                 />
               </svg>
-              Edit profile
+              See Profile
             </DropdownItem>
           </li>
-          <li>
+          {/* <li>
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
@@ -141,10 +167,12 @@ export default function UserDropdown() {
               </svg>
               Support
             </DropdownItem>
-          </li>
+          </li> */}
         </ul>
 
-        <Logout />
+        <div className="mt-5">
+          <Logout />
+        </div>
       </Dropdown>
     </div>
   );

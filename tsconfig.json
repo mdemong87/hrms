@@ -54,7 +54,8 @@
     "src/components/form/form-elements/ToggleSwitch.jsx",
     "src/components/user-profile/UserAddressCard.jsx",
     "src/components/user-profile/UserInfoCard.jsx",
-    "src/components/user-profile/UserMetaCard.jsx"
+    "src/components/user-profile/UserMetaCard.jsx",
+    "src/components/header/UserDropdown.jsx"
   ],
   "exclude": [
     "node_modules"
