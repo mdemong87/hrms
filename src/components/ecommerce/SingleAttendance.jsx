@@ -2,6 +2,8 @@
 
 import getCookie from "@/helper/cookie/gettooken";
 import { useCallback, useEffect, useState } from "react";
+import { FaUserTie } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
 import minutestohoursandminutesconvarter from "../../helper/minutestohoursandminutesconvarter";
 import generateSingleEmployeeAttendanceRecoard from "../../helper/pdfGenerator/generateSingleEmployeeAttendanceRecoard";
 import timeformate from "../../helper/timeformate";
@@ -17,6 +19,8 @@ const SingleAttendance = ({ id }) => {
     const [SingleEmployeeAttendance, setSingleEmployeeAttendance] = useState([]);
     const [SelectedYear, setsetSelectedYear] = useState('');
     const [SelectedMonth, setsetSelectedMonth] = useState('');
+    const [isSelect, setIsSelect] = useState(false);
+    const [isLoading, setisLoading] = useState(false);
 
 
     /****************** Get Single Employee Information Here *******************/
@@ -50,7 +54,15 @@ const SingleAttendance = ({ id }) => {
     /**************** Run once on component mount *****************/
     useEffect(() => {
         getSingleEmployeeAttendance(id);
-    }, [getSingleEmployeeAttendance, id]);
+
+        /******* Cehck is user select some year or month  *******/
+        if (SelectedYear || SelectedMonth) {
+            setIsSelect(true);
+        } else {
+            setIsSelect(false);
+        }
+
+    }, [getSingleEmployeeAttendance, id, SelectedYear, SelectedMonth]);
 
 
 
@@ -68,12 +80,12 @@ const SingleAttendance = ({ id }) => {
         SingleEmployeeAttendance?.map((i, index) => {
             const subarr = [];
             subarr.push(i?.date);
-            subarr.push(i?.in_time);
             subarr.push(i?.status);
-            subarr.push(i?.out_time);
-            subarr.push(i?.late);
-            subarr.push(i?.overtime);
-            subarr.push(i?.production_hours);
+            subarr.push(timeformate(i?.in_time));
+            subarr.push(timeformate(i?.out_time));
+            subarr.push(minutestohoursandminutesconvarter(i?.late));
+            subarr.push(minutestohoursandminutesconvarter(i?.overtime));
+            subarr.push(minutestohoursandminutesconvarter(i?.production_hours));
             passdata.push(subarr);
         })
 
@@ -85,15 +97,108 @@ const SingleAttendance = ({ id }) => {
 
 
 
+    /********** Download All Employee Filter month and year Record From Here **********/
+    const downloadFilterMonthandYearRecoard = async () => {
+
+        const currentYear = new Date().getFullYear();
+
+        // validate frist, check user is select month or year or not
+        if (!SelectedYear || !SelectedMonth) {
+            toast.warn("Select Month And Year Both");
+            return;
+        } else if (SelectedYear > currentYear) {
+            toast.warn("Select a Valid Year! ");
+            return;
+        }
+
+        //loading enable
+        setisLoading(true);
+
+
+        // get the user seleted data from the server
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/attendance/filter/${id}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ SelectedYear, SelectedMonth }),
+                }
+            );
+
+            if (response.ok) {
+
+                const res = await response.json();
+
+                //clear the selected data
+                setsetSelectedYear('');
+                setsetSelectedMonth('');
+                setisLoading(false);
+
+
+                // generate the pdf file for dowload record
+                // Table genaratable pdf record table Title Assign here
+                const headers = [["Date", "Status", "CheckIn", "CheckOut", "Late", "OverTime", "Production Hours"]];
+
+
+                // preper the pdf body data here
+                const passdata = [];
+                res?.map((i, index) => {
+                    const subarr = [];
+                    subarr.push(i?.date);
+                    subarr.push(i?.status);
+                    subarr.push(timeformate(i?.in_time));
+                    subarr.push(timeformate(i?.out_time));
+                    subarr.push(minutestohoursandminutesconvarter(i?.late));
+                    subarr.push(minutestohoursandminutesconvarter(i?.overtime));
+                    subarr.push(minutestohoursandminutesconvarter(i?.production_minutes));
+                    passdata.push(subarr);
+                })
+
+
+                // call to generator of the pdf recoard of single employee information of a month
+                generateSingleEmployeeAttendanceRecoard(headers, passdata, res[0].employee_eid, res[0]?.employee_name, res[0]?.employee_designation, res[0]?.monthYear, res[0]?.shifts);
+
+
+                toast.success("Single Employee Attendance Record Download Successful");
+
+
+            } else {
+                setisLoading(false);
+                toast.error("There was a Server Side Problem");
+            }
+        } catch (error) {
+            setisLoading(false);
+            toast.error("There was a Server Side Problem");
+        }
+
+
+    }
+
+
+
+
     return (
         <div className={''}>
 
             {SingleEmployeeAttendance?.length < 1 && <Loading />}
+            {isLoading && <Loading />}
 
             <div className="flex justify-end">
-                <div className="flex text-white p-5 items-center gap-2">
-                    <BackBtn />
-                    <AttendancePageFilter SelectedYear={SelectedYear} setsetSelectedYear={setsetSelectedYear} SelectedMonth={SelectedMonth} setsetSelectedMonth={setsetSelectedMonth} hangleDownloadRecord={handledownloadrecord} />
+                <div className="text-white p-5 pl-0 flex justify-between items-center gap-2 w-full">
+                    <div className="text-left">
+                        <div className="text-gray-800 flex items-center gap-2 font-bold text-2xl dark:text-gray-200 bg-gray-200 dark:bg-gray-700 px-3 rounded-md py-1">
+                            <FaUserTie />
+                            <span className="text-xl">{SingleEmployeeAttendance[0]?.employee_name}</span>
+                        </div>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <BackBtn />
+                        <AttendancePageFilter SelectedYear={SelectedYear} setsetSelectedYear={setsetSelectedYear} SelectedMonth={SelectedMonth} setsetSelectedMonth={setsetSelectedMonth} hangleDownloadRecord={isSelect ? downloadFilterMonthandYearRecoard : handledownloadrecord} />
+                    </div>
                 </div>
             </div>
 
@@ -128,7 +233,7 @@ const SingleAttendance = ({ id }) => {
                                         {row.status}
                                     </span>
                                 </td>
-                                <td className="px-4 py-3 text-sm">{timeformate(row?.out_time)}</td>
+                                <td className="px-4 py-3 text-sm">{row?.status === "Absent" ? "-" : timeformate(row?.out_time)}</td>
                                 <td className="px-4 py-3 text-sm">{minutestohoursandminutesconvarter(row?.late)}</td>
                                 <td className="px-4 py-3 text-sm">{minutestohoursandminutesconvarter(row?.
                                     overtime)}</td>
@@ -140,7 +245,8 @@ const SingleAttendance = ({ id }) => {
                     </tbody>
                 </table>
             </div>
-        </div>
+            <ToastContainer position="bottom-right" />
+        </div >
     );
 };
 

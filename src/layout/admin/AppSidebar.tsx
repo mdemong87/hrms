@@ -47,13 +47,13 @@ const navItems: NavItem[] = [
   {
     icon: <CalenderIcon />,
     name: "Calendar",
-    path: "/calendar",
+    path: "/admin/calendar",
   },
 
   {
     icon: <MdOutlineHolidayVillage className="text-2xl" />,
     name: "Holidays",
-    path: "/holidays",
+    path: "/admin/holidays",
   },
   {
     icon: <TfiAnnouncement className="text-xl" />,

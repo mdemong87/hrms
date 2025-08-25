@@ -1,14 +1,13 @@
 'use client'
 
+
 const AttendancePageFilter = ({ SelectedYear, setsetSelectedYear, SelectedMonth, setsetSelectedMonth, hangleDownloadRecord }) => {
-
-
 
 
     return (
         <div className="flex items-center gap-2">
             <div className="border border-gray-300 dark:border-gray-700 py-1 px-3 rounded-md">
-                <select disabled value={SelectedYear} onChange={(e) => { setsetSelectedYear(e.target.value) }} className="bg-gray-50 text-gray-900 dark:text-gray-50 dark:bg-gray-900 outline-none px-2" name="" id="">
+                <select value={SelectedYear} onChange={(e) => { setsetSelectedYear(e.target.value) }} className="bg-gray-50 text-gray-900 dark:text-gray-50 dark:bg-gray-900 outline-none px-2" name="" id="">
                     <option value=''>Select Year</option>
 
                     <option value="2022">2022</option>
@@ -25,20 +24,20 @@ const AttendancePageFilter = ({ SelectedYear, setsetSelectedYear, SelectedMonth,
 
 
             <div className="border border-gray-300 dark:border-gray-700 py-1 px-3 rounded-md">
-                <select disabled value={SelectedMonth} onChange={(e) => { setsetSelectedMonth(e.target.value) }} className="bg-gray-50 text-gray-900 dark:text-gray-50 dark:bg-gray-900 outline-none px-2" name="" id="">
+                <select value={SelectedMonth} onChange={(e) => { setsetSelectedMonth(e.target.value) }} className="bg-gray-50 text-gray-900 dark:text-gray-50 dark:bg-gray-900 outline-none px-2" name="" id="">
                     <option value=''>Select Month</option>
-                    <option value="january">January</option>
-                    <option value="february">February</option>
-                    <option value="march">March</option>
-                    <option value="april">April</option>
-                    <option value="may">May</option>
-                    <option value="june">June</option>
-                    <option value="july">July</option>
-                    <option value="august">August</option>
-                    <option value="september">September</option>
-                    <option value="october">October</option>
-                    <option value="november">November</option>
-                    <option value="december">December</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
 
                 </select>
             </div>

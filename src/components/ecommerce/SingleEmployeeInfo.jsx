@@ -618,6 +618,27 @@ const SingleEmployeeInfo = ({ id }) => {
 
                         </div>
                     </form>
+
+
+                    {/* added save and cencle button out of the form in down bottom postion */}
+                    <div className="flex justify-between w-[200px] gap-3 mt-5 ml-auto">
+                        {
+
+                            !isdisable && (
+                                <>
+                                    <button onClick={(e) => { setisdisable(true) }} className="bg-yellow-700 font-medium flex items-center gap-1 px-4 py-2 rounded-md text-white cursor-pointer font-medium">
+                                        <MdCancel className="text-md" />
+                                        <span className="text-sm">Cencel</span>
+                                    </button>
+                                    <button onClick={(e) => handlesave(e, id)} className="bg-blue-700 w-full justify-center font-medium flex items-center gap-1 px-3 py-2 rounded-md text-white cursor-pointer font-medium">
+                                        <FaSave className="text-md" />
+                                        <span className="text-sm">Save</span>
+                                    </button>
+                                </>
+                            )
+                        }
+                    </div>
+
                 </div>
                 <ToastContainer position="bottom-right" />
             </div>

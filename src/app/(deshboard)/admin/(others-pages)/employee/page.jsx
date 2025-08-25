@@ -20,7 +20,7 @@ const AllEmployee = () => {
 
 
 
-    // Fetch all Employee here
+    /******************** Get all Employee Here *********************/
     const getAllEmployees = useCallback(async () => {
         try {
             const response = await fetch(
@@ -45,7 +45,9 @@ const AllEmployee = () => {
         }
     }, [token]);
 
-    // Run once on component mount
+
+
+    /****************** Run once on component mount *******************/
     useEffect(() => {
         getAllEmployees();
     }, [getAllEmployees]);
@@ -53,10 +55,13 @@ const AllEmployee = () => {
 
 
 
-    // add search filter functionalaty here
+    /********************* Single Employee Search by name **********************/
     const filter = allemployees?.employees?.filter(emp => emp?.fname?.toUpperCase().includes(idorname?.toUpperCase()));
 
 
+
+
+    /************ log here ***********/
     console.log(allemployees);
 
 
@@ -125,7 +130,7 @@ const AllEmployee = () => {
                                             <td className="text-center">{item?.eid}</td>
                                             <td className="px-6 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300">
                                                 <Link href={`/admin/employee/${item?.id}`} className="underline flex items-center gap-1 text-gray-700 whitespace-nowrap dark:text-gray-300">
-                                                    <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="Jese image" />
+                                                    <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="profile-image" />
                                                     <div className="ps-3 pl-0">
                                                         <div className="text-base font-semibold">{item?.fname + " " + item?.lname}</div>
                                                     </div>

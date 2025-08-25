@@ -21,8 +21,6 @@ const AttendanceCalendar = ({ AttendanceData }) => {
 
 
 
-
-
     return (
         <div className={`bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50 transition-colors duration-300 min-h-screen`}>
             <div className="flex items-center justify-between">

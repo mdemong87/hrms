@@ -1,5 +1,6 @@
 'use client';
 
+import DepartmetnAndShiftDeleteNotice from "@/components/common/DepartmentandShiftDeleteNotice";
 import Loading from "@/components/common/Loading";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import Input from "@/components/form/input/InputField";
@@ -8,7 +9,6 @@ import getCookie from "@/helper/cookie/gettooken";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-
 import { toast, ToastContainer } from "react-toastify";
 import DepartmentCard from "../../../../../components/ecommerce/DepartmentCard";
 import Label from "../../../../../components/form/Label";
@@ -175,11 +175,16 @@ const Department = () => {
                     <TextArea value={des} seter={(e) => setDes(e.target.value)} />
                 </div>
 
-                <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                    <Button onClick={handleAddDepartment} size="sm">
-                        Add Department
-                        <IoMdAdd className="text-xl" />
-                    </Button>
+                <div className="flex items-center justify-between mt-6">
+                    <div>
+                        <DepartmetnAndShiftDeleteNotice name="Deparment" />
+                    </div>
+                    <div className="flex items-center gap-3 px-2 lg:justify-end">
+                        <Button onClick={handleAddDepartment} size="sm">
+                            Add Department
+                            <IoMdAdd className="text-xl" />
+                        </Button>
+                    </div>
                 </div>
             </div>
 

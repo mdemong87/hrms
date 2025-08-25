@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
+import DepartmetnAndShiftDeleteNotice from "../../../../components/common/DepartmentandShiftDeleteNotice";
 
 const Shift = () => {
 
@@ -213,11 +214,16 @@ const Shift = () => {
                     />
                 </div>
 
-                <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                    <Button onClick={handleAddshift} size="sm">
-                        Add Duty Shift
-                        <IoMdAdd className="text-xl" />
-                    </Button>
+                <div className="flex items-center justify-between mt-6">
+                    <div>
+                        <DepartmetnAndShiftDeleteNotice name="Shift" />
+                    </div>
+                    <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
+                        <Button onClick={handleAddshift} size="sm">
+                            Add Duty Shift
+                            <IoMdAdd className="text-xl" />
+                        </Button>
+                    </div>
                 </div>
             </div>
 

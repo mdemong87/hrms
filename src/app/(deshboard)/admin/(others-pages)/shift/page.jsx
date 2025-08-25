@@ -1,5 +1,6 @@
 'use client';
 
+import DepartmetnAndShiftDeleteNotice from "@/components/common/DepartmentandShiftDeleteNotice";
 import Loading from "@/components/common/Loading";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import Input from "@/components/form/input/InputField";
@@ -209,11 +210,16 @@ const Shift = () => {
                     />
                 </div>
 
-                <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                    <Button onClick={handleAddshift} size="sm">
-                        Add Duty Shift
-                        <IoMdAdd className="text-xl" />
-                    </Button>
+                <div className="flex items-center justify-between mt-6">
+                    <div>
+                        <DepartmetnAndShiftDeleteNotice name="Shift" />
+                    </div>
+                    <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
+                        <Button onClick={handleAddshift} size="sm">
+                            Add Duty Shift
+                            <IoMdAdd className="text-xl" />
+                        </Button>
+                    </div>
                 </div>
             </div>
 

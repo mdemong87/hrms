@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
+import DepartmetnAndShiftDeleteNotice from "../../../../components/common/DepartmentandShiftDeleteNotice";
 
 
 const Department = () => {
@@ -176,11 +177,16 @@ const Department = () => {
                     <TextArea value={des} seter={(e) => setDes(e.target.value)} />
                 </div>
 
-                <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                    <Button onClick={handleAddDepartment} size="sm">
-                        Add Department
-                        <IoMdAdd className="text-xl" />
-                    </Button>
+                <div className="flex items-center justify-between mt-6">
+                    <div>
+                        <DepartmetnAndShiftDeleteNotice name="Deparment" />
+                    </div>
+                    <div className="flex items-center gap-3 px-2 lg:justify-end">
+                        <Button onClick={handleAddDepartment} size="sm">
+                            Add Department
+                            <IoMdAdd className="text-xl" />
+                        </Button>
+                    </div>
                 </div>
             </div>
 
