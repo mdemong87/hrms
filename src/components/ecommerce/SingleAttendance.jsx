@@ -91,7 +91,7 @@ const SingleAttendance = ({ id }) => {
 
 
         // call to generator of the pdf recoard of single employee information of a month
-        generateSingleEmployeeAttendanceRecoard(headers, passdata, SingleEmployeeAttendance[0].employee_eid, SingleEmployeeAttendance[0]?.employee_name, SingleEmployeeAttendance[0]?.employee_designation, SingleEmployeeAttendance[0]?.monthYear, SingleEmployeeAttendance[0]?.shifts);
+        generateSingleEmployeeAttendanceRecoard(headers, passdata, SingleEmployeeAttendance[0].employee_eid, SingleEmployeeAttendance[0]?.employee_name, SingleEmployeeAttendance[0]?.employee_designation, SingleEmployeeAttendance[0]?.monthYear, SingleEmployeeAttendance[0]?.shift);
 
     }
 

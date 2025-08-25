@@ -2,7 +2,7 @@
 
 import getRole from "@/helper/cookie/getrole";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import demoprofile from "../../../public/images/user/demo.jpeg";
 import getAvatar from "../../helper/cookie/getavatar";
 import getemail from "../../helper/cookie/getemail";
@@ -14,24 +14,46 @@ import { DropdownItem } from "../ui/dropdown/DropdownItem";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userFname, setuserFname] = useState('');
+  const [userLname, setuserLname] = useState('');
+  const [userEmail, setuserEmail] = useState('');
+  const [userAvatar, setuserAvatar] = useState('');
+  const [userRole, setuserRole] = useState('');
 
 
-  /******* get signin user info from cookie ********/
-  const userFname = getfname();
-  const userLname = getlname();
-  const userEmail = getemail();
-  const userAvatar = getAvatar();
-  const userRole = getRole();
 
 
+  /******************* Run once on component mount *****************/
+  useEffect(() => {
+    const fn = getfname();
+    setuserFname(fn);
+    const ln = getlname();
+    setuserLname(ln);
+    const e = getemail();
+    setuserEmail(e);
+    const a = getAvatar();
+    setuserAvatar(a);
+    const r = getRole();
+    setuserRole(r);
+  }, []);
+
+
+
+
+  /******************* Toogle Dropdown Here *****************/
   function toggleDropdown(e) {
     e.stopPropagation();
     setIsOpen((prev) => !prev);
   }
 
+
+  /******************* Close the Dropdown Here *****************/
   function closeDropdown() {
     setIsOpen(false);
   }
+
+
+
   return (
     <div className="relative">
       <button
