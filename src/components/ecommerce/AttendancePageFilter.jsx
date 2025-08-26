@@ -1,7 +1,9 @@
 'use client'
 
+import { MdFileDownload } from "react-icons/md";
 
-const AttendancePageFilter = ({ SelectedYear, setsetSelectedYear, SelectedMonth, setsetSelectedMonth, hangleDownloadRecord }) => {
+
+const AttendancePageFilter = ({ SelectedYear, setsetSelectedYear, SelectedMonth, setsetSelectedMonth, hangleDownloadRecord, disabled }) => {
 
 
     return (
@@ -42,8 +44,9 @@ const AttendancePageFilter = ({ SelectedYear, setsetSelectedYear, SelectedMonth,
                 </select>
             </div>
 
-            <button onClick={(e) => { hangleDownloadRecord(e) }} className="border border-gray-300 dark:border-gray-700 py-1 px-3 cursor-pointer rounded-md bg-blue-700">
-                Download Record
+            <button disabled={disabled} onClick={(e) => { hangleDownloadRecord(e) }} className="border border-gray-300 dark:border-gray-700 py-1 px-3 cursor-pointer rounded-md bg-blue-700 flex items-center gap-1">
+                <span>Download Record</span>
+                <MdFileDownload />
             </button>
 
 

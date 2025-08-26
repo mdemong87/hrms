@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import { IoIosLogOut } from "react-icons/io";
 import { toast } from 'react-toastify';
 import getCookie from "../../helper/cookie/gettooken";
 import SetCookie from "../../helper/cookie/setcookie";
@@ -61,8 +62,9 @@ function Logout() {
                 href="/"
                 target="_blank"
                 rel="nofollow"
-                className="w-full flex items-center justify-center p-3 font-medium text-white rounded-lg bg-brand-500 text-theme-sm hover:bg-brand-600"
+                className="w-full flex items-center justify-center p-3 font-medium text-white rounded-lg bg-brand-500 text-theme-sm hover:bg-brand-600 flex items-center gap-2"
             >
+                <IoIosLogOut className='text-lg rotate-180' />
                 Sign Out
             </button>
         </div>

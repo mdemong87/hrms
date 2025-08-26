@@ -202,6 +202,7 @@ const SingleEmployeeAttendancesPage = () => {
 
     return (
         <div>
+            {allsmployessattendances?.length < 1 && <Loading />}
             {isLoading && <Loading />}
             <PageBreadcrumb pageTitle="Attendance" >
                 <AttendancePageFilter SelectedYear={SelectedYear} setsetSelectedYear={setsetSelectedYear} SelectedMonth={SelectedMonth} setsetSelectedMonth={setsetSelectedMonth} hangleDownloadRecord={isSelect ? downloadFilterMonthandYearRecoard : handledownloadrecord} />
