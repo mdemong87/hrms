@@ -1,11 +1,12 @@
 "use client";
-import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from "@/icons";
+import { ArrowDownIcon, ArrowUpIcon, BoxIconLine } from "@/icons";
 import {
     ListIcon,
     PageIcon,
     TableIcon
 } from "@/icons/index";
-import { TbCurrentLocation } from "react-icons/tb";
+import { FaShekelSign } from "react-icons/fa";
+import { PiOfficeChairBold } from "react-icons/pi";
 import Badge from "../ui/badge/Badge";
 
 
@@ -17,7 +18,7 @@ const EcommerceMetricesCard = ({ title, value, rate, status, head }) => {
                 <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
                     {/* <BoxIconLine className="text-gray-800 dark:text-white/90" /> */}
                     {
-                        head == 1 ? <BoxIconLine className="text-gray-800 dark:text-white/90" /> : head == 2 ? <GroupIcon className="text-gray-800 dark:text-white/90" /> : head == 3 ? <TbCurrentLocation className="text-gray-800 dark:text-white/90 text-2xl" /> : head == 4 ? <ListIcon className="text-gray-800 dark:text-white/90" /> : head == 5 ? <PageIcon className="text-gray-800 dark:text-white/90" /> : <TableIcon className="text-gray-800 dark:text-white/90" />
+                        head == 1 ? <BoxIconLine className="text-gray-800 dark:text-white/90" /> : head == 2 ? <PiOfficeChairBold className="text-gray-800 dark:text-white/90" /> : head == 3 ? <FaShekelSign className="text-gray-500 dark:text-white/90 text-2xl" /> : head == 4 ? <ListIcon className="text-gray-800 dark:text-white/90" /> : head == 5 ? <PageIcon className="text-gray-800 dark:text-white/90" /> : <TableIcon className="text-gray-800 dark:text-white/90" />
                     }
                 </div>
                 <Badge color={status === "up" ? "success" : "error"}>

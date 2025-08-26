@@ -1,9 +1,16 @@
+"use client";
+
+import { useState } from "react";
+
 
 
 const Holidays = () => {
 
+    const [isPublic, setisPublic] = useState(true);
 
-    const holidays = [
+
+
+    const holidayss = [
         {
             date: '2025-01-01',
             day: 'Wednesday',
@@ -120,8 +127,16 @@ const Holidays = () => {
 
 
 
+
     return (
         <div>
+
+            <div className="flex justify-end">
+                <div className="flex items-center gap-3">
+                    <button onClick={() => { setisPublic(true) }} className={`text-gray-100 px-3 py-1 rounded-md ${isPublic ? "bg-blue-600" : "bg-gray-600"}`}>Public</button>
+                    <button onClick={() => { setisPublic(false) }} className={`text-gray-100 px-3 py-1 rounded-md ${isPublic ? "bg-gray-600" : "bg-blue-600"}`}>Individual</button>
+                </div>
+            </div>
             <div className="overflow-x-auto mt-8 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
                 <table className="min-w-full text-sm text-left">
                     <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
@@ -134,7 +149,7 @@ const Holidays = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
-                        {holidays.map((holiday, index) => (
+                        {holidayss.map((holiday, index) => (
                             <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                                 <td className="px-6 py-4 text-gray-900 dark:text-gray-100">{holiday.date}</td>
                                 <td className="px-6 py-4 text-gray-700 dark:text-gray-300">{holiday.day}</td>

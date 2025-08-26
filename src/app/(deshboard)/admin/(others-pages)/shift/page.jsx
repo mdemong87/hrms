@@ -1,6 +1,5 @@
 'use client';
 
-import DepartmetnAndShiftDeleteNotice from "@/components/common/DepartmentandShiftDeleteNotice";
 import Loading from "@/components/common/Loading";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import Input from "@/components/form/input/InputField";
@@ -63,7 +62,7 @@ const Shift = () => {
 
     /**************** Added  New Shift function here *******************/
     const handleAddshift = async () => {
-        if (name == '' || starttime == '' || endtime == '' || latecount == '') {
+        if (!name || !starttime || !endtime || !latecount) {
             toast.warn("Shift name is required");
             return;
         }
@@ -74,8 +73,9 @@ const Shift = () => {
             sName: name,
             sStartTime: starttime,
             sEndTime: endtime,
-            sLateCount: latecount
+            sLateCount: Number(latecount)
         };
+        console.log(dData);
 
         try {
             const response = await fetch(
@@ -160,6 +160,7 @@ const Shift = () => {
 
     }
 
+
     return (
         <div>
             {isLoading && <Loading />}
@@ -212,7 +213,7 @@ const Shift = () => {
 
                 <div className="flex items-center justify-between mt-6">
                     <div>
-                        <DepartmetnAndShiftDeleteNotice name="Shift" />
+
                     </div>
                     <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
                         <Button onClick={handleAddshift} size="sm">

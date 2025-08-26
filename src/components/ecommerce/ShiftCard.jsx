@@ -1,5 +1,6 @@
 'use client';
 import { FaShekelSign } from "react-icons/fa";
+import formatTime from "../../helper/formateTime";
 
 const ShiftCard = ({ name, description, id, onDelete, lTime, sTime, eTime }) => {
 
@@ -48,13 +49,13 @@ const ShiftCard = ({ name, description, id, onDelete, lTime, sTime, eTime }) => 
                             <span>
                                 Shift Start Time:
                             </span>
-                            <span>{sTime}</span>
+                            <span>{formatTime(sTime)}</span>
                         </div>
                         <div className="flex items-center gap-3">
                             <span>
                                 Shift End Time:
                             </span>
-                            <span>{eTime}</span>
+                            <span>{formatTime(eTime)}</span>
                         </div>
                     </div>
                 </div>

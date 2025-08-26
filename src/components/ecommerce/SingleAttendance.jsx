@@ -73,7 +73,7 @@ const SingleAttendance = ({ id }) => {
 
 
         // Table genaratable pdf record table Title Assign here
-        const headers = [["Date", "Status", "CheckIn", "CheckOut", "Late", "OverTime", "Production Hours"]];
+        const headers = [["Date", "Status", "CheckIn", "CheckOut", "Late", "OverTime", "Production Hours", "Shift"]];
 
 
         // preper the pdf body data here
@@ -87,6 +87,7 @@ const SingleAttendance = ({ id }) => {
             subarr.push(minutestohoursandminutesconvarter(i?.late));
             subarr.push(minutestohoursandminutesconvarter(i?.overtime));
             subarr.push(minutestohoursandminutesconvarter(i?.production_hours));
+            subarr.push(i?.shift);
             passdata.push(subarr);
         })
 
@@ -142,7 +143,7 @@ const SingleAttendance = ({ id }) => {
 
                 // generate the pdf file for dowload record
                 // Table genaratable pdf record table Title Assign here
-                const headers = [["Date", "Status", "CheckIn", "CheckOut", "Late", "OverTime", "Production Hours"]];
+                const headers = [["Date", "Status", "CheckIn", "CheckOut", "Late", "OverTime", "Production Hours", "Shift"]];
 
 
                 // preper the pdf body data here
@@ -156,6 +157,7 @@ const SingleAttendance = ({ id }) => {
                     subarr.push(minutestohoursandminutesconvarter(i?.late));
                     subarr.push(minutestohoursandminutesconvarter(i?.overtime));
                     subarr.push(minutestohoursandminutesconvarter(i?.production_minutes));
+                    subarr.push(i?.shifts);
                     passdata.push(subarr);
                 })
 
@@ -167,12 +169,11 @@ const SingleAttendance = ({ id }) => {
                 toast.success("Single Employee Attendance Record Download Successful");
 
 
-            } else {
-                setisLoading(false);
-                toast.error("There was a Server Side Problem");
             }
+
         } catch (error) {
             setisLoading(false);
+            console.log(error);
             toast.error("There was a Server Side Problem");
         }
 
@@ -221,6 +222,7 @@ const SingleAttendance = ({ id }) => {
                                 <th className="px-4 py-3 text-left text-center">Late</th>
                                 <th className="px-4 py-3 text-left text-center">Overtime</th>
                                 <th className="px-4 py-3 text-left text-center">Production Hours</th>
+                                <th className="px-4 py-3 text-left text-center">Working Shift</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -247,6 +249,9 @@ const SingleAttendance = ({ id }) => {
                                         overtime)}</td>
                                     <td className="px-4 py-3 text-sm">
                                         {minutestohoursandminutesconvarter(row?.production_hours)}
+                                    </td>
+                                    <td className="px-4 py-3 text-sm">
+                                        {row?.shift}
                                     </td>
                                 </tr>
                             ))}

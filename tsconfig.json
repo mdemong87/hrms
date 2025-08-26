@@ -55,7 +55,8 @@
     "src/components/user-profile/UserAddressCard.jsx",
     "src/components/user-profile/UserInfoCard.jsx",
     "src/components/user-profile/UserMetaCard.jsx",
-    "src/components/header/UserDropdown.jsx"
+    "src/components/header/UserDropdown.jsx",
+    "src/app/(deshboard)/admin/page.jsx"
   ],
   "exclude": [
     "node_modules"

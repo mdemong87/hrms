@@ -53,7 +53,7 @@ const navItems: NavItem[] = [
   {
     icon: <MdOutlineHolidayVillage className="text-2xl" />,
     name: "Holidays",
-    path: "/admin/holidays",
+    subItems: [{ name: "All Holidays", path: "/admin/holidays", pro: false }, { name: "Add Holiday", path: "/admin/holidays/add", pro: false }],
   },
   {
     icon: <TfiAnnouncement className="text-xl" />,
