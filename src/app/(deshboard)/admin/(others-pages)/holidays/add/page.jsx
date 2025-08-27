@@ -1,22 +1,30 @@
 'use client'
 
+import Loading from "@/components/common/Loading";
 import getCookie from "@/helper/cookie/gettooken";
 import { useCallback, useEffect, useState } from "react";
+import { MdDelete } from "react-icons/md";
+import { toast, ToastContainer } from "react-toastify";
 
 const AddHoliday = () => {
 
     const token = getCookie();
-    const [hType, setHType] = useState(0);
+    const [hType, setHType] = useState('0');
     const [holidayAndEmployee, setholidayAndEmployee] = useState([]);
     const [holidays, setHolidays] = useState([]);
     const [seletctedEmployee, setseletctedEmployee] = useState([]);
+    const [hName, sethName] = useState('');
+    const [hDate, sethDate] = useState('');
+    const [dis, setdis] = useState('');
+    const [day, setDay] = useState('');
+    const [isloading, setisloading] = useState(false);
+    const [ispublic, setispublic] = useState(true);
 
-    const [form, setForm] = useState({ name: "", date: "", description: "", assigned: [] });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
-    };
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setForm((prev) => ({ ...prev, [name]: value }));
+    // };
 
     const handleEmployeeSelect = (id) => {
         setseletctedEmployee((prev) =>
@@ -69,10 +77,82 @@ const AddHoliday = () => {
 
 
 
+    /******************* Add Holiday Functionality Here ******************/
+    async function handleAddHoliday() {
+
+
+
+        /********* Data validate *********/
+        if (!hName || !hType || hType === "0") {
+            toast.warn("Holiday Type and Holiday Name are required!");
+            return;
+        }
+
+        if (hType === "2" && !hDate) {
+            toast.warn("Date is required for Public Holiday!");
+            return;
+        }
+
+        if (hType === "1" && (!day || seletctedEmployee.length < 1)) {
+            toast.warn("Day and at least one Employee are required for Individual Holiday!");
+            return;
+        }
+
+
+
+        /********* Added Holiday ********/
+        try {
+            setisloading(true);
+
+
+            //send a post request in the backend
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/holiday`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    hType,
+                    hDate,
+                    hName,
+                    dis,
+                    day,
+                    seletctedEmployee
+                })
+            });
+
+            console.log({
+                hType,
+                hDate,
+                hName,
+                dis,
+                day,
+                seletctedEmployee
+            });
+
+            if (response.ok) {
+                setisloading(false);
+                const data = await response.json();
+                console.log(data);
+                toast.success("Holiday Added successful");
+            } else {
+                setisloading(false);
+                const errorData = await response.json();
+                toast.error('Holiday Added failed');
+                console.error("Holiday Added failed:", errorData);
+            }
+        } catch (error) {
+            setisloading(false);
+            console.error(error);
+        }
+
+    }
+
 
 
     /********** log here **********/
-    console.log(holidayAndEmployee[0]);
+    console.log(holidayAndEmployee);
 
 
 
@@ -88,31 +168,32 @@ const AddHoliday = () => {
 
 
         <div className="mx-auto space-y-6">
+            {isloading && <Loading />}
             {/* Add Holiday Form */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
                 <h2 className="text-2xl font-semibold mb-4 dark:text-gray-100">Add Holiday</h2>
                 <div className="space-y-4">
 
                     <select onChange={(e) => { setHType(e.target.value) }} className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" name="" id="">
                         <option value='0'>Selete Holiday Type</option>
-                        <option value="Public">Public</option>
-                        <option value="Individual">Individual</option>
+                        <option value="2">Public</option>
+                        <option value="1">Individual</option>
                     </select>
 
                     <input
                         type="text"
                         name="name"
                         placeholder="Holiday Name"
-                        value={form.name}
-                        onChange={handleChange}
+                        value={hName}
+                        onChange={(e) => { sethName(e.target.value) }}
                         className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                     />
 
                     {
-                        hType === "Individual" ? (
+                        hType === "1" ? (
 
-                            <select className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" name="" id="">
-                                <option value='0'>Selete Day Name</option>
+                            <select onChange={(e) => { setDay(e.target.value) }} className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" name="" id="">
+                                <option value=''>Selete Day Name</option>
                                 <option value="Monday">Monday</option>
                                 <option value="Tuesday">Tuesday</option>
                                 <option value="Wednesday">Wednesday</option>
@@ -126,8 +207,8 @@ const AddHoliday = () => {
                             <input
                                 type="date"
                                 name="date"
-                                value={form.date}
-                                onChange={handleChange}
+                                value={hDate}
+                                onChange={(e) => { sethDate(e.target.value) }}
                                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                             />
                         )
@@ -140,21 +221,20 @@ const AddHoliday = () => {
                     <textarea
                         name="description"
                         placeholder="Description (optional)"
-                        value={form.description}
-                        onChange={handleChange}
+                        value={dis}
+                        onChange={(e) => { setdis(e.target.value) }}
                         className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                     />
                     {
-                        hType != "Public" && <div className="space-y-2">
+                        hType == "1" && <div className="space-y-2">
                             <p className="font-medium text-gray-700 dark:text-gray-200">Assign Employees:</p>
                             <div className="flex flex-wrap gap-2">
-                                {holidayAndEmployee[0]?.employees?.map((emp) => (
+                                {holidayAndEmployee?.employees?.map((emp) => (
                                     <button
                                         key={emp.id}
                                         type="button"
                                         onClick={() => handleEmployeeSelect(emp.id)}
-                                        className={`px-3 py-1 rounded-full border ${form.assigned.includes(emp.id)
-                                            ? "bg-blue-600 text-white border-blue-600"
+                                        className={`px-3 py-1 rounded-full border ${seletctedEmployee.includes(emp.id) ? "bg-blue-600 text-white border-blue-600"
                                             : "border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200"
                                             }`}
                                     >
@@ -176,51 +256,110 @@ const AddHoliday = () => {
             </div>
 
             {/* Holiday List */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
-                <h2 className="text-2xl font-semibold mb-4 dark:text-gray-100">Holiday List</h2>
-                {holidays.length === 0 ? (
-                    <p className="text-gray-500 dark:text-gray-400">No holidays added yet.</p>
-                ) : (
-                    <ul className="space-y-3">
-                        {holidays.map((holiday) => (
-                            <li
-                                key={holiday.id}
-                                className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg flex justify-between items-start flex-col md:flex-row"
-                            >
-                                <div>
-                                    <p className="font-medium text-gray-800 dark:text-gray-100">{holiday.name}</p>
-                                    <p className="text-gray-500 dark:text-gray-300">{holiday.date}</p>
-                                    {holiday.description && (
-                                        <p className="text-gray-400 dark:text-gray-400">{holiday.description}</p>
-                                    )}
-                                    {holiday.assigned.length > 0 && (
-                                        <p className="mt-1 text-gray-600 dark:text-gray-300">
-                                            Assigned:{" "}
-                                            {holiday.assigned
-                                                .map((id) => employees.find((e) => e.id === id)?.name)
-                                                .join(", ")}
-                                        </p>
-                                    )}
-                                </div>
-                                <button
-                                    onClick={() => handleDelete(holiday.id)}
-                                    className="text-red-600 hover:text-red-800 font-semibold mt-2 md:mt-0"
-                                >
-                                    Delete
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
+                <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-semibold mb-4 dark:text-gray-100">Holiday List</h2>
+                    <div className="flex gap-3 items-center">
+                        <button onClick={() => { setispublic(true) }} className={`text-white px-2 py-1 outline-none border-0 rounded-md ${ispublic ? "bg-blue-600" : "bg-gray-400"}`}>Public</button>
+                        <button onClick={() => { setispublic(false) }} className={`text-white px-2 py-1 outline-none border-0 rounded-md ${ispublic ? "bg-gray-400" : "bg-blue-600"}`}>Individual</button>
+                    </div>
+                </div>
+
+                {
+                    ispublic ? (
+                        <div className="relative overflow-x-auto rounded-md shadow-md mt-5">
+                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" className="p-4 border border-r">
+                                            SL
+                                        </th>
+                                        <th scope="col" className="p-4 text-center border border-r">
+                                            Date
+                                        </th>
+                                        <th scope="col" className="px-2 py-3 border border-r">
+                                            Holiday Name
+                                        </th>
+                                        <th scope="col" className="px-2 py-3 border border-r">
+                                            Description
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+
+                                    {
+                                        holidayAndEmployee?.public?.map((item, index) => {
+                                            return (
+                                                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-600 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                    <td className="w-4 p-4 border border-r">
+                                                        {index + 1}
+                                                    </td>
+                                                    <td className="text-center border border-r">{item?.date}</td>
+
+                                                    <td className="px-2 py-4 border border-r">
+                                                        {item?.name}
+                                                    </td>
+                                                    <td className="px-1 py-4 border border-r">
+                                                        {item?.description}
+                                                    </td>
+
+                                                </tr>
+                                            )
+                                        })
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <ul className="space-y-3 mt-5">
+                            {holidayAndEmployee?.employees?.map((item, index) => {
+                                return (
+                                    <li
+                                        key={index}
+                                        className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg flex justify-between items-start flex-col md:flex-row"
+                                    >
+                                        <div>
+                                            <p className="font-medium text-gray-800 dark:text-gray-100 text-xl">{item.fname + " " + item?.lname}</p>
+                                            <p className="text-gray-500 dark:text-gray-300">{item?.designation}</p>
+                                            <div className=" mt-2">
+                                                <h3 className="py-1 text-xl">Assign Holidays:</h3>
+                                                {item?.personal_holidays?.map((h, idx) => {
+                                                    return (
+                                                        <div className="p-1 rounded-md bg-gray-300 text-gray-900" key={idx}>
+                                                            <div className="flex items-center gap-1">
+                                                                <span className="font-bold">Holiday Name:</span>
+                                                                <span>{h?.name}</span>
+                                                            </div>
+                                                            <div className="flex items-center gap-1">
+                                                                <span className="font-bold">Holiday Day:</span>
+                                                                <span>{h?.holidays}</span>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() => handleDelete(item.id)}
+                                            className="text-white p-1 rounded-md bg-red-400 font-semibold mt-2 md:mt-0"
+                                        >
+                                            <MdDelete />
+                                        </button>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    )
+                }
+
+
+
             </div>
-        </div>
-
-
-
-
-
-
-
+            <ToastContainer position="bottom-right" />
+        </div >
 
     )
 }

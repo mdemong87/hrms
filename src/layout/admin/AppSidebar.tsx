@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaShekelSign, FaTasks } from "react-icons/fa";
+import { FaChartLine } from "react-icons/fa6";
 import { MdOutlineHolidayVillage, MdOutlineSettings } from "react-icons/md";
 import { PiOfficeChairBold } from "react-icons/pi";
 import { TfiAnnouncement } from "react-icons/tfi";
@@ -35,6 +36,11 @@ const navItems: NavItem[] = [
     subItems: [{ name: "All Project", path: "/admin/projects", pro: false }, { name: "Actice Project", path: "/admin/projects/activeproject", pro: false }, { name: "Cancel Project", path: "/admin/projects/cancelproject" }, { name: "Add Project", path: "/admin/projects/addproject" }],
   },
   {
+    icon: <FaChartLine className="text-xl" />,
+    name: "Sales",
+    subItems: [{ name: "All Sales", path: "/admin/allsales", pro: false }],
+  },
+  {
     icon: <PageIcon />,
     name: "Leave",
     subItems: [{ name: "Requested Leave", path: "/admin/leave/request", pro: false }, { name: "Leave Status", path: "/hr/leave/status", pro: false }, { name: "Leave History", path: "/hr/leave/history", pro: false }],
@@ -53,7 +59,7 @@ const navItems: NavItem[] = [
   {
     icon: <MdOutlineHolidayVillage className="text-2xl" />,
     name: "Holidays",
-    subItems: [{ name: "All Holidays", path: "/admin/holidays", pro: false }, { name: "Add Holiday", path: "/admin/holidays/add", pro: false }],
+    subItems: [{ name: "Holidays", path: "/admin/holidays/add", pro: false }],
   },
   {
     icon: <TfiAnnouncement className="text-xl" />,

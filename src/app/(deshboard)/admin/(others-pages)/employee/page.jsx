@@ -83,35 +83,35 @@ const AllEmployee = () => {
                         <FilterSearch seter={setidorname} />
                     </div>
                 </PageBreadcrumb>
-                <div className="relative overflow-x-auto rounded-md">
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div className="relative overflow-x-auto rounded-md shadow-md">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" className="p-4">
+                                <th scope="col" className="p-4 border border-r">
                                     SL
                                 </th>
-                                <th scope="col" className="p-4 text-center">
+                                <th scope="col" className="p-4 text-center border border-r">
                                     ID
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Name
+                                <th scope="col" className="px-2 py-3 border border-r">
+                                    Image / Name
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Email
+                                <th scope="col" className="px-2 py-3 border border-r">
+                                    Email Address
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-2 py-3 border border-r">
                                     Department
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Employee Type
+                                <th scope="col" className="px-2 py-3 border border-r">
+                                    Type
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-2 py-3 border border-r">
                                     Date of Birth
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-2 py-3 border border-r">
                                     Position
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-2 py-3 border border-r">
                                     Level / Grade
                                 </th>
                             </tr>
@@ -124,11 +124,11 @@ const AllEmployee = () => {
                                 filter?.map((item, index) => {
                                     return (
                                         <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-600 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <td className="w-4 p-4">
+                                            <td className="w-4 p-4 border border-r">
                                                 {index + 1}
                                             </td>
-                                            <td className="text-center">{item?.eid}</td>
-                                            <td className="px-6 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300">
+                                            <td className="text-center border border-r">{item?.eid}</td>
+                                            <td className="px-2 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300 border border-r">
                                                 <Link href={`/admin/employee/${item?.id}`} className="underline flex items-center gap-1 text-gray-700 whitespace-nowrap dark:text-gray-300">
                                                     <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="profile-image" />
                                                     <div className="ps-3 pl-0">
@@ -136,22 +136,22 @@ const AllEmployee = () => {
                                                     </div>
                                                 </Link>
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border border-r">
                                                 {item?.email}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-1 py-4 border border-r">
                                                 {item?.department?.name}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border border-r">
                                                 {item?.emplyeetype}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border border-r">
                                                 {item?.dob}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border border-r">
                                                 {item?.designation}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border border-r">
                                                 {item?.level}
                                             </td>
                                         </tr>
