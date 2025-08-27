@@ -1,6 +1,6 @@
 "use client";
 
-import EcommerceMetricesCard from "../../components/ecommerce/EcommerceMetricesCard";
+import EcommerceMetricesCard from "./EcommerceMetricesCard";
 
 export const EcommerceMetrics = ({ deshboardData }) => {
   return (
