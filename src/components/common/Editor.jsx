@@ -1,3 +1,5 @@
+'use client'
+
 import JoditEditor from 'jodit-react';
 import { useMemo, useRef } from 'react';
 
