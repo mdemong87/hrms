@@ -2,11 +2,18 @@
 
 import Loading from "@/components/common/Loading";
 import getCookie from "@/helper/cookie/gettooken";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
-import Editor from "../../../../../components/common/Editor";
+//import Editor from "../../../../../components/common/Editor";
 import HtmlRenderer from "../../../../../components/common/HtmlRenderer";
+
+
+const Editor = dynamic(
+    () => import("../../../../../components/common/Editor"),
+    { ssr: false }
+);
 
 const Announcement = () => {
 
