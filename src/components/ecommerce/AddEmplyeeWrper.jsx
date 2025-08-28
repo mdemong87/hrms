@@ -168,7 +168,7 @@ const AddAmployeeWper = () => {
     return (
         <div>
             <div>
-                <div className="no-scrollbar relative w-full w-full rounded-xl bg-white p-4 dark:bg-gray-900 lg:p-11 shadow-sm">
+                <div className="no-scrollbar relative w-full w-full rounded-xl bg-white p-4 dark:bg-gray-900 lg:p-6 shadow-sm dark:border dark:border-gray-700 rounded-2xl">
                     {isloading && <Loading />}
                     <div className="flex gap-20 w-full items-end justify-between">
                         <div className="w-full flex flex-col gap-14">

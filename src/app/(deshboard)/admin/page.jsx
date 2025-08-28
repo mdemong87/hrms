@@ -1,5 +1,4 @@
 import AbsenceToday from "@/components/ecommerce/AbsenceToday";
-import Announcement from "@/components/ecommerce/Announcement";
 import DemographicCard from "@/components/ecommerce/DemographicCard";
 import { EcommerceMetrics } from "@/components/ecommerce/EcommerceMetrics";
 import MeetingSchedule from '@/components/ecommerce/MeetingSchedule';
@@ -59,7 +58,7 @@ export default async function Ecommerce() {
       </div>
 
       <div className="col-span-12 xl:col-span-7">
-        <Announcement deshboardData={deshboardData} />
+        {/* <Announcement deshboardData={deshboardData} /> */}
       </div>
 
       <div className="col-span-12">

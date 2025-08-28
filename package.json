@@ -22,6 +22,7 @@
     "apexcharts": "^4.3.0",
     "autoprefixer": "^10.4.20",
     "flatpickr": "^4.6.13",
+    "jodit-react": "^5.2.19",
     "jose": "^6.0.12",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",

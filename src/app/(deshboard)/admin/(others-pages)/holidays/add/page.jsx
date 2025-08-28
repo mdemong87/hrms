@@ -122,19 +122,17 @@ const AddHoliday = () => {
                 })
             });
 
-            console.log({
-                hType,
-                hDate,
-                hName,
-                dis,
-                day,
-                seletctedEmployee
-            });
 
             if (response.ok) {
                 setisloading(false);
                 const data = await response.json();
-                console.log(data);
+                setHType('0');
+                sethDate('');
+                sethName('');
+                setdis('');
+                setDay('');
+                setseletctedEmployee([]);
+                getHolidayAndEmployee();
                 toast.success("Holiday Added successful");
             } else {
                 setisloading(false);
@@ -151,16 +149,55 @@ const AddHoliday = () => {
 
 
 
-    /********** log here **********/
+    /******************* Delete Holiday Functionality Here ******************/
+    async function handleDeleteHoliday(id, type) {
+
+
+
+        /********* Delete Holiday ********/
+        try {
+            setisloading(true);
+
+
+            //send a post request in the backend
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/holiday/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify({ HolidayType: type })
+            });
+
+
+            if (response.ok) {
+                setisloading(false);
+                const data = await response.json();
+                getHolidayAndEmployee();
+                toast.success("Holiday Delete successful");
+            } else {
+                setisloading(false);
+                const errorData = await response.json();
+                toast.error('Holiday Delete failed');
+                console.error("Holiday Delete failed:", errorData);
+            }
+        } catch (error) {
+            setisloading(false);
+            console.error(error);
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+    /****** log here ******/
     console.log(holidayAndEmployee);
-
-
-
-
-
-
-
-
 
 
 
@@ -268,20 +305,23 @@ const AddHoliday = () => {
                 {
                     ispublic ? (
                         <div className="relative overflow-x-auto rounded-md shadow-md mt-5">
-                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border">
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400 text-center">
                                     <tr>
-                                        <th scope="col" className="p-4 border border-r">
+                                        <th scope="col" className="p-4 border-1 border-gray-200 dark:border-gray-600">
                                             SL
                                         </th>
-                                        <th scope="col" className="p-4 text-center border border-r">
+                                        <th scope="col" className="p-4 text-center border-1 border-gray-200 dark:border-gray-600">
                                             Date
                                         </th>
-                                        <th scope="col" className="px-2 py-3 border border-r">
+                                        <th scope="col" className="px-2 py-3 border-1 border-gray-200 dark:border-gray-600">
                                             Holiday Name
                                         </th>
-                                        <th scope="col" className="px-2 py-3 border border-r">
+                                        <th scope="col" className="px-2 py-3 border-1 border-gray-200 dark:border-gray-600">
                                             Description
+                                        </th>
+                                        <th scope="col" className="px-2 py-3 border-1 border-gray-200 dark:border-gray-600">
+                                            Action
                                         </th>
                                     </tr>
                                 </thead>
@@ -292,17 +332,26 @@ const AddHoliday = () => {
                                     {
                                         holidayAndEmployee?.public?.map((item, index) => {
                                             return (
-                                                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-600 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                    <td className="w-4 p-4 border border-r">
+                                                <tr key={index} className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 text-center">
+                                                    <td className="w-4 p-4 border-1 border-gray-200 dark:border-gray-600">
                                                         {index + 1}
                                                     </td>
-                                                    <td className="text-center border border-r">{item?.date}</td>
+                                                    <td className="text-center border-1 border-gray-200 dark:border-gray-600">{item?.date}</td>
 
-                                                    <td className="px-2 py-4 border border-r">
+                                                    <td className="px-2 py-4 border-1 border-gray-200 dark:border-gray-600">
                                                         {item?.name}
                                                     </td>
-                                                    <td className="px-1 py-4 border border-r">
+                                                    <td className="px-1 py-4 border-1 border-gray-200 dark:border-gray-600">
                                                         {item?.description}
+                                                    </td>
+
+                                                    <td className="px-1 py-4 border-1 border-gray-200 dark:border-gray-600">
+                                                        <button
+                                                            onClick={() => handleDeleteHoliday(item.id, 2)}
+                                                            className="text-white p-1 rounded-md bg-red-400 font-semibold mt-2 md:mt-0"
+                                                        >
+                                                            <MdDelete />
+                                                        </button>
                                                     </td>
 
                                                 </tr>
@@ -324,26 +373,28 @@ const AddHoliday = () => {
                                         <div>
                                             <p className="font-medium text-gray-800 dark:text-gray-100 text-xl">{item.fname + " " + item?.lname}</p>
                                             <p className="text-gray-500 dark:text-gray-300">{item?.designation}</p>
-                                            <div className=" mt-2">
-                                                <h3 className="py-1 text-xl">Assign Holidays:</h3>
-                                                {item?.personal_holidays?.map((h, idx) => {
-                                                    return (
-                                                        <div className="p-1 rounded-md bg-gray-300 text-gray-900" key={idx}>
-                                                            <div className="flex items-center gap-1">
-                                                                <span className="font-bold">Holiday Name:</span>
-                                                                <span>{h?.name}</span>
+                                            <div className="mt-2">
+                                                <h3 className="py-1 text-xl dark:text-white">Assign Holidays:</h3>
+                                                <div className="flex items-center gap-2">
+                                                    {item?.personal_holidays?.map((h, idx) => {
+                                                        return (
+                                                            <div key={idx} className="py-1 px-2 rounded-md bg-gray-300 text-gray-900">
+                                                                <div className="flex items-center gap-1">
+                                                                    <span className="font-bold">Holiday Name:</span>
+                                                                    <span>{h?.name}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-1">
+                                                                    <span className="font-bold">Holiday Day:</span>
+                                                                    <span>{h?.holidays}</span>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex items-center gap-1">
-                                                                <span className="font-bold">Holiday Day:</span>
-                                                                <span>{h?.holidays}</span>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })}
+                                                        )
+                                                    })}
+                                                </div>
                                             </div>
                                         </div>
                                         <button
-                                            onClick={() => handleDelete(item.id)}
+                                            onClick={() => handleDeleteHoliday(item.id, 1)}
                                             className="text-white p-1 rounded-md bg-red-400 font-semibold mt-2 md:mt-0"
                                         >
                                             <MdDelete />

@@ -62,7 +62,7 @@ const LimitedSingleEmployeeInfo = () => {
     console.log(SingleEmployee);
 
     return (
-        <div>
+        <div className="shadow-sm dark:border dark:border-gray-700 rounded-2xl">
             <div>
                 <div className="no-scrollbar relative w-full w-full rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
                     {isloading && <Loading />}
