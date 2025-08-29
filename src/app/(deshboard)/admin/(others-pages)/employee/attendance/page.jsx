@@ -26,6 +26,7 @@ const SingleEmployeeAttendancesPage = () => {
     /****************** Get All Employee Attendance information Here *******************/
     const getAllEmployeesAttendance = useCallback(async () => {
         try {
+
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/attendances`,
                 {

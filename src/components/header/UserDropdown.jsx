@@ -93,9 +93,9 @@ export default function UserDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 pb-0 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
+        className="absolute right-0 mt-[17px] flex w-[300px] flex-col rounded-2xl border border-gray-200 bg-white px-1 py-3 pb-0 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <span className="ml-2 overflow-hidden rounded-full h-11 w-11 border">
             <Image
               width={44}
@@ -105,9 +105,14 @@ export default function UserDropdown() {
             />
           </span>
           <div>
-            <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-              {userFname + " " + userLname}
-            </span>
+            <div className="flex gap-2 items-center">
+              <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
+                {userFname + " " + userLname}
+              </span>
+              <span className="text-xs border rounded-md bg-green-200 px-1 text-gray-900 border-green-400">
+                {userRole}
+              </span>
+            </div>
             <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
               {userEmail}
             </span>

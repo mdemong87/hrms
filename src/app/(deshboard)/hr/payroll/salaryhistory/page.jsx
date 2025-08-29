@@ -1,4 +1,4 @@
-import UnderDevelopment from "../../../../components/common/UnderDevelopment";
+import UnderDevelopment from "@/components/common/UnderDevelopment";
 
 const EmployeeSalaryHistory = () => {
     return (

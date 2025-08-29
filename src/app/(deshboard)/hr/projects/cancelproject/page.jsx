@@ -1,19 +1,19 @@
 'use client';
 
 import PageBreadcrumb from '@/components/common/PageBreadCrumb';
-import UnderDevelopment from "../../../../../../components/common/UnderDevelopment";
+import UnderDevelopment from '@/components/common/UnderDevelopment';
 
 const AddProject = () => {
-
 
 
 
     return (
         <div>
 
-            <PageBreadcrumb pageTitle={"Add Project"} />
+            <PageBreadcrumb pageTitle={"Cancel Project"} />
 
             <UnderDevelopment />
+
         </div>
     )
 }

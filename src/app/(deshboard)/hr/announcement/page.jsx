@@ -28,6 +28,9 @@ const Announcement = () => {
     /**************** Get Announcement Here ******************/
     const getAnnouncement = useCallback(async () => {
         try {
+
+            setisloading(true);
+
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/notice`,
                 {
@@ -38,6 +41,8 @@ const Announcement = () => {
                     },
                 }
             );
+
+            setisloading(false);
 
             if (response.ok) {
                 const res = await response.json();

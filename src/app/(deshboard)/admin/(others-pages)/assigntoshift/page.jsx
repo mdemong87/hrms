@@ -21,6 +21,9 @@ const AssignShift = () => {
     /**************** Get Employee Assign on Shift and Employee Here ******************/
     const getHolidayAndEmployee = useCallback(async () => {
         try {
+
+            setisloading(true);
+
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/shift/assign`,
                 {
@@ -31,6 +34,8 @@ const AssignShift = () => {
                     },
                 }
             );
+
+            setisloading(false);
 
             if (response.ok) {
                 const res = await response.json();
@@ -65,14 +70,6 @@ const AssignShift = () => {
             return i?.shift?.id == searchShift;
         }
     });
-
-
-
-    console.log(filter);
-
-
-    /****** log here ******/
-    console.log(holidayAndEmployee);
 
 
 

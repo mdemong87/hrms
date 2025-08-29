@@ -21,11 +21,8 @@ const AddHoliday = () => {
     const [ispublic, setispublic] = useState(true);
 
 
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setForm((prev) => ({ ...prev, [name]: value }));
-    // };
 
+    /******** handle Employee Selete ********/
     const handleEmployeeSelect = (id) => {
         setseletctedEmployee((prev) =>
             prev.includes(id) ? prev.filter((empId) => empId !== id) : [...prev, id]
@@ -34,15 +31,12 @@ const AddHoliday = () => {
 
 
 
-
-    console.log(seletctedEmployee);
-
-
-
-
     /**************** Get Holiday and Employee Here ******************/
     const getHolidayAndEmployee = useCallback(async () => {
         try {
+
+            setisloading(true);
+
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/holiday`,
                 {
@@ -53,6 +47,8 @@ const AddHoliday = () => {
                     },
                 }
             );
+
+            setisloading(false);
 
             if (response.ok) {
                 const res = await response.json();
@@ -187,17 +183,6 @@ const AddHoliday = () => {
         }
 
     }
-
-
-
-
-
-
-
-
-
-    /****** log here ******/
-    console.log(holidayAndEmployee);
 
 
 

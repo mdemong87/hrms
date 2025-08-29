@@ -1,5 +1,6 @@
 'use client'
 
+import Loading from "@/components/common/Loading";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import AttendanceCalendar from "@/components/ecommerce/AttendanceCalendar";
 import AttendancePageFilter from "@/components/ecommerce/AttendancePageFilter";
@@ -15,10 +16,16 @@ const AllAttendance = () => {
     const [allsmployessattendances, setallsmployessattendances] = useState([]);
     const [SelectedYear, setsetSelectedYear] = useState('');
     const [SelectedMonth, setsetSelectedMonth] = useState('');
+    const [isloading, setisloading] = useState(false);
 
-    // Fetch all Employee here
+
+
+    /*************** Get All Employee Attendance Here ****************/
     const getAllEmployeesAttendance = useCallback(async () => {
         try {
+
+            setisloading(true);
+
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/attendances`,
                 {
@@ -29,6 +36,8 @@ const AllAttendance = () => {
                     },
                 }
             );
+
+            setisloading(false);
 
             if (response.ok) {
                 const res = await response.json();
@@ -41,21 +50,15 @@ const AllAttendance = () => {
         }
     }, [token]);
 
-    // Run once on component mount
+
+    /***********  Run once on component mount ***********/
     useEffect(() => {
         getAllEmployeesAttendance();
     }, [getAllEmployeesAttendance]);
 
 
 
-
-
-
-
-
-
-
-    //handle download record here
+    /**************** handle download record here *******************/
     const handledownloadrecord = (e) => {
 
 
@@ -95,6 +98,7 @@ const AllAttendance = () => {
 
     return (
         <div>
+            {isloading && <Loading />}
             <PageBreadcrumb pageTitle="Attendance" >
                 <AttendancePageFilter SelectedYear={SelectedYear} setsetSelectedYear={setsetSelectedYear} SelectedMonth={SelectedMonth} setsetSelectedMonth={setsetSelectedMonth} hangleDownloadRecord={handledownloadrecord} />
             </PageBreadcrumb>

@@ -1,15 +1,13 @@
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import UnderDevelopment from "@/components/common/UnderDevelopment";
 
-const AllProjects = () => {
+const AllSales = () => {
     return (
-        <div className="text-gray-500">
-
-            <PageBreadcrumb pageTitle={"All Project"} />
-
+        <div>
+            <PageBreadcrumb pageTitle={"All Sales Page"} />
             <UnderDevelopment />
         </div>
     )
 }
 
-export default AllProjects;
+export default AllSales;

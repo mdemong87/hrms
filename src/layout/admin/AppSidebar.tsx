@@ -43,7 +43,7 @@ const navItems: NavItem[] = [
   {
     icon: <PageIcon />,
     name: "Leave",
-    subItems: [{ name: "Requested Leave", path: "/admin/leave/request", pro: false }, { name: "Leave Status", path: "/hr/leave/status", pro: false }, { name: "Leave History", path: "/hr/leave/history", pro: false }],
+    subItems: [{ name: "Requested Leave", path: "/admin/leave/request", pro: false }, { name: "Leave Status", path: "/admin/leave/status", pro: false }, { name: "Leave History", path: "/admin/leave/history", pro: false }],
   },
   {
     icon: <PiOfficeChairBold className="text-2xl" />,
@@ -74,7 +74,7 @@ const navItems: NavItem[] = [
   {
     icon: <FaDollarSign className="text-xl" />,
     name: "Payroll",
-    subItems: [{ name: "Salary History", path: "/admin/salaryhistory", pro: false }],
+    subItems: [{ name: "Salary History", path: "/admin/payroll/salaryhistory", pro: false }],
   },
   {
     icon: <UserCircleIcon />,

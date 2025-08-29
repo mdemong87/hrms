@@ -28,6 +28,9 @@ const Department = () => {
 
     /**************** Get All Departments ****************/
     const getDepartments = useCallback(async () => {
+
+        setIsLoading(true);
+
         try {
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/departments`,
@@ -39,6 +42,8 @@ const Department = () => {
                     },
                 }
             );
+
+            setIsLoading(false);
 
             if (response.ok) {
                 const res = await response.json();

@@ -69,7 +69,7 @@ const navItems: NavItem[] = [
   {
     icon: <FaDollarSign className="text-xl" />,
     name: "Payroll",
-    subItems: [{ name: "Salary History", path: "/hr/salaryhistory", pro: false }],
+    subItems: [{ name: "Salary History", path: "/hr/payroll/salaryhistory", pro: false }],
   },
   {
     icon: <UserCircleIcon />,

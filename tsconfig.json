@@ -57,7 +57,8 @@
     "src/components/user-profile/UserMetaCard.jsx",
     "src/components/header/UserDropdown.jsx",
     "src/app/(deshboard)/admin/page.jsx",
-    "src/components/ecommerce/EcommerceMetrics.jsx"
+    "src/components/ecommerce/EcommerceMetrics.jsx",
+    "src/app/(deshboard)/hr/profile/page.jsx"
   ],
   "exclude": [
     "node_modules"

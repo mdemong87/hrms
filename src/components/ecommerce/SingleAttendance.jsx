@@ -27,6 +27,7 @@ const SingleAttendance = ({ id }) => {
     /****************** Get Single Employee Information Here *******************/
     const getSingleEmployeeAttendance = useCallback(async (id) => {
         try {
+
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employee/attendance/${id}`,
                 {
@@ -37,6 +38,7 @@ const SingleAttendance = ({ id }) => {
                     },
                 }
             );
+
 
             if (response.ok) {
                 const res = await response.json();

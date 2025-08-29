@@ -29,7 +29,11 @@ const Shift = () => {
 
     /********************* Get All Shift Here **********************/
     const getshift = useCallback(async () => {
+
         try {
+
+            setIsLoading(true);
+
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/shifts`,
                 {
@@ -40,6 +44,8 @@ const Shift = () => {
                     },
                 }
             );
+
+            setIsLoading(false);
 
             if (response.ok) {
                 const res = await response.json();
