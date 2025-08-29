@@ -1,6 +1,6 @@
 import UnderDevelopment from "../../../../../components/common/UnderDevelopment";
 
-const EmployeeLeaveHistory = () => {
+const MyProject = () => {
     return (
         <div>
             <UnderDevelopment />
@@ -8,5 +8,4 @@ const EmployeeLeaveHistory = () => {
     )
 }
 
-
-export default EmployeeLeaveHistory;
+export default MyProject;

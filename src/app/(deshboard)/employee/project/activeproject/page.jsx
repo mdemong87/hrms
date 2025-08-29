@@ -1,6 +1,6 @@
 import UnderDevelopment from "@/components/common/UnderDevelopment";
 
-const EmployeeSalaryHistory = () => {
+const ActiveProject = () => {
     return (
         <div>
             <UnderDevelopment />
@@ -8,5 +8,4 @@ const EmployeeSalaryHistory = () => {
     )
 }
 
-
-export default EmployeeSalaryHistory;
+export default ActiveProject;

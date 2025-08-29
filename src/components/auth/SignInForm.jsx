@@ -68,7 +68,7 @@ export default function SignInForm() {
             case "Hr":
               router.push('/hr');
               break;
-            case "Projectmanager":
+            case "Project Manager":
               router.push('/projectmanager');
               break;
             case "Employee":

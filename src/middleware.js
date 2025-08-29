@@ -52,7 +52,7 @@ export default async function middleware(req) {
 
 
     /************* Check if path starts with any of the given prefixes *************/
-    const startsWithProtectedPrefix = ['/admin', '/hr', '/projectmanager', '/employee']
+    const startsWithProtectedPrefix = ['/admin', '/hr', '/Project Manager', '/employee']
         .some(prefix => path.startsWith(prefix));
 
 
@@ -67,7 +67,7 @@ export default async function middleware(req) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     } else if (role != "Hr" && path.startsWith('/hr')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
-    } else if (role != "Projectmanager" && path.startsWith('/projectmanager')) {
+    } else if (role != "Project Manager" && path.startsWith('/projectmanager')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
     } else if (role != "Employee" && path.startsWith('/employee')) {
         return NextResponse.redirect(new URL('/signin', req.nextUrl));
@@ -79,7 +79,7 @@ export default async function middleware(req) {
             return NextResponse.redirect(new URL('/admin', req.nextUrl));
         } else if (role === 'Hr') {
             return NextResponse.redirect(new URL('/hr', req.nextUrl));
-        } else if (role === 'Projectmanager') {
+        } else if (role === 'Project Manager') {
             return NextResponse.redirect(new URL('/projectmanager', req.nextUrl));
         } else if (role === 'Employee') {
             return NextResponse.redirect(new URL('/employee', req.nextUrl));

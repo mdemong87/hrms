@@ -1,7 +1,9 @@
+import UnderDevelopment from "@/components/common/UnderDevelopment";
+
 const EmployeeLeaveStatus = () => {
     return (
         <div>
-            <h1 className="text-gray-500 text-2xl">This is the Employee leave status page...</h1>
+            <UnderDevelopment />
         </div>
     )
 }
