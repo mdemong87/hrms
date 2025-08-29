@@ -16,11 +16,6 @@ const EmployeeShiftAssignCard = ({ allshift, employee, token, getHolidayAndEmplo
 
 
 
-
-
-
-
-
     /******************* Update Shift Functionality Here ******************/
     async function handleAssign(id) {
 
@@ -109,12 +104,13 @@ const EmployeeShiftAssignCard = ({ allshift, employee, token, getHolidayAndEmplo
 
                     {/* Controls */}
                     <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-                        <label className="sr-only" htmlFor={`shift-select-${employee.id}`}>
+                        <label className="sr-only" htmlFor={`shift-select`}>
                             Select a shift to assign
                         </label>
                         <div className="flex flex-col justify-end w-full gap-3">
                             {
                                 editMood && <select
+                                    id="shift-select"
                                     value={selected}
                                     disabled={!editMood}
                                     onChange={(e) => setSelected(e.target.value)}
