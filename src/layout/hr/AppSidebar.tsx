@@ -10,14 +10,7 @@ import { PiOfficeChairBold } from "react-icons/pi";
 import { TfiAnnouncement } from "react-icons/tfi";
 import LogoutBtn from "../../components/auth/LogoutBtn";
 import { useSidebar } from "../../context/SidebarContext";
-import {
-  CalenderIcon,
-  ChevronDownIcon,
-  GridIcon,
-  HorizontaLDots,
-  PageIcon,
-  UserCircleIcon
-} from "../../icons/index";
+import { CalenderIcon, ChevronDownIcon, GridIcon, HorizontaLDots, PageIcon, UserCircleIcon } from "../../icons/index";
 
 type NavItem = {
   name: string;
@@ -53,6 +46,17 @@ const navItems: NavItem[] = [
     subItems: [{ name: "Add Department", path: "/hr/department", pro: false }],
   },
   {
+    icon: <CalenderIcon />,
+    name: "Calendar",
+    path: "/hr/calendar",
+  },
+
+  {
+    icon: <MdOutlineHolidayVillage className="text-2xl" />,
+    name: "Holidays",
+    subItems: [{ name: "Holidays", path: "/hr/holidays/add", pro: false }],
+  },
+  {
     icon: <TfiAnnouncement className="text-xl" />,
     name: "Announcement",
     path: "/hr/announcement",
@@ -61,16 +65,6 @@ const navItems: NavItem[] = [
     icon: <FaShekelSign className="text-2xl" />,
     name: "Duty Shift",
     subItems: [{ name: "Add Shift", path: "/hr/shift", pro: false }, { name: "Assign to Shift", path: "/hr/assigntoshift", pro: false }],
-  },
-  {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/hr/calendar",
-  },
-  {
-    icon: <MdOutlineHolidayVillage className="text-2xl" />,
-    name: "Holidays",
-    path: "/hr/holidays",
   },
   {
     icon: <FaDollarSign className="text-xl" />,

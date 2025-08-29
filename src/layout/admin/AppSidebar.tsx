@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FaShekelSign, FaTasks } from "react-icons/fa";
+import { FaDollarSign, FaShekelSign, FaTasks } from "react-icons/fa";
 import { FaChartLine } from "react-icons/fa6";
 import { MdOutlineHolidayVillage, MdOutlineSettings } from "react-icons/md";
 import { PiOfficeChairBold } from "react-icons/pi";
@@ -70,6 +70,11 @@ const navItems: NavItem[] = [
     icon: <FaShekelSign className="text-2xl" />,
     name: "Duty Shift",
     subItems: [{ name: "Add Shift", path: "/admin/shift", pro: false }, { name: "Assign to Shift", path: "/admin/assigntoshift", pro: false }],
+  },
+  {
+    icon: <FaDollarSign className="text-xl" />,
+    name: "Payroll",
+    subItems: [{ name: "Salary History", path: "/admin/salaryhistory", pro: false }],
   },
   {
     icon: <UserCircleIcon />,

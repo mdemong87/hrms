@@ -1,126 +1,113 @@
-"use client";
+'use client'
 
-import AssignOnShift from "@/components/ecommerce/AssignOnShift";
-import { useState } from "react";
+import Loading from "@/components/common/Loading";
+import EmployeeShiftAssignCard from "@/components/ecommerce/EmployeeShiftAssignCard";
+import getCookie from "@/helper/cookie/gettooken";
+import { useCallback, useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 
-export default function AssignShift() {
-    const [selectedShift, setSelectedShift] = useState("");
-    const [selectedEmployees, setSelectedEmployees] = useState([]);
-    const [assignments, setAssignments] = useState([]);
-    const [darkMode, setDarkMode] = useState(false);
+const AssignShift = () => {
 
-    const shifts = [
-        { id: "1", name: "Morning (9:00 AM - 5:00 PM)" },
-        { id: "2", name: "Evening (1:00 PM - 9:00 PM)" },
-        { id: "3", name: "Night (9:00 PM - 6:00 AM)" },
-    ];
+    const token = getCookie();
+    const [holidayAndEmployee, setholidayAndEmployee] = useState([]);
+    const [isloading, setisloading] = useState(false);
+    const [searchShift, setsearchShift] = useState('All');
 
-    const employees = [
-        { id: "1", name: "Emon Hossen" },
-        { id: "2", name: "John Smith" },
-        { id: "3", name: "Sarah Ali" },
-        { id: "4", name: "David Khan" },
-        { id: "5", name: "Maria Noor" },
-    ];
 
-    const handleEmployeeToggle = (id) => {
-        setSelectedEmployees((prev) =>
-            prev.includes(id) ? prev.filter((empId) => empId !== id) : [...prev, id]
-        );
-    };
 
-    const handleAssign = () => {
-        if (!selectedShift || selectedEmployees.length === 0) return;
 
-        const shift = shifts.find((s) => s.id === selectedShift);
-        const assigned = selectedEmployees.map((id) => ({
-            shift,
-            emp: employees.find((e) => e.id === id),
-        }));
 
-        setAssignments((prev) => [...prev, ...assigned]);
 
-        // reset
-        setSelectedShift("");
-        setSelectedEmployees([]);
-    };
+    /**************** Get Employee Assign on Shift and Employee Here ******************/
+    const getHolidayAndEmployee = useCallback(async () => {
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/shift/assign`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.ok) {
+                const res = await response.json();
+                setholidayAndEmployee(res);
+            } else {
+                console.error("Failed to fetch Holiday and Employee");
+            }
+        } catch (error) {
+            console.error("Failed to fetch Holiday and Employee:", error);
+        }
+    }, [token]);
+
+
+
+
+
+    /************** Run once on component mount ************/
+    useEffect(() => {
+        getHolidayAndEmployee();
+    }, [getHolidayAndEmployee]);
+
+
+
+
+
+
+    /********************* Single Employee Search by name **********************/
+    const filter = holidayAndEmployee?.data?.filter((i) => {
+        if (searchShift == "All") {
+            return i;
+        } else {
+            return i?.shift?.id == searchShift;
+        }
+    });
+
+
+
+    console.log(filter);
+
+
+    /****** log here ******/
+    console.log(holidayAndEmployee);
+
+
 
     return (
-        <div
-            className={`min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors p-6`}
-        >
 
-            {/* Form */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 mb-6 space-y-4">
-                {/* Select Shift */}
-                <div>
-                    <label className="block mb-2 text-gray-700 dark:text-gray-200">
-                        Select Shift
-                    </label>
-                    <select
-                        value={selectedShift}
-                        onChange={(e) => setSelectedShift(e.target.value)}
-                        className="w-full p-2 rounded-lg border border-gray-500 bg-gray-50 dark:bg-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
-                    >
-                        <option value="">-- Choose a Shift --</option>
-                        {shifts.map((shift) => (
-                            <option key={shift.id} value={shift.id}>
-                                {shift.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
 
-                {/* Select Multiple Employees */}
-                <div>
-                    <label className="block mb-2 text-gray-700 dark:text-gray-200">
-                        Select Employees
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                        {employees.map((emp) => (
-                            <label
-                                key={emp.id}
-                                className="flex items-center gap-2 p-2 rounded-lg border cursor-pointer bg-gray-50 dark:bg-gray-700 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600"
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={selectedEmployees.includes(emp.id)}
-                                    onChange={() => handleEmployeeToggle(emp.id)}
-                                    className="accent-blue-600"
-                                />
-                                <span className="text-gray-800 dark:text-gray-100">{emp.name}</span>
-                            </label>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Assign Button */}
-                <button
-                    onClick={handleAssign}
-                    className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                >
-                    Assign Shift
-                </button>
+        <div className="mx-auto  p-6 rounded-xl shadow-sm space-y-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600">
+            {isloading && <Loading />}
+            {/* Add Holiday Form */}
+            <div className=" flex items-center justify-between">
+                <h2 className="text-2xl font-semibold mb-1 dark:text-gray-100">Employee Assign on Shift</h2>
+                <select onChange={(e) => { setsearchShift(e.target.value) }} className="w-[250px] border border-gray-300 dark:border-gray-700 p-1 rounded-md outline-none cursor-pointer">
+                    <option value="All">All</option>
+                    {holidayAndEmployee?.shifts?.map((item, index) => {
+                        return (
+                            <option key={index} value={item?.id}>{item?.shift_name}</option>
+                        )
+                    })}
+                </select>
             </div>
 
-            {/* Preview Section */}
+            <div className="grid grid-cols-3 items-center gap-6">
 
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
-                <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
-                    Assigned Employees on Shift
-                </h2>
-
-
-                <div className="grid grid-cols-9 gap-5">
-                    <AssignOnShift />
-                    <AssignOnShift />
-                    <AssignOnShift />
-                    <AssignOnShift />
-                </div>
-
-
+                {
+                    filter?.map((item, index) => {
+                        return (
+                            <EmployeeShiftAssignCard allshift={holidayAndEmployee?.shifts} key={index} employee={item} token={token} getHolidayAndEmployee={getHolidayAndEmployee} />
+                        )
+                    })
+                }
             </div>
 
+            <ToastContainer position="bottom-right" />
         </div>
-    );
+    )
 }
+
+export default AssignShift;
