@@ -187,7 +187,7 @@ const SingleAttendance = ({ id }) => {
 
 
     return (
-        <div className={''}>
+        <div className={'shadow-sm px-2 py-1 dark:bg-gray-900 dark:border dark:border-gray-700 bg-white rounded-lg'}>
 
             {SingleEmployeeAttendance?.length < 1 && <Loading />}
             {isLoading && <Loading />}
