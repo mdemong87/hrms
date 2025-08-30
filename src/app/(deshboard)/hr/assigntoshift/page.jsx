@@ -82,7 +82,7 @@ const AssignShift = () => {
             {/* Add Holiday Form */}
             <div className=" flex items-center justify-between">
                 <h2 className="text-2xl font-semibold mb-1 dark:text-gray-100">Employee Assign on Shift</h2>
-                <select onChange={(e) => { setsearchShift(e.target.value) }} className="w-[250px] border border-gray-300 dark:border-gray-700 p-1 rounded-md outline-none cursor-pointer">
+                <select onChange={(e) => { setsearchShift(e.target.value) }} className="w-[250px] border border-gray-300 dark:border-gray-700 p-1 rounded-md outline-none cursor-pointer dark:text-gray-100 bg-white dark:bg-gray-900">
                     <option value="All">All</option>
                     {holidayAndEmployee?.shifts?.map((item, index) => {
                         return (

@@ -104,13 +104,6 @@ const EmployeeLeaveStatus = () => {
 
 
 
-
-
-
-    console.log(myLeave);
-
-
-
     return (
         <div>
             {isloading && <Loading />}
