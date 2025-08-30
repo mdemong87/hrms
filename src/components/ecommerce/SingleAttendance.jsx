@@ -185,7 +185,7 @@ const SingleAttendance = ({ id }) => {
 
 
     /*************** log Here ***************/
-    console.log(SingleEmployeeAttendance);
+    // console.log(SingleEmployeeAttendance);
 
 
     return (

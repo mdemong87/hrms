@@ -44,7 +44,7 @@ const navItems: NavItem[] = [
   {
     icon: <PageIcon />,
     name: "My Leave",
-    subItems: [{ name: "Apply Leave", path: "/employee/leave/apply", pro: false }, { name: "Leave Status", path: "/employee/leave/status", pro: false }, { name: "Leave History", path: "/employee/leave/history", pro: false }],
+    subItems: [{ name: "Apply Leave", path: "/employee/leave/apply", pro: false }, { name: "Leave Status", path: "/employee/leave/status", pro: false }],
   },
   {
     icon: <TfiAnnouncement className="text-xl" />,

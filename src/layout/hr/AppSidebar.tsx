@@ -38,7 +38,7 @@ const navItems: NavItem[] = [
   {
     icon: <PageIcon />,
     name: "Leave",
-    subItems: [{ name: "Requested Leave", path: "/hr/leave/request", pro: false }, { name: "Apply Leave", path: "/hr/leave/apply", pro: false }, { name: "Leave Status", path: "/hr/leave/status", pro: false }, { name: "Leave History", path: "/hr/leave/history", pro: false }],
+    subItems: [{ name: "Requested Leave", path: "/hr/leave/request", pro: false }, { name: "Apply Leave", path: "/hr/leave/apply", pro: false }, { name: "Leave Status", path: "/hr/leave/status", pro: false }],
   },
   {
     icon: <PiOfficeChairBold className="text-2xl" />,
