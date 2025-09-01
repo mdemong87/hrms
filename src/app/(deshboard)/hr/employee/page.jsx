@@ -57,9 +57,6 @@ const AllEmployee = () => {
     const filter = allemployees?.employees?.filter(emp => emp?.fname?.toUpperCase().includes(idorname?.toUpperCase()));
 
 
-    console.log(allemployees.length);
-
-
 
 
     return (

@@ -58,7 +58,9 @@
     "src/components/header/UserDropdown.jsx",
     "src/app/(deshboard)/admin/page.jsx",
     "src/components/ecommerce/EcommerceMetrics.jsx",
-    "src/app/(deshboard)/hr/profile/page.jsx"
+    "src/app/(deshboard)/hr/profile/page.jsx",
+    "src/components/calendar/Calendar.jsx",
+    "src/components/form/MultiSelect.jsx"
   ],
   "exclude": [
     "node_modules"

@@ -38,13 +38,13 @@ function Logout() {
                 const data = await response.json();
                 SetCookie("token", "", "");
                 SetCookie("role", "");
-                toast.success("SignOut successful");
+                toast.success("Signout successful");
                 router.push('/signin');
                 // You can redirect the user or show a success message here
             } else {
                 const errorData = await response.json();
-                toast.error('SignOutt failed');
-                console.error("SignOut failed:", errorData.message);
+                toast.error('Signoutt failed');
+                console.error("Signout failed:", errorData.message);
             }
 
         } catch (error) {

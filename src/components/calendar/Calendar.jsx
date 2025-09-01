@@ -1,78 +1,114 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import {
-  EventInput,
-  DateSelectArg,
-  EventClickArg,
-  EventContentArg,
-} from "@fullcalendar/core";
-import { useModal } from "@/hooks/useModal";
 import { Modal } from "@/components/ui/modal";
+import getCookie from "@/helper/cookie/gettooken";
+import { useModal } from "@/hooks/useModal";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-interface CalendarEvent extends EventInput {
-  extendedProps: {
-    calendar: string;
-  };
-}
 
-const Calendar: React.FC = () => {
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
-    null
-  );
+const Calendar = () => {
+
+  const token = getCookie();
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventTitle, setEventTitle] = useState("");
   const [eventStartDate, setEventStartDate] = useState("");
   const [eventEndDate, setEventEndDate] = useState("");
   const [eventLevel, setEventLevel] = useState("");
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const calendarRef = useRef<FullCalendar>(null);
+  const [events, setEvents] = useState([
+    {
+      id: "1",
+      title: "Mawas Birthday",
+      start: new Date().toISOString().split("T")[0],
+      extendedProps: { calendar: "Danger" },
+    },
+    {
+      id: "2",
+      title: "Meeting",
+      start: new Date(Date.now() + 86400000).toISOString().split("T")[0],
+      extendedProps: { calendar: "Success" },
+    },
+    {
+      id: "3",
+      title: "Workshop",
+      start: new Date(Date.now() + 172800000).toISOString().split("T")[0],
+      end: new Date(Date.now() + 259200000).toISOString().split("T")[0],
+      extendedProps: { calendar: "Primary" },
+    },
+  ]);
+  const calendarRef = useRef(null);
   const { isOpen, openModal, closeModal } = useModal();
+  const [IsLoading, setIsLoading] = useState(false);
 
+
+  /******* Event Status Schama Here ******/
   const calendarsEvents = {
-    Danger: "danger",
-    Success: "success",
     Primary: "primary",
     Warning: "warning",
+    Danger: "danger",
+    Success: "success",
   };
 
-  useEffect(() => {
-    // Initialize with some events
-    setEvents([
-      {
-        id: "1",
-        title: "Event Conf.",
-        start: new Date().toISOString().split("T")[0],
-        extendedProps: { calendar: "Danger" },
-      },
-      {
-        id: "2",
-        title: "Meeting",
-        start: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Success" },
-      },
-      {
-        id: "3",
-        title: "Workshop",
-        start: new Date(Date.now() + 172800000).toISOString().split("T")[0],
-        end: new Date(Date.now() + 259200000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Primary" },
-      },
-    ]);
-  }, []);
 
-  const handleDateSelect = (selectInfo: DateSelectArg) => {
+
+  /**************** Get the All Events Here *****************/
+  const getEvents = useCallback(async () => {
+    try {
+
+      setIsLoading(true);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/events`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setIsLoading(false);
+
+      if (response.ok) {
+        const res = await response.json();
+        setEvents(res);
+      } else {
+        console.error("Failed to fetch Events");
+      }
+    } catch (error) {
+      console.error("Error fetching Events:", error);
+    }
+  }, [token]);
+
+
+
+
+
+  /************** Run once on component mount ************/
+  useEffect(() => {
+
+    //call get event function
+    getEvents();
+
+  }, [getEvents]);
+
+
+  /************** Handle Data Select function ***************/
+  const handleDateSelect = (selectInfo) => {
     resetModalFields();
     setEventStartDate(selectInfo.startStr);
     setEventEndDate(selectInfo.endStr || selectInfo.startStr);
     openModal();
   };
 
-  const handleEventClick = (clickInfo: EventClickArg) => {
+
+  /************** Handle Event Click function ***************/
+  const handleEventClick = (clickInfo) => {
     const event = clickInfo.event;
-    setSelectedEvent(event as unknown as CalendarEvent);
+    setSelectedEvent(event);
     setEventTitle(event.title);
     setEventStartDate(event.start?.toISOString().split("T")[0] || "");
     setEventEndDate(event.end?.toISOString().split("T")[0] || "");
@@ -80,6 +116,8 @@ const Calendar: React.FC = () => {
     openModal();
   };
 
+
+  /************** Handle Add And Update Event function ***************/
   const handleAddOrUpdateEvent = () => {
     if (selectedEvent) {
       // Update existing event
@@ -87,18 +125,18 @@ const Calendar: React.FC = () => {
         prevEvents.map((event) =>
           event.id === selectedEvent.id
             ? {
-                ...event,
-                title: eventTitle,
-                start: eventStartDate,
-                end: eventEndDate,
-                extendedProps: { calendar: eventLevel },
-              }
+              ...event,
+              title: eventTitle,
+              start: eventStartDate,
+              end: eventEndDate,
+              extendedProps: { calendar: eventLevel },
+            }
             : event
         )
       );
     } else {
       // Add new event
-      const newEvent: CalendarEvent = {
+      const newEvent = {
         id: Date.now().toString(),
         title: eventTitle,
         start: eventStartDate,
@@ -112,6 +150,9 @@ const Calendar: React.FC = () => {
     resetModalFields();
   };
 
+
+
+  /************** Reset Model Fields function Here **************/
   const resetModalFields = () => {
     setEventTitle("");
     setEventStartDate("");
@@ -119,6 +160,13 @@ const Calendar: React.FC = () => {
     setEventLevel("");
     setSelectedEvent(null);
   };
+
+
+
+  /*********** Log Here *************/
+  console.log(events);
+
+
 
   return (
     <div className="rounded-2xl border  border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
@@ -143,6 +191,7 @@ const Calendar: React.FC = () => {
               click: openModal,
             },
           }}
+
         />
       </div>
       <Modal
@@ -177,7 +226,7 @@ const Calendar: React.FC = () => {
             </div>
             <div className="mt-6">
               <label className="block mb-4 text-sm font-medium text-gray-700 dark:text-gray-400">
-                Event Color
+                Event Status
               </label>
               <div className="flex flex-wrap items-center gap-4 sm:gap-5">
                 {Object.entries(calendarsEvents).map(([key, value]) => (
@@ -201,9 +250,8 @@ const Calendar: React.FC = () => {
                           />
                           <span className="flex items-center justify-center w-5 h-5 mr-2 border border-gray-300 rounded-full box dark:border-gray-700">
                             <span
-                              className={`h-2 w-2 rounded-full bg-white ${
-                                eventLevel === key ? "block" : "hidden"
-                              }`}  
+                              className={`h-2 w-2 rounded-full bg-white ${eventLevel === key ? "block" : "hidden"
+                                }`}
                             ></span>
                           </span>
                         </span>
@@ -267,7 +315,7 @@ const Calendar: React.FC = () => {
   );
 };
 
-const renderEventContent = (eventInfo: EventContentArg) => {
+const renderEventContent = (eventInfo) => {
   const colorClass = `fc-bg-${eventInfo.event.extendedProps.calendar.toLowerCase()}`;
   return (
     <div
