@@ -1,6 +1,8 @@
 'use client'
 
 import FilterSearch from "@/components/common/FilterSearch";
+import Loading from "@/components/common/Loading";
+import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
 import Image from "next/image";
@@ -8,8 +10,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import demoprofile from "../../../../../public/images/user/demo.jpeg";
-import Loading from "../../../../components/common/Loading";
-import PageBreadcrumb from "../../../../components/common/PageBreadCrumb";
 
 const AllEmployee = () => {
 
@@ -20,7 +20,7 @@ const AllEmployee = () => {
 
 
 
-    // Fetch all Employee here
+    /******************** Get all Employee Here *********************/
     const getAllEmployees = useCallback(async () => {
         try {
             const response = await fetch(
@@ -45,7 +45,9 @@ const AllEmployee = () => {
         }
     }, [token]);
 
-    // Run once on component mount
+
+
+    /****************** Run once on component mount *******************/
     useEffect(() => {
         getAllEmployees();
     }, [getAllEmployees]);
@@ -53,8 +55,9 @@ const AllEmployee = () => {
 
 
 
-    // add search filter functionalaty here
+    /********************* Single Employee Search by name **********************/
     const filter = allemployees?.employees?.filter(emp => emp?.fname?.toUpperCase().includes(idorname?.toUpperCase()));
+
 
 
 
@@ -74,35 +77,35 @@ const AllEmployee = () => {
                         <FilterSearch seter={setidorname} />
                     </div>
                 </PageBreadcrumb>
-                <div className="relative overflow-x-auto rounded-md">
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div className="relative overflow-x-auto rounded-md shadow-md">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-600">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" className="p-4">
+                                <th scope="col" className="p-4 border-r-1 border-gray-200 dark:border-gray-600">
                                     SL
                                 </th>
-                                <th scope="col" className="p-4 text-center">
+                                <th scope="col" className="p-4 text-center border-r-1 border-gray-200 dark:border-gray-600">
                                     ID
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Name
+                                <th scope="col" className="px-2 py-3 border-r-1 border-gray-200 dark:border-gray-600">
+                                    Image / Name
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Email
+                                <th scope="col" className="px-2 py-3 border-r-1 border-gray-200 dark:border-gray-600">
+                                    Email Address
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-2 py-3 border-r-1 border-gray-200 dark:border-gray-600">
                                     Department
                                 </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Employee Type
+                                <th scope="col" className="px-2 py-3 border-r-1 border-gray-200 dark:border-gray-600">
+                                    Type
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-2 py-3 border-r-1 border-gray-200 dark:border-gray-600">
                                     Date of Birth
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-2 py-3 border-r-1 border-gray-200 dark:border-gray-600">
                                     Position
                                 </th>
-                                <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-2 py-3">
                                     Level / Grade
                                 </th>
                             </tr>
@@ -114,35 +117,35 @@ const AllEmployee = () => {
                             {
                                 filter?.map((item, index) => {
                                     return (
-                                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-600 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <td className="w-4 p-4">
+                                        <tr key={index} className="bg-white  dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 border-r-1 border-gray-200 dark:border-gray-600">
+                                            <td className="w-4 p-4 border-1 border-gray-200 dark:border-gray-600">
                                                 {index + 1}
                                             </td>
-                                            <td className="text-center">{item?.eid}</td>
-                                            <td className="px-6 py-4">
-                                                <Link className="flex items-center gap-1 text-gray-700 whitespace-nowrap dark:text-gray-300" href={`/hr/employee/${item?.id}`}>
-                                                    <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="Jese image" />
-                                                    <div className="ps-3 pl-0 underline">
+                                            <td className="text-center border-1 border-gray-200 dark:border-gray-600">{item?.eid}</td>
+                                            <td className="px-2 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300 border-1 border-gray-200 dark:border-gray-600">
+                                                <Link href={`/hr/employee/${item?.id}`} className="underline flex items-center gap-1 text-gray-700 whitespace-nowrap dark:text-gray-300">
+                                                    <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="profile-image" />
+                                                    <div className="ps-3 pl-0">
                                                         <div className="text-base font-semibold">{item?.fname + " " + item?.lname}</div>
                                                     </div>
                                                 </Link>
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border-1 border-gray-200 dark:border-gray-600">
                                                 {item?.email}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-1 py-4 border-1 border-gray-200 dark:border-gray-600">
                                                 {item?.department?.name}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border-1 border-gray-200 dark:border-gray-600">
                                                 {item?.emplyeetype}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border-1 border-gray-200 dark:border-gray-600">
                                                 {item?.dob}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border-1 border-gray-200 dark:border-gray-600">
                                                 {item?.designation}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4 border-1 border-gray-200 dark:border-gray-600">
                                                 {item?.level}
                                             </td>
                                         </tr>

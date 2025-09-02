@@ -13,7 +13,7 @@ export const metadata = {
   description: "Sardar IT - HRMS",
 };
 
-export default async function Ecommerce() {
+export default async function AdminDeshBoard() {
 
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value; // name must match your cookie

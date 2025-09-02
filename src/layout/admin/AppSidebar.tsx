@@ -89,7 +89,7 @@ const othersItems: NavItem[] = [
     icon: <MdOutlineSettings className="text-xl" />,
     name: "Others Options",
     subItems: [
-      { name: "Company Profile", path: "/signin", pro: false },
+      { name: "Generate Emplyee ID Card", path: "/admin/generateId", pro: false },
       { name: "Site Settings", path: "/admin/setting", pro: false },
     ],
   },

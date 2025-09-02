@@ -59,6 +59,7 @@ const SingleEmployeeInfo = ({ id }) => {
     /**************** Fetch Single Employee information here ****************/
     const getSingleEmployee = useCallback(async (id) => {
         try {
+            setisloading(true);
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees/${id}`,
                 {
@@ -100,12 +101,15 @@ const SingleEmployeeInfo = ({ id }) => {
 
                 }));
                 setimagepreview(res?.employee?.avatar);
+                setisloading(false);
 
             } else {
                 console.error("Failed to fetch departments");
+                setisloading(false);
             }
         } catch (error) {
             console.error("Error fetching departments:", error);
+            setisloading(false);
         }
     }, [token]);
 
