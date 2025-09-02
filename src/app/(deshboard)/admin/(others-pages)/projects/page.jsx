@@ -1,15 +1,50 @@
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import UnderDevelopment from "@/components/common/UnderDevelopment";
+import ProjectCard from "@/components/common/Projectcard";
+import { cookies } from "next/headers";
 
-const AllProjects = () => {
+const AllProjects = async () => {
+
+
+    const cookieStore = cookies();
+    const token = cookieStore.get("token")?.value; // name must match your cookie
+
+
+    /************** Deshboard Page Data Fetching Here **************/
+
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/projects`, {
+        cache: "no-store",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!res.ok) {
+        console.error("Fetch failed:", res.status, res.statusText);
+        return <div>Error While Loading All Project</div>;
+    }
+
+    const AllProject = await res.json();
+    console.log(AllProject);
+
+
     return (
-        <div className="text-gray-500">
-
+        <div>
             <PageBreadcrumb pageTitle={"All Project"} />
 
-            <UnderDevelopment />
+            <div className="grid grid-cols-3 gap-6">
+
+                {
+                    AllProject?.map((item, index) => {
+                        return (
+                            <ProjectCard key={index} item={item} />
+                        )
+                    })
+                }
+            </div>
         </div>
-    )
-}
+    );
+};
 
 export default AllProjects;

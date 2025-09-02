@@ -78,7 +78,7 @@ export default function SignInForm() {
               console.error('Unknown role');
               router.push('/');
           }
-        }, 1000);
+        }, 100);
       } else {
         setisloading(false);
         const errorData = await response.json();

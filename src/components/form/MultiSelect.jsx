@@ -56,7 +56,7 @@ const MultiSelect = ({ label, options, selectedOptions, setSelectedOptions, disa
       <div className="relative z-20 inline-block w-full">
         <div className="relative flex flex-col items-center">
           <div onClick={toggleDropdown} className="w-full">
-            <div className={`mb-2 flex h-fit rounded-lg py-2.5 pl-3 pr-3 shadow-theme-xs outline-hidden transition focus:border-brand-300 focus:shadow-focus-ring dark:border-gray-700 dark:bg-gray-900 dark:focus:border-brand-300 ${error ? "border border-red-400" : "border border-gray-300"}`}>
+            <div className={`mb-2 flex h-fit rounded-lg py-2.5 pl-3 pr-3 shadow-theme-xs outline-hidden transition focus:border-brand-300 focus:shadow-focus-ring dark:bg-gray-900 dark:focus:border-brand-300 ${error ? "border border-red-400 dark:border-red-400" : "border border-gray-300 dark:border-gray-700"}`}>
               <div className="flex flex-wrap flex-auto gap-2">
                 {selectedValuesText?.length > 0 ? (
                   selectedOptions?.map((text, index) => (
@@ -64,7 +64,7 @@ const MultiSelect = ({ label, options, selectedOptions, setSelectedOptions, disa
                       key={index}
                       className="group flex items-center justify-center rounded-full border-[0.7px] border-transparent bg-gray-100 py-1 pl-2.5 pr-2 text-sm text-gray-800 hover:border-gray-200 dark:bg-gray-800 dark:text-white/90 dark:hover:border-gray-800"
                     >
-                      <span className="flex-initial max-w-full">{text}</span>
+                      <span className="flex-initial max-w-full">{options?.filter(i => i?.id == text)[0]?.fname}</span>
                       <div className="flex flex-row-reverse flex-auto">
                         <div
                           onClick={() =>
@@ -131,17 +131,17 @@ const MultiSelect = ({ label, options, selectedOptions, setSelectedOptions, disa
               className="absolute left-0 z-40 w-full overflow-y-auto bg-white rounded-lg shadow-sm top-full max-h-select dark:bg-gray-900"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex flex-col border border-gray-200 dark:border-gray-700">
+              <div className="flex flex-col border border-gray-200 dark:border-gray-700  mb-12">
                 {options?.map((option, index) => (
                   <div key={index}>
                     <div
                       className={`hover:bg-primary/5 w-full cursor-pointer rounded-t border-b border-gray-200 dark:border-gray-800`}
-                      onClick={() => handleSelect(option)}
+                      onClick={() => handleSelect(option?.id)}
                     >
                       <div className="mx-2 p-2 leading-6 text-gray-800 dark:text-white/90 flex items-center gap-10">
-                        {option}
+                        {option?.fname + " " + option?.lname}
 
-                        {selectedOptions?.includes(option) && (
+                        {selectedOptions?.includes(option?.id) && (
                           <div className="p-1 bg-green-300 text-whtie flex items-center justify-center rounded-sm">
                             <FaCheck className="text-white text-sm" />
                           </div>
