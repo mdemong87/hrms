@@ -38,7 +38,7 @@ const AllProjects = async () => {
                 {
                     AllProject?.map((item, index) => {
                         return (
-                            <ProjectCard key={index} item={item} />
+                            <ProjectCard key={index} link={`/projectmanager/projects/${item?.id}`} item={item} />
                         )
                     })
                 }

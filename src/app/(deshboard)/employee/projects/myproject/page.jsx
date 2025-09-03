@@ -1,19 +1,20 @@
+import NoProjectAssignCard from "@/components/common/NoProjectAssignCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import ProjectCard from "@/components/common/Projectcard";
 import { cookies } from "next/headers";
 import Link from "next/link";
 
-const AllProjects = async () => {
+const MyProjects = async () => {
 
 
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value; // name must match your cookie
+    const token = cookieStore?.get("token")?.value; // name must match your cookie
 
 
     /************** Deshboard Page Data Fetching Here **************/
 
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/projects`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employeeproject`, {
         cache: "no-store",
         headers: {
             "Content-Type": "application/json",
@@ -26,7 +27,16 @@ const AllProjects = async () => {
         return <div>Error While Loading All Project</div>;
     }
 
+
     const AllProject = await res.json();
+
+    if (AllProject?.length < 1) {
+        return (
+            <div className="w-full h-[80vh] flex items-center justify-center">
+                <NoProjectAssignCard />
+            </div>
+        )
+    }
 
 
     return (
@@ -40,7 +50,7 @@ const AllProjects = async () => {
                 {
                     AllProject?.map((item, index) => {
                         return (
-                            <ProjectCard key={index} link={`/admin/projects/${item?.id}`} item={item} />
+                            <ProjectCard key={index} link={`/employee/projects/myproject/${item?.id}`} item={item} />
                         )
                     })
                 }
@@ -49,4 +59,4 @@ const AllProjects = async () => {
     );
 };
 
-export default AllProjects;
+export default MyProjects;
