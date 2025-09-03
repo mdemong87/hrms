@@ -1,5 +1,4 @@
 'use client'
-import HtmlRenderer from "@/components/common/HtmlRenderer";
 import PriorityBadge from "@/components/common/PriorityBadge";
 import StatusBadgeForProject from "@/components/common/StatusBadgeForProject";
 import getRole from "@/helper/cookie/getrole";
@@ -12,16 +11,12 @@ function ProjectCard({ item }) {
 
 
     return (
-        <Link href={`${myRole === "Admin" ? "/admin/projects/5" : myRole === "Hr" ? "/hr/projects/5" : myRole === "Project Manager" ? "/projectmanager/projects/5" : myRole === "Employee" ? "/employee/projects/5" : "/signin"}`}
-            className={`max-w-md w-full rounded-2xl p-5 shadow-md transition bg-white text-slate-900 dark:bg-slate-900 dark:text-white`}
+        <Link href={`${myRole === "Admin" ? `/admin/projects/${item?.id}` : myRole === "Hr" ? `/hr/projects/${item?.id}` : myRole === "Project Manager" ? `/projectmanager/projects/${item?.id}` : myRole === "Employee" ? `/employee/projects/${item?.id}` : "/signin"}`}
+            className={`max-w-md w-full rounded-2xl p-5 shadow-md transition bg-white text-slate-900 dark:bg-slate-800 dark:text-white`}
         >
             {/* Title & Status */}
             <div className="flex flex-col items-start justify-between">
                 <h2 className="text-lg font-semibold">{item?.name}</h2>
-            </div>
-            {/* Description */}
-            <div className="text-sm mt-1 text-gray-400 line-clamp-2">
-                <HtmlRenderer htmlContent={item?.description} />
             </div>
 
             {/* Dates */}
@@ -86,7 +81,7 @@ function ProjectCard({ item }) {
                 <p className="font-semibold text-sm">Project Progress</p>
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
                     <div
-                        className={`h-2 rounded-full ${item?.progress > 80 ? "bg-green-500" : item?.progress > 60 ? "bg-purple-500" : item?.progress > 40 ? "bg-purple-500" : "bg-red-500"}`}
+                        className={`h-2 rounded-full ${item?.progress > 80 ? "bg-green-300" : item?.progress > 60 ? "bg-purple-300" : item?.progress > 40 ? "bg-purple-300" : "bg-red-300"}`}
                         style={{ width: `${item?.progress}%` }}
                     ></div>
                 </div>

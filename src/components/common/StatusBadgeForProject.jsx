@@ -15,7 +15,7 @@ export default function StatusBadgeForProject({ status }) {
 
     return (
         <span
-            className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium shadow-sm
+            className={`inline-flex items-center rounded-md px-3 py-1 text-xs font-medium shadow-sm
       ${statusColors[status] || "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"}`}
         >
             {status}

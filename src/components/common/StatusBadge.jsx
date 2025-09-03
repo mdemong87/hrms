@@ -33,7 +33,7 @@ function StatusBadge({ status }) {
     };
     const s = map[status] ?? map.pending;
     return (
-        <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${s.classes}`}>
+        <span className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium ${s.classes}`}>
             {s.icon}
             {s.label}
         </span>

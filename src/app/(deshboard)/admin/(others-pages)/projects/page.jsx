@@ -1,6 +1,7 @@
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import ProjectCard from "@/components/common/Projectcard";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 const AllProjects = async () => {
 
@@ -31,7 +32,9 @@ const AllProjects = async () => {
 
     return (
         <div>
-            <PageBreadcrumb pageTitle={"All Project"} />
+            <PageBreadcrumb pageTitle={"All Project"}>
+                <Link href={'/admin/projects/addproject'} className="text-white bg-blue-600 rounded-md px-4 py-2">Add Project</Link>
+            </PageBreadcrumb>
 
             <div className="grid grid-cols-3 gap-6">
 

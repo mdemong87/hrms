@@ -37,7 +37,7 @@ const MultiSelect = ({ label, options, selectedOptions, setSelectedOptions, disa
 
 
   /*********** selected value text function here ************/
-  const selectedValuesText = selectedOptions?.map((value) => options.find((option) => option.value === value)?.text || ""
+  const selectedValuesText = selectedOptions?.map((value) => options?.find((option) => option.value === value)?.text || ""
   );
 
 
