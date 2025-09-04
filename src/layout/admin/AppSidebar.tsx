@@ -28,7 +28,7 @@ const navItems: NavItem[] = [
   {
     icon: <TableIcon />,
     name: "Employees",
-    subItems: [{ name: "All Attendance", path: "/admin/employee/attendance", pro: false }, { name: "ALL Employee", path: "/admin/employee", pro: false }, { name: "Add Employee", path: "/admin/employee/add", pro: false }],
+    subItems: [{ name: "All Attendance", path: "/admin/employee/attendance", pro: false }, { name: "ALL Employee", path: "/admin/employee", pro: false }, { name: "New User", path: "/admin/employee/newuser", pro: false }, { name: "Add Employee", path: "/admin/employee/add", pro: false }],
   },
   {
     icon: <FaTasks className="text-xl" />,

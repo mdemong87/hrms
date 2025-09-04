@@ -1,13 +1,16 @@
 'use client'
 
 import BackBtn from "@/components/common/BackBtn";
+import getId from "@/helper/cookie/getid";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { FaEdit, FaSave } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
+import { toast, ToastContainer } from 'react-toastify';
 import demoprofile from "../../../public/images/user/demo.jpeg";
-import getId from "../../helper/cookie/getid";
 import handleFileChange from "../../helper/handlefilechange";
 import Loading from "../common/Loading";
 import Input from "../form/input/InputField";
@@ -20,8 +23,8 @@ const LimitedSingleEmployeeInfo = () => {
 
     const token = getCookie();
     const accessrole = getRole();
-    const router = useRouter();
     const id = getId();
+    const router = useRouter();
     const [isdisable, setisdisable] = useState(true);
     const [DepartmentsAndShift, setDepartmentsAndShift] = useState([]);
     const [SingleEmployee, setSingleEmployee] = useState([]);
@@ -100,6 +103,7 @@ const LimitedSingleEmployeeInfo = () => {
                 }));
                 setimagepreview(res?.employee?.avatar);
                 setisloading(false);
+
             } else {
                 console.error("Failed to fetch departments");
                 setisloading(false);
@@ -116,7 +120,6 @@ const LimitedSingleEmployeeInfo = () => {
     /***************** Fetch all departments here *******************/
     const getDepartmentsAndShift = useCallback(async () => {
         try {
-            setisloading(true);
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employee/attributes`,
                 {
@@ -131,14 +134,11 @@ const LimitedSingleEmployeeInfo = () => {
             if (response.ok) {
                 const res = await response.json();
                 setDepartmentsAndShift(res);
-                setisloading(false);
             } else {
                 console.error("Failed to fetch departments and shift");
-                setisloading(false);
             }
         } catch (error) {
             console.error("Error fetching departments and shift:", error);
-            setisloading(false);
         }
     }, [token]);
 
@@ -150,6 +150,63 @@ const LimitedSingleEmployeeInfo = () => {
         getSingleEmployee(id);
     }, [getDepartmentsAndShift, getSingleEmployee, id]);
 
+
+
+
+
+    /**************** A Single Employee Update/Edit functionality here *****************/
+    async function handlesave(e, id) {
+        e.preventDefault();
+
+        try {
+            setisloading(true);
+
+
+            // Use FormData instead of JSON.stringify
+            const fd = new FormData();
+
+            // Append all formdata values
+            Object.keys(formdata).forEach((key) => {
+                fd.append(key, formdata[key]);
+            });
+
+            // Append image file if exists
+            if (imageFile) {
+                fd.append("image", imageFile);
+            }
+
+
+            // Laravel doesn’t like PUT with FormData, so fake it:
+            fd.append("_method", "PUT");
+
+            console.log(fd);
+            console.log(formdata);
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/employees/${id}`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: fd
+            });
+
+            if (response.ok) {
+                setisloading(false);
+                const data = await response.json();
+                setisdisable(true);
+                toast.success("Employee Edit successful");
+            } else {
+                setisloading(false);
+                const errorData = await response.json();
+                toast.error('Employee Edit failed');
+                console.error("Employee Edit failed:", errorData);
+            }
+
+        } catch (error) {
+            setisloading(false);
+            console.error(error);
+        }
+    }
 
 
 
@@ -171,6 +228,27 @@ const LimitedSingleEmployeeInfo = () => {
                         <div className="">
                             <div className="flex items-center gap-4">
                                 <BackBtn />
+                                {
+                                    isdisable && <button onClick={(e) => { setisdisable(false) }} className="bg-green-700 font-medium flex items-center gap-1 px-4 py-2 rounded-md text-white cursor-pointer font-medium">
+                                        <FaEdit className="text-md" />
+                                        <span className="text-sm">Edit</span>
+                                    </button>
+                                }
+                                {
+
+                                    !isdisable && (
+                                        <>
+                                            <button onClick={(e) => { setisdisable(true) }} className="bg-yellow-700 font-medium flex items-center gap-1 px-4 py-2 rounded-md text-white cursor-pointer font-medium">
+                                                <MdCancel className="text-md" />
+                                                <span className="text-sm">Cencel</span>
+                                            </button>
+                                            <button onClick={(e) => handlesave(e, id)} className="bg-blue-700 w-full justify-center font-medium flex items-center gap-1 px-3 py-2 rounded-md text-white cursor-pointer font-medium">
+                                                <FaSave className="text-md" />
+                                                <span className="text-sm">Save</span>
+                                            </button>
+                                        </>
+                                    )
+                                }
                             </div>
                         </div>
                     </div>
@@ -254,7 +332,7 @@ const LimitedSingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Email Address</Label>
-                                        <Input value={formdata?.email} disabled={isdisable} type="email" onChange={(e) =>
+                                        <Input value={formdata?.email} disabled={true} type="email" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 email: e.target.value
@@ -328,7 +406,7 @@ const LimitedSingleEmployeeInfo = () => {
                                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Department</Label>
-                                        <select disabled={isdisable} value={formdata?.department_id} onChange={(e) =>
+                                        <select disabled={true} value={formdata?.department_id} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 department_id: e.target.value
@@ -348,7 +426,7 @@ const LimitedSingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Designation / Job Title</Label>
-                                        <Input disabled={isdisable} value={formdata?.designation} type="text" onChange={(e) =>
+                                        <Input disabled={true} value={formdata?.designation} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 designation: e.target.value
@@ -358,7 +436,7 @@ const LimitedSingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Employment Type</Label>
-                                        <Select disabled={isdisable} selectedValue={formdata?.emplyeetype} options={["Select Employment Type", "Full Time", "Remote", "Hybride"]} onChange={(e) =>
+                                        <Select disabled={true} selectedValue={formdata?.emplyeetype} options={["Select Employment Type", "Full Time", "Remote", "Hybride"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 emplyeetype: e.target.value
@@ -377,7 +455,7 @@ const LimitedSingleEmployeeInfo = () => {
                                     </div>
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Probation Period</Label>
-                                        <Select disabled={isdisable} selectedValue={formdata?.probitionprioed} options={["Select Probation Period", "0 Day", "15 Days", "1 Month", "2 Months", "3 Manths"]} onChange={(e) =>
+                                        <Select disabled={true} selectedValue={formdata?.probitionprioed} options={["Select Probation Period", "0 Day", "15 Days", "1 Month", "2 Months", "3 Manths"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 probitionprioed: e.target.value
@@ -387,7 +465,7 @@ const LimitedSingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Reporting Manager</Label>
-                                        <Input disabled={isdisable} value={formdata?.reportingmanager} type="text" onChange={(e) =>
+                                        <Input disabled={true} value={formdata?.reportingmanager} type="text" onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 reportingmanager: e.target.value
@@ -397,7 +475,7 @@ const LimitedSingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Work Shift</Label>
-                                        <select disabled={isdisable} value={formdata?.workshift} onChange={(e) =>
+                                        <select disabled={true} value={formdata?.workshift} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 workshift: e.target.value
@@ -426,7 +504,7 @@ const LimitedSingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Role / Access Level</Label>
-                                        <Select disabled={isdisable} selectedValue={formdata?.role} options={["Select Role", "Admin", "Hr", "Employee", "Project Manager"]} onChange={(e) =>
+                                        <Select disabled={true} selectedValue={formdata?.role} options={["Select Role", "Admin", "Hr", "Employee", "Project Manager"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 role: e.target.value
@@ -435,7 +513,7 @@ const LimitedSingleEmployeeInfo = () => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Level / Grade</Label>
-                                        <Select disabled={isdisable} selectedValue={formdata?.level} options={[
+                                        <Select disabled={true} selectedValue={formdata?.level} options={[
                                             "Select Lavel/grade",
                                             "Unpaid-Intern-G0",
                                             "Paid Intern-G0",
@@ -473,9 +551,25 @@ const LimitedSingleEmployeeInfo = () => {
 
                     {/* added save and cencle button out of the form in down bottom postion */}
                     <div className="flex justify-between w-[200px] gap-3 mt-5 ml-auto">
+                        {
+
+                            !isdisable && (
+                                <>
+                                    <button onClick={(e) => { setisdisable(true) }} className="bg-yellow-700 font-medium flex items-center gap-1 px-4 py-2 rounded-md text-white cursor-pointer font-medium">
+                                        <MdCancel className="text-md" />
+                                        <span className="text-sm">Cencel</span>
+                                    </button>
+                                    <button onClick={(e) => handlesave(e, id)} className="bg-blue-700 w-full justify-center font-medium flex items-center gap-1 px-3 py-2 rounded-md text-white cursor-pointer font-medium">
+                                        <FaSave className="text-md" />
+                                        <span className="text-sm">Save</span>
+                                    </button>
+                                </>
+                            )
+                        }
                     </div>
 
                 </div>
+                <ToastContainer position="bottom-right" />
             </div>
         </div>
     )

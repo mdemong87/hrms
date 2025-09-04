@@ -29,6 +29,7 @@ const AllProjects = async () => {
     const AllProject = await res.json();
 
 
+
     return (
         <div>
             <PageBreadcrumb pageTitle={"All Project"}>

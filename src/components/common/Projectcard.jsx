@@ -10,8 +10,6 @@ function ProjectCard({ link, item }) {
 
     const myRole = getRole();
 
-    console.log(item);
-
 
     return (
         <Link href={link}

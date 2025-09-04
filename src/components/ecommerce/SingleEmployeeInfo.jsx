@@ -280,8 +280,6 @@ const SingleEmployeeInfo = ({ id }) => {
 
 
 
-
-
     return (
         <div>
             <div>

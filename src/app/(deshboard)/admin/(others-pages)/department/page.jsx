@@ -177,7 +177,7 @@ const Department = () => {
 
                 <div className="mt-4">
                     <Label>Descriptions</Label>
-                    <TextArea value={des} seter={(e) => setDes(e.target.value)} />
+                    <TextArea value={des} onChange={(e) => { setDes(e.target.value) }} />
                 </div>
 
                 <div className="flex items-center justify-between mt-6">
