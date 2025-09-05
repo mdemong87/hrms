@@ -8,21 +8,26 @@ import StatusBadge from "../common/StatusBadge";
 
 
 function LeaveCard({ item, hanldeLeaveDelete }) {
+
+
+    console.log(item);
+
     return (
         <div
-            className="group relative overflow-hidden rounded-2xl border border-transparent bg-white p-5 shadow-sm ring-1 ring-gray-200/60 hover:shadow-md dark:bg-neutral-900 dark:ring-neutral-800"
+            className="group relative overflow-hidden rounded-2xl border border-transparent bg-white p-5 shadow-sm ring-1 ring-gray-200/60 hover:shadow-md dark:bg-gray-800 dark:ring-neutral-800"
             role="region"
             aria-label={`Leave card for ${name}`}
         >
 
-            <header className="flex items-start justify-end gap-4">
-                <StatusBadge status={item?.status} />
-            </header>
 
             <div className="mt-4 grid gap-3 text-sm">
                 <div className="flex flex-col items-start gap-2 text-gray-600 dark:text-gray-300">
-                    <div className="pt-4">
-                        Leave Type: {item?.leave_type}
+                    <div className="flex items-center justify-between w-full">
+                        <span>Leave Type: {item?.leave_type}</span>
+
+                        <header className="flex items-start justify-end gap-4">
+                            <StatusBadge status={item?.status} />
+                        </header>
                     </div>
                     <span>
                         <span className="font-medium">{item?.start_date}</span> - <span className="font-medium">{item?.end_date

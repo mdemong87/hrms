@@ -3,7 +3,7 @@ import AddAmployeeWper from "../../../../../../components/ecommerce/AddEmplyeeWr
 const addEmplyee = () => {
 
     return (
-        <div>
+        <div className="w-full">
             <AddAmployeeWper />
         </div>
     )

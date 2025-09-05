@@ -233,7 +233,7 @@ const ProjectOverviewCard = ({ id }) => {
                                 <div className="space-y-3">
                                     {singleProject?.team_leaders?.map((member, idx) => (
                                         <div key={idx} className="flex items-center gap-3">
-                                            <Image width={1000} height={1000} src={member?.avatar} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
+                                            <Image width={1000} height={1000} src={member?.avatar || demoprofile} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
                                             <div>
                                                 <p className="text-sm font-medium">{member.fname + " " + member?.lname}</p>
                                                 <p className="text-xs text-gray-400">{member?.designation}</p>
@@ -245,9 +245,9 @@ const ProjectOverviewCard = ({ id }) => {
                                 <div className="space-y-3">
                                     {singleProject?.employees?.map((member, idx) => (
                                         <div key={idx} className="flex items-center gap-3">
-                                            <Image width={1000} height={1000} src={member?.avatar} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
+                                            <Image width={1000} height={1000} src={member?.avatar || demoprofile} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
                                             <div>
-                                                <p className="text-sm font-medium">{member.fname + " " + member?.lname}</p>
+                                                <p className="text-sm font-medium">{member?.fname + " " + member?.lname}</p>
                                                 <p className="text-xs text-gray-400">{member?.designation}</p>
                                             </div>
                                         </div>

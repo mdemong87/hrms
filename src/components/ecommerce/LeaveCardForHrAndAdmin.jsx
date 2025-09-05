@@ -77,7 +77,7 @@ function LeaveCardForHrAndAdmin({ item, hanldeLeaveDelete, getAllLeave }) {
 
     return (
         <div
-            className="group relative overflow-hidden rounded-2xl border border-transparent bg-white p-5 shadow-sm ring-1 ring-gray-200/60 hover:shadow-md dark:bg-neutral-900 dark:ring-neutral-800"
+            className="group relative overflow-hidden rounded-2xl border border-transparent bg-white p-5 shadow-sm ring-1 ring-gray-200/60 hover:shadow-md dark:bg-gray-800 dark:ring-neutral-800"
             role="region"
             aria-label={`Leave card for ${item?.employee?.fname}`}
         >
