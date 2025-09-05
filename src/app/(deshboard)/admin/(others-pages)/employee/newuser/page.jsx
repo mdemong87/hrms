@@ -106,6 +106,8 @@ const NewUser = () => {
 
 
 
+    console.log(allemployees);
+
 
 
     return (

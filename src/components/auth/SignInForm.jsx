@@ -88,6 +88,7 @@ export default function SignInForm() {
 
     } catch (error) {
       setisloading(false);
+      toast.error('SignIn failed');
       console.error("Error during signIn:", error);
     }
 
