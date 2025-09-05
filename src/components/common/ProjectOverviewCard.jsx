@@ -146,7 +146,7 @@ const ProjectOverviewCard = ({ id }) => {
                     <>
                         <div className="lg:col-span-3 space-y-4">
 
-                            <div className="rounded-xl p-4 shadow-sm bg-white dark:bg-slate-800">
+                            <div className="rounded-xl dark:rounded-none p-4 shadow-sm bg-white dark:bg-slate-800 sticky top-19 z-20">
                                 <div className="flex items-center gap-3">
                                     <div className="flex items-center justify-between w-full">
                                         <div>
@@ -207,9 +207,9 @@ const ProjectOverviewCard = ({ id }) => {
                             </div>
 
 
-                            <div className="rounded-xl p-5 shadow-md bg-white dark:bg-slate-800">
-                                <h3 className="font-semibold mb-2">Summary</h3>
-                                <div className="text-sm text-gray-900 dark:text-gray-50 whitespace-pre-line">
+                            <div className="rounded-xl p-5 shadow-md bg-white">
+                                <h3 className="font-semibold mb-2 text-gray-900 text-2xl">Project Descriptions</h3>
+                                <div className="text-sm text-gray-900 dark:text-gray-50 whitespace-pre-line z-10">
                                     <HtmlRenderer htmlContent={singleProject?.description} />
                                 </div>
 
@@ -218,7 +218,7 @@ const ProjectOverviewCard = ({ id }) => {
                         </div>
 
                         <div className="space-y-4">
-                            <div className="rounded-xl p-4 shadow-md bg-white dark:bg-slate-800">
+                            <div className="rounded-xl p-4 shadow-md bg-white dark:bg-slate-800 sticky top-20">
                                 <h3 className="font-semibold bg-gray-200 rounded-md dark:bg-gray-600 mb-4 px-3 py-1">Project Manager</h3>
                                 <div className="space-y-3">
                                     <div className="flex items-center gap-3">

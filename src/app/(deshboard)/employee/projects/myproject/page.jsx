@@ -39,6 +39,9 @@ const MyProjects = async () => {
     }
 
 
+    console.log(AllProject);
+
+
     return (
         <div>
             <PageBreadcrumb pageTitle={"All Project"}>

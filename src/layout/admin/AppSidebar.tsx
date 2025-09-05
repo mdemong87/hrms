@@ -33,7 +33,7 @@ const navItems: NavItem[] = [
   {
     icon: <FaTasks className="text-xl" />,
     name: "Task/Project",
-    subItems: [{ name: "All Project", path: "/admin/projects", pro: false }, { name: "Actice Project", path: "/admin/projects/activeproject", pro: false }, { name: "Cancel Project", path: "/admin/projects/cancelproject" }, { name: "Add Project", path: "/admin/projects/addproject" }],
+    subItems: [{ name: "All Project", path: "/admin/projects", pro: false }, { name: "Active Project", path: "/admin/projects/activeproject", pro: false }, { name: "Cancel Project", path: "/admin/projects/cancelproject" }, { name: "Add Project", path: "/admin/projects/addproject" }],
   },
   {
     icon: <FaChartLine className="text-xl" />,
