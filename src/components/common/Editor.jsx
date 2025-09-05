@@ -10,6 +10,7 @@ const Editor = ({ content, setContent }) => {
         readonly: false,
         placeholder: 'Start typing...',
         toolbar: true,
+        theme: false ? 'dark' : 'default', // change theme dynamically
         buttons: [
             'bold', 'italic', 'underline', 'strikethrough',
             'ul', 'ol',

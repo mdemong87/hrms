@@ -1,6 +1,6 @@
 'use client'
 
-import AddProject from "../../../../../../components/ecommerce/AddProject";
+import AddProject from "../../../../../components/ecommerce/AddProject";
 
 const AddProjectPage = () => {
 
