@@ -15,7 +15,6 @@ export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
   const [notification, setnotification] = useState([]);
-  const [IsLoading, setIsLoading] = useState(false);
 
 
   const pathname = usePathname();
@@ -44,7 +43,7 @@ export default function NotificationDropdown() {
   /**************** Get Notification Here ****************/
   const getNotification = useCallback(async () => {
 
-    setIsLoading(true);
+
 
     try {
       const response = await fetch(
@@ -58,7 +57,6 @@ export default function NotificationDropdown() {
         }
       );
 
-      setIsLoading(false);
 
       if (response.ok) {
         const res = await response.json();
@@ -88,10 +86,6 @@ export default function NotificationDropdown() {
 
 
 
-    console.log(item);
-
-    setIsLoading(true);
-
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/notification/${item?.id}`,
@@ -107,7 +101,6 @@ export default function NotificationDropdown() {
         }
       );
 
-      setIsLoading(false);
 
       if (response.ok) {
         const res = await response.json();
