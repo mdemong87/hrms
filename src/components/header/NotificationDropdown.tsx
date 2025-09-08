@@ -2,7 +2,7 @@
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import timeAgo from "../../helper/timeAgo";
 import { Dropdown } from "../ui/dropdown/Dropdown";
@@ -16,8 +16,6 @@ export default function NotificationDropdown() {
   const [notifying, setNotifying] = useState(true);
   const [notification, setnotification] = useState([]);
 
-
-  const pathname = usePathname();
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -67,7 +65,7 @@ export default function NotificationDropdown() {
     } catch (error) {
       console.error("Error fetching departments:", error);
     }
-  }, [pathname, token]);
+  }, [token]);
 
 
 
