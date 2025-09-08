@@ -7,137 +7,109 @@ import { useCallback, useEffect, useState } from "react";
 import timeAgo from "../../helper/timeAgo";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 
-export default function NotificationDropdown() {
+interface NotificationItem {
+  id: number;
+  employee_id: number;
+  type: string;
+  notification: {
+    action: string;
+    created_at: string;
+  };
+}
 
+interface NotificationsResponse {
+  unread: number;
+  notifications: NotificationItem[];
+}
+
+export default function NotificationDropdown() {
   const router = useRouter();
   const token = getCookie();
   const accessRole = getRole();
+
   const [isOpen, setIsOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
-  const [notification, setnotification] = useState([]);
+  const [notifications, setNotifications] = useState<NotificationsResponse | null>(null);
 
-
-  function toggleDropdown() {
-    setIsOpen(!isOpen);
-  }
-
-  function closeDropdown() {
-    setIsOpen(false);
-  }
+  /** Toggle dropdown */
+  const toggleDropdown = () => setIsOpen(prev => !prev);
+  const closeDropdown = () => setIsOpen(false);
 
   const handleClick = () => {
     toggleDropdown();
     setNotifying(false);
   };
 
-
-
-
-
-
-
-
-
-  /**************** Get Notification Here ****************/
+  /** Fetch notifications */
   const getNotification = useCallback(async () => {
-
-
-
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/notifications`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/notifications`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.ok) {
-        const res = await response.json();
-        setnotification(res);
+        const data: NotificationsResponse = await response.json();
+        setNotifications(data);
       } else {
-        console.error("Failed to fetch departments");
+        console.error("Failed to fetch notifications");
       }
     } catch (error) {
-      console.error("Error fetching departments:", error);
+      console.error("Error fetching notifications:", error);
     }
   }, [token]);
 
-
-
-  /************** Run once on component mount ************/
+  /** Load notifications on mount */
   useEffect(() => {
     getNotification();
   }, [getNotification]);
 
-
-
-
-
-
-  /***************** mark as read function ******************/
-  async function markAsRead(item) {
-
-
-
+  /** Mark as read */
+  const markAsRead = async (item: NotificationItem) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/notification/${item?.id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/notification/${item.id}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            employee_id: item?.employee_id
-          })
+          body: JSON.stringify({ employee_id: item.employee_id }),
         }
       );
 
-
       if (response.ok) {
-        const res = await response.json();
         closeDropdown();
-        console.log(res);
-        console.log(response);
 
-        if (accessRole === "Admin") {
-          console.log('this is the check');
-          console.log(item);
-          item?.type == "leave" && router.push("/admin/leave/request");
+        if (accessRole === "Admin" && item.type === "leave") {
+          router.push("/admin/leave/request");
         }
 
-
+        // Refresh notifications after marking as read
+        getNotification();
       } else {
-        console.error("Notification Unread Status Changed Failed");
+        console.error("Failed to update notification status");
       }
     } catch (error) {
-      console.error("Error White Notification Unread Status Changed", error);
+      console.error("Error updating notification status:", error);
     }
-
-
-
-  }
-
-
-
+  };
 
   return (
     <div className="relative">
       <button
-        className="relative dropdown-toggle flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-700 h-11 w-11 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
         onClick={handleClick}
+        className="relative flex items-center justify-center w-11 h-11 text-gray-500 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
       >
         <span
-          className={`absolute right-0 -top-1 z-10 h-fit w-fit rounded-full bg-red-600 items-center justify-center translate-x-[40%] text-sm px-1 text-white text-xs ${!notifying ? "flex" : "flex"
+          className={`absolute right-0 -top-1 z-10 px-1 text-xs text-white rounded-full bg-red-600 translate-x-[40%] ${notifications?.unread ? "flex" : "hidden"
             }`}
         >
-          {notification?.unread}
+          {notifications?.unread}
         </span>
         <svg
           className="fill-current"
@@ -154,18 +126,17 @@ export default function NotificationDropdown() {
           />
         </svg>
       </button>
+
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
         className="absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0"
       >
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
-          <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-            Notification
-          </h5>
+          <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Notification</h5>
           <button
             onClick={toggleDropdown}
-            className="text-gray-500 transition dropdown-toggle dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            className="text-gray-500 transition hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
           >
             <svg
               className="fill-current"
@@ -183,37 +154,32 @@ export default function NotificationDropdown() {
             </svg>
           </button>
         </div>
+
         <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar">
-
-
-          {notification?.notifications?.map((item, index) => {
-            return (
-              <div onClick={() => { markAsRead(item) }} key={index}>
-                <div
-                  className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5 cursor-pointer"
-                >
-                  <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
-                    <div className="w-full h-full overflow-hidden rounded-full bg-gray-400">
-                    </div>
+          {notifications?.notifications?.length ? (
+            notifications.notifications.map((item) => (
+              <li
+                key={item.id}
+                onClick={() => markAsRead(item)}
+                className="flex gap-3 rounded-lg border-b border-gray-100 p-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5 cursor-pointer"
+              >
+                <span className="relative block w-10 h-10 rounded-full bg-gray-400"></span>
+                <div className="flex flex-col">
+                  <span className="font-medium text-gray-800 dark:text-white/90">
+                    {item.notification.action}
                   </span>
-
-                  <span className="block">
-                    <span className="mb-1 block space-x-1  text-theme-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-medium text-gray-800 dark:text-white/90">
-                        {item?.notification?.action}
-                      </span>
-                    </span>
-
-                    <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                      <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                      <span>{timeAgo(item?.notification?.created_at)}</span>
-                    </span>
+                  <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
+                    <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                    <span>{timeAgo(item.notification.created_at)}</span>
                   </span>
                 </div>
-              </div>
-            )
-          })}
+              </li>
+            ))
+          ) : (
+            <li className="text-center text-gray-500 p-3">No notifications</li>
+          )}
         </ul>
+
         <Link
           href="/"
           className="block px-4 py-2 mt-3 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
@@ -221,6 +187,6 @@ export default function NotificationDropdown() {
           View All Notifications
         </Link>
       </Dropdown>
-    </div >
+    </div>
   );
 }
