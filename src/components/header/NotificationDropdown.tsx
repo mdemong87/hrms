@@ -28,7 +28,7 @@ export default function NotificationDropdown() {
   const accessRole = getRole();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [notifying, setNotifying] = useState(true);
+  // const [notifying, setNotifying] = useState(true);
   const [notifications, setNotifications] = useState<NotificationsResponse | null>(null);
 
   /** Toggle dropdown */
@@ -37,7 +37,7 @@ export default function NotificationDropdown() {
 
   const handleClick = () => {
     toggleDropdown();
-    setNotifying(false);
+    // setNotifying(false);
   };
 
   /** Fetch notifications */
