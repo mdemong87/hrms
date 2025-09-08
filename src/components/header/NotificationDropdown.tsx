@@ -67,7 +67,7 @@ export default function NotificationDropdown() {
     } catch (error) {
       console.error("Error fetching departments:", error);
     }
-  }, [pathname]);
+  }, [pathname, token]);
 
 
 
@@ -105,7 +105,7 @@ export default function NotificationDropdown() {
       if (response.ok) {
         const res = await response.json();
         closeDropdown();
-
+        console.log(res);
         console.log(response);
 
         if (accessRole === "Admin") {
