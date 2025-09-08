@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { BsQuestionOctagon } from "react-icons/bs";
 import { FaDollarSign, FaShekelSign, FaTasks } from "react-icons/fa";
 import { FaChartLine } from "react-icons/fa6";
 import { MdOutlineHolidayVillage, MdOutlineSettings } from "react-icons/md";
@@ -75,6 +76,11 @@ const navItems: NavItem[] = [
     icon: <FaDollarSign className="text-xl" />,
     name: "Payroll",
     subItems: [{ name: "Salary History", path: "/admin/payroll/salaryhistory", pro: false }],
+  },
+  {
+    icon: <BsQuestionOctagon className="text-xl" />,
+    name: "Objections",
+    path: "/admin/objection",
   },
   {
     icon: <UserCircleIcon />,
