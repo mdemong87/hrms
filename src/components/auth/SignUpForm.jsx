@@ -50,8 +50,6 @@ export default function SignUpForm() {
       };
 
 
-      console.log(userData);
-
       try {
         setisloading(true);
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/register`, {
@@ -172,7 +170,7 @@ export default function SignUpForm() {
                         {/* <!-- First Name --> */}
                         <div className="col-span-1">
                           <Label>
-                            OPT Code<span className="text-error-500">*</span>
+                            OTP Code<span className="text-error-500">*</span>
                           </Label>
                           <Input
                             error={isError ? !otp ? true : false : false}

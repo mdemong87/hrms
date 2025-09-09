@@ -1,9 +1,23 @@
+'use client'
+
 import GridShape from "@/components/common/GridShape";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import logo from "../../public/images/logo/logo.png";
 
 const Homepage = () => {
+
+    const router = useRouter();
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            router.push('/signin');
+        }, 550);
+    }, [])
+
 
     return (
         <main className="">
@@ -14,19 +28,16 @@ const Homepage = () => {
                     <div className="flex flex-col items-center max-w-xs">
                         <Link href="/" className="block mb-4">
                             <Image
-                                width={231}
-                                height={48}
+                                className="w-[500px] h-auto"
+                                width={1000}
+                                height={1000}
                                 src={logo}
                                 alt="Logo"
                             />
                         </Link>
-                        <h2 className="text-3xl text-center text-gray-400 dark:text-white/60">
-                            Welcome To Sardar It HTMS System.
+                        <h2 className="text-5xl text-center pt-5 w-screen text-gray-400 dark:text-white/60 welcomeAnimation">
+                            Welcome To Sardar IT HRMS System.
                         </h2>
-
-                        <Link className="border w-fit mt-5 border-gray-700 bg-gray-800 rounded-lg py-3 px-5 text-white" href={'/signin'}>Go to Sign In Page</Link>
-
-
                     </div>
                 </div>
             </div>

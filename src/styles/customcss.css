@@ -14,3 +14,24 @@ input[type="number"] {
 
 
 /************** For something others css code here ******************/
+.welcomeAnimation {
+    display: inline-block;
+    /* text যেন সঠিকভাবে দেখা যায় */
+    animation: fadeInUp 1.2s ease-in-out forwards;
+    /* forwards দিলে শেষ অবস্থায় থেমে যাবে */
+}
+
+/* Keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(200%);
+        /* নিচ থেকে শুরু */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        /* উপরে এসে থেমে যাবে */
+    }
+}
