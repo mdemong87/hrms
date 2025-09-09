@@ -1,6 +1,7 @@
 'use client'
 
 import getCookie from "@/helper/cookie/gettooken";
+import salesummary from "@/helper/pdfGenerator/SalesSummaryGenerator";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
@@ -54,6 +55,14 @@ const ObjectionPage = () => {
 
 
 
+    function checkfunction() {
+
+        // Table genaratable pdf record table Title Assign here
+        const headers = [["Date", "Status", "CheckIn",]];
+        salesummary(headers, ['1/1/1', "pensding", "3.6"]);
+    }
+
+
 
 
     return (
@@ -71,6 +80,10 @@ const ObjectionPage = () => {
                     })
                 }
 
+            </div>
+
+            <div>
+                <button onClick={() => { checkfunction() }}>check</button>
             </div>
         </div>
     )

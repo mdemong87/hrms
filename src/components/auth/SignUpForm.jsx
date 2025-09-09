@@ -64,10 +64,7 @@ export default function SignUpForm() {
         if (response.ok) {
           setisloading(false);
           const data = await response.json();
-          toast.success("Signup successful");
           setissignupsuccess(true);
-          console.log("Signup successful:", data);
-          // You can redirect the user or show a success message here
         } else {
           setisloading(false);
           const errorData = await response.json();

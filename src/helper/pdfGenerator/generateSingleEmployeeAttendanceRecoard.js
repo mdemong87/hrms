@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import logo from "../../../public/images/logo/logo.png";
+import logo from "../../../public/images/brand/companypaper.png";
 
 const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name, position, monthyear, shiftname) => {
 
@@ -15,9 +15,8 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
     const pageHeight = doc.internal.pageSize.getHeight();
 
 
-    /************ Header rectangle area (for frist page only) ************/
-    doc.setFillColor(21, 68, 230); // dark blue
-    doc.rect(0, 0, doc.internal.pageSize.getWidth(), 40, "F"); // height 40
+    /************ Add Company Branding Praspect *************/
+    doc.addImage(logo.src, "PNG", 0, 0, pageWidth, pageHeight); // x, y, width, height
 
 
 
@@ -28,18 +27,13 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
 
 
 
-    /************ Add Company Logo *************/
-    doc.addImage(logo.src, "PNG", 78, 8, 53, 15); // x, y, width, height
-
-
-
     /********** Report Title ************/
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(0, 0, 0);
     const reportTitle = "Single Employee Attendance Report";
     const reportWidth = doc.getTextWidth(reportTitle);
-    doc.text(reportTitle, (pageWidth - reportWidth) / 2, 30);
+    doc.text(reportTitle, (pageWidth - reportWidth) / 2, 45);
 
 
 
@@ -49,15 +43,15 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
     doc.setFont("helvetica", "normal");
     doc.setTextColor(0, 0, 0);
     const Eid = `Employee ID: ${eid}`;
-    doc.text(Eid, 15, 50);
+    doc.text(Eid, 15, 58);
     const Name = `Employee Name: ${name}`;
-    doc.text(Name, 15, 58);
+    doc.text(Name, 15, 66);
     const Position = `Employee Designation: ${position}`;
-    doc.text(Position, 15, 66);
+    doc.text(Position, 15, 72);
     const month = `Report of the Month: ${monthyear}`;
-    doc.text(month, 15, 74);
+    doc.text(month, 15, 80);
     const shift = `Working Shift: ${shiftname}`;
-    doc.text(shift, 15, 82);
+    doc.text(shift, 15, 88);
 
 
 
@@ -66,7 +60,7 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
     const today = new Date().toLocaleDateString();
     doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
-    doc.text(`Date: ${today}`, pageWidth - 40, 82);
+    doc.text(`Date: ${today}`, pageWidth - 40, 88);
 
 
 
@@ -74,7 +68,7 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
     autoTable(doc, {
         head: headers,
         body: data,
-        startY: 91, // leave space after header
+        startY: 99, // leave space after header
         theme: "grid",
         headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: "bold" },
         alternateRowStyles: { fillColor: [245, 245, 245] },
@@ -85,11 +79,11 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
             const pageCount = doc.internal.getNumberOfPages();
             const pageCurrent = doc.internal.getCurrentPageInfo().pageNumber;
             doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
+            doc.setTextColor(255, 255, 255);
             doc.text(
                 `Page ${pageCurrent} of ${pageCount}`,
-                pageWidth - 30, // right side
-                pageHeight - 10 // bottom
+                pageWidth - 33, // right side
+                pageHeight - 7 // bottom
             );
         },
     });

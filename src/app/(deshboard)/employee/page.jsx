@@ -1,3 +1,4 @@
+import UnderDevelopment from "@/components/common/UnderDevelopment";
 import AbsenceToday from "@/components/ecommerce/AbsenceToday";
 import DemographicCard from "@/components/ecommerce/DemographicCard";
 import EcommerceMetricsForHrprojectManagerEmployee from "@/components/ecommerce/EcommerceMetricsForHrprojectManagerEmployee";
@@ -40,7 +41,12 @@ export default async function EmployeeDeshBoard() {
 
 
     return (
-        <div className="grid grid-cols-12 gap-4 md:gap-6">
+        <div className="grid grid-cols-12 gap-4 md:gap-6 relative">
+            <div className="w-full fixed top-0 left-0 bg-[#1f1f1f38] h-screen z-10">
+
+                <UnderDevelopment />
+
+            </div>
             <div className="col-span-12 space-y-6 xl:col-span-7">
                 <EcommerceMetricsForHrprojectManagerEmployee deshboardData={deshboardData} />
 

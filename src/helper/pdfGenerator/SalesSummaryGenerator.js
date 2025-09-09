@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import logo from "../../../public/images/logo/logo.png";
+import logo from "../../../public/images/brand/companypaper.png";
 
 const SalesSummaryGenerator = async (headers, data) => {
 
@@ -15,9 +15,10 @@ const SalesSummaryGenerator = async (headers, data) => {
     const pageHeight = doc.internal.pageSize.getHeight();
 
 
-    /************ Header rectangle area (for frist page only) ************/
-    doc.setFillColor(21, 68, 230); // dark blue
-    doc.rect(0, 0, doc.internal.pageSize.getWidth(), 40, "F"); // height 40
+    /************ Add Company Branding Praspect *************/
+    doc.addImage(logo.src, "PNG", 0, 0, pageWidth, pageHeight); // x, y, width, height
+
+
 
 
 
@@ -25,11 +26,6 @@ const SalesSummaryGenerator = async (headers, data) => {
     const textWidth = doc.getTextWidth(companyName);
     const x = (pageWidth - textWidth) / 2; // center
     doc.text(companyName, x, 15);
-
-
-
-    /************ Add Company Logo *************/
-    doc.addImage(logo.src, "PNG", 78, 8, 53, 15); // x, y, width, height
 
 
 
@@ -45,19 +41,19 @@ const SalesSummaryGenerator = async (headers, data) => {
 
 
     /*********** Employee Information ***********/
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(0, 0, 0);
-    const Eid = `Employee ID: ${eid}`;
-    doc.text(Eid, 15, 50);
-    const Name = `Employee Name: ${name}`;
-    doc.text(Name, 15, 58);
-    const Position = `Employee Designation: ${position}`;
-    doc.text(Position, 15, 66);
-    const month = `Report of the Month: ${monthyear}`;
-    doc.text(month, 15, 74);
-    const shift = `Working Shift: ${shiftname}`;
-    doc.text(shift, 15, 82);
+    // doc.setFontSize(14);
+    // doc.setFont("helvetica", "normal");
+    // doc.setTextColor(0, 0, 0);
+    // const Eid = `Employee ID: ${eid}`;
+    // doc.text(Eid, 15, 50);
+    // const Name = `Employee Name: ${name}`;
+    // doc.text(Name, 15, 58);
+    // const Position = `Employee Designation: ${position}`;
+    // doc.text(Position, 15, 66);
+    // const month = `Report of the Month: ${monthyear}`;
+    // doc.text(month, 15, 74);
+    // const shift = `Working Shift: ${shiftname}`;
+    // doc.text(shift, 15, 82);
 
 
 
@@ -66,7 +62,7 @@ const SalesSummaryGenerator = async (headers, data) => {
     const today = new Date().toLocaleDateString();
     doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
-    doc.text(`Date: ${today}`, pageWidth - 40, 82);
+    doc.text(`Printing Date: ${today}`, pageWidth - 57, 80);
 
 
 
@@ -85,11 +81,11 @@ const SalesSummaryGenerator = async (headers, data) => {
             const pageCount = doc.internal.getNumberOfPages();
             const pageCurrent = doc.internal.getCurrentPageInfo().pageNumber;
             doc.setFontSize(10);
-            doc.setTextColor(0, 0, 0);
+            doc.setTextColor(255, 255, 255);
             doc.text(
                 `Page ${pageCurrent} of ${pageCount}`,
-                pageWidth - 30, // right side
-                pageHeight - 10 // bottom
+                pageWidth - 33, // right side
+                pageHeight - 7 // bottom
             );
         },
     });

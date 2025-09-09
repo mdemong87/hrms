@@ -65,7 +65,7 @@ const Unassignemployee = () => {
             <h2 className="text-xl font-semibold text-gray-600 dark:text-gray-200">Project Unassigned Employee:</h2>
 
             {
-                unassign?.unassigned_employees?.length > 1 ? (
+                unassign?.unassigned_employees?.length > 0 ? (
 
                     <div className="mt-8 grid grid-cols-4 gap-5">
                         {
@@ -73,7 +73,7 @@ const Unassignemployee = () => {
                                 return (
                                     <div key={index} className="col-span-1 bg-gray-200 dark:bg-gray-700 rounded-md p-3">
                                         <div className="w-full flex items-center justify-center">
-                                            <Image className="h-[70px] rounded-full w-[70px]" src={profile_Image} alt="Profile-Image" />
+                                            <Image className="h-[70px] rounded-full w-[70px]" width={1000} height={1000} src={item?.avatar || profile_Image} alt="Profile-Image" />
                                         </div>
                                         <div className="text-center">
                                             <h3 className="text-xl pt-2 text-gray-600 dark:text-gray-200">{item?.fname + " " + item?.lname}</h3>
