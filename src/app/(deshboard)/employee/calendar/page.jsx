@@ -1,11 +1,11 @@
-import UnderDevelopment from "@/components/common/UnderDevelopment";
+import Calendar from "@/components/calendar/Calendar";
+import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 
-const Calender = () => {
+export default function page() {
     return (
         <div>
-            <UnderDevelopment />
+            <PageBreadcrumb pageTitle="Calendar"></PageBreadcrumb>
+            <Calendar />
         </div>
-    )
+    );
 }
-
-export default Calender;

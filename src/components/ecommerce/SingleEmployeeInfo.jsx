@@ -1,6 +1,7 @@
 'use client'
 
 import BackBtn from "@/components/common/BackBtn";
+import getId from "@/helper/cookie/getid";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
 import Image from "next/image";
@@ -23,6 +24,7 @@ const SingleEmployeeInfo = ({ id }) => {
 
     const token = getCookie();
     const accessrole = getRole();
+    const myId = getId();
     const router = useRouter();
     const [isdisable, setisdisable] = useState(true);
     const [DepartmentsAndShift, setDepartmentsAndShift] = useState([]);
@@ -577,7 +579,7 @@ const SingleEmployeeInfo = ({ id }) => {
 
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Role / Access Level</Label>
-                                        <Select disabled={isdisable} selectedValue={formdata?.role} options={["Select Role", "Admin", "Hr", "Employee", "Project Manager"]} onChange={(e) =>
+                                        <Select disabled={isdisable} selectedValue={formdata?.role} options={accessrole == "Hr" && myId == id ? ["Select Role", "Hr"] : ["Select Role", "Admin", "Hr", "Employee", "Project Manager"]} onChange={(e) =>
                                             setformdata((prev) => ({
                                                 ...prev,
                                                 role: e.target.value
