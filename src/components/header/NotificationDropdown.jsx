@@ -1,19 +1,22 @@
 "use client";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import demoprofileImage from "../../../public/images/user/demo.jpeg";
 import timeAgo from "../../helper/timeAgo";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 
 
 export default function NotificationDropdown() {
+
+
   const router = useRouter();
   const token = getCookie();
   const accessRole = getRole();
-
+  const pathName = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  // const [notifying, setNotifying] = useState(true);
   const [notifications, setNotifications] = useState(null);
 
 
@@ -51,7 +54,9 @@ export default function NotificationDropdown() {
   /**************** Load notifications on mount ********************/
   useEffect(() => {
     getNotification();
-  }, [getNotification]);
+    console.log(pathName);
+  }, [getNotification, pathName]);
+
 
 
 
@@ -121,9 +126,6 @@ export default function NotificationDropdown() {
             router.push("/projectmanager/announcement");
             break;
           case accessRole === "Project Manager" && item.type === "project":
-            router.push("/projectmanager/announcement");
-            break;
-          case accessRole === "Project Manager" && item.type === "notice":
             router.push("/projectmanager/projects/myproject");
             break;
           default:
@@ -204,23 +206,27 @@ export default function NotificationDropdown() {
               <li
                 key={item.id}
                 onClick={() => markAsRead(item)}
-                className="flex gap-3 items-center rounded-lg border-b border-gray-100 p-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5 cursor-pointer"
+                className="flex items-center justify-between rounded-lg border-b border-gray-100 p-2 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5 cursor-pointer"
               >
-                <span className="relative block w-10 h-10 rounded-full bg-gray-400"></span>
-                <div className="flex flex-col">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
-                    {item.notification.action}
-                  </span>
-                  <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                    <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                    <span>{timeAgo(item.notification.created_at)}</span>
-                  </span>
+                <div className="flex items-start gap-3">
+                  <Image src={demoprofileImage} alt="profile-image" className="bg-red-900 w-[40px] h-[40px] rounded-full" />
+                  <div className="flex flex-col w-fit">
+                    <span className="font-medium text-gray-800 dark:text-white/90 line-clamp-2">
+                      {item.notification.action}
+                    </span>
+                    <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
+                      <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                      <span>{timeAgo(item.notification.created_at)}</span>
+                    </span>
+                  </div>
                 </div>
-                {
-                  item?.is_open
-                    ? <span></span>
-                    : <span className="bg-red-600 w-[10px] ml-8 h-[10px] rounded-full"></span>
-                }
+                <div className="w-fit">
+                  {
+                    item?.is_open
+                      ? <div className="bg-gray-200 dark:bg-gray-500 w-[10px] h-[10px] ml-8 h-[10px] rounded-full" />
+                      : <div className="bg-red-600 w-[10px] h-[10px] ml-8 h-[10px] rounded-full" />
+                  }
+                </div>
               </li>
             ))
           ) : (
