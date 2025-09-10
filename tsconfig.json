@@ -60,7 +60,8 @@
     "src/components/ecommerce/EcommerceMetrics.jsx",
     "src/app/(deshboard)/hr/profile/page.jsx",
     "src/components/calendar/Calendar.jsx",
-    "src/components/form/MultiSelect.jsx"
+    "src/components/form/MultiSelect.jsx",
+    "src/components/header/NotificationDropdown.jsx"
   ],
   "exclude": [
     "node_modules"

@@ -6,20 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 import timeAgo from "../../helper/timeAgo";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 
-interface NotificationItem {
-  id: number;
-  employee_id: number;
-  type: string;
-  notification: {
-    action: string;
-    created_at: string;
-  };
-}
-
-interface NotificationsResponse {
-  unread: number;
-  notifications: NotificationItem[];
-}
 
 export default function NotificationDropdown() {
   const router = useRouter();
@@ -28,7 +14,7 @@ export default function NotificationDropdown() {
 
   const [isOpen, setIsOpen] = useState(false);
   // const [notifying, setNotifying] = useState(true);
-  const [notifications, setNotifications] = useState<NotificationsResponse | null>(null);
+  const [notifications, setNotifications] = useState(null);
 
 
   /********************* Toggle dropdown *********************/
@@ -52,7 +38,7 @@ export default function NotificationDropdown() {
       });
 
       if (response.ok) {
-        const data: NotificationsResponse = await response.json();
+        const data = await response.json();
         setNotifications(data);
       } else {
         console.error("Failed to fetch notifications");
@@ -70,7 +56,7 @@ export default function NotificationDropdown() {
 
 
   /************************* Mark as read *********************/
-  const markAsRead = async (item: NotificationItem) => {
+  const markAsRead = async (item) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/notification/${item.id}`,
@@ -154,7 +140,6 @@ export default function NotificationDropdown() {
       console.error("Error updating notification status:", error);
     }
   };
-
 
 
   return (
