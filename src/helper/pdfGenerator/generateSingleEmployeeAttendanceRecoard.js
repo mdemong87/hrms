@@ -28,14 +28,14 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
 
 
         /********** Background image before table content **********/
-        willDrawPage: (data) => {
+        willDrawPage: () => {
             doc.addImage(logo.src, "PNG", 0, 0, pageWidth, pageHeight);
         },
 
 
 
         /******* For Every Page ******/
-        didDrawPage: (data) => {
+        didDrawPage: () => {
 
 
             /*********** get the page count and current page ************/

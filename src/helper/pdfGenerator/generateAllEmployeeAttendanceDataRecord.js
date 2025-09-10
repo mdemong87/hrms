@@ -31,7 +31,7 @@ const generateAllEmployeeAttendanceDataRecord = async (headers, data, monthyear)
 
 
         /********** Background image before table content **********/
-        willDrawPage: (data) => {
+        willDrawPage: () => {
             doc.addImage(logo.src, "PNG", 0, 0, pageWidth, pageHeight);
         },
 
