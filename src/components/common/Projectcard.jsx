@@ -2,9 +2,11 @@
 import PriorityBadge from "@/components/common/PriorityBadge";
 import StatusBadgeForProject from "@/components/common/StatusBadgeForProject";
 import getRole from "@/helper/cookie/getrole";
+import hasImageExtension from "@/helper/hasImageExtension";
 import Image from "next/image";
 import Link from "next/link";
 import { FaUsers } from "react-icons/fa";
+import demoprofile from "../../../public/images/user/demo.jpeg";
 
 function ProjectCard({ link, item }) {
 
@@ -39,7 +41,7 @@ function ProjectCard({ link, item }) {
                     <div>
                         <Image
                             width={1000} height={1000}
-                            src={item?.project_manager?.avatar}
+                            src={hasImageExtension(item?.project_manager?.avatar) ? item?.project_manager?.avatar : demoprofile}
                             alt={"Project Manager Image"}
                             className="w-8 h-8 rounded-full mt-1"
                         />
@@ -53,7 +55,7 @@ function ProjectCard({ link, item }) {
                             return (
                                 <Image key={index}
                                     width={1000} height={1000}
-                                    src={i?.avatar}
+                                    src={hasImageExtension(i?.avatar) ? i?.avatar : demoprofile}
                                     alt={"Team Leader Photo"}
                                     className="w-8 h-8 rounded-full border-2 border-white -ml-2 first:ml-0"
                                 />
@@ -69,9 +71,11 @@ function ProjectCard({ link, item }) {
                 <p className="font-semibold text-sm">Team:</p>
                 <div className="flex items-center mt-2">
                     {item?.employees?.slice(0, 3).map((member, idx) => (
-                        <img
+                        <Image
+                            width={1000}
+                            height={1000}
                             key={idx}
-                            src={member?.avatar}
+                            src={hasImageExtension(member?.avatar) ? member?.avatar : demoprofile}
                             alt="team"
                             className="w-8 h-8 rounded-full border-2 border-white -ml-2 first:ml-0"
                         />

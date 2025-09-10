@@ -1,10 +1,11 @@
 "use client";
 
 import getRole from "@/helper/cookie/getrole";
+import hasImageExtension from "@/helper/hasImageExtension";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import demoprofil from "../../../public/images/user/demo.jpeg";
+import demoprofile from "../../../public/images/user/demo.jpeg";
 import getLateClass from "../../helper/getLateClass";
 import FilterSearch from "../common/FilterSearch";
 
@@ -18,6 +19,10 @@ const AttendanceCalendar = ({ AttendanceData }) => {
 
     /**************** Search by employee name functionalaty here *******************/
     const filter = AttendanceData?.filter(emp => emp?.employee_name?.toUpperCase().includes(searchvalue?.toUpperCase()));
+
+
+
+    console.log(filter);
 
 
 
@@ -85,7 +90,7 @@ const AttendanceCalendar = ({ AttendanceData }) => {
                                 </td>
                                 <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-400 font-medium border-r border-gray-200 dark:border-gray-700">
                                     <Link className="flex items-center gap-2" href={`${role === "Admin" ? `/admin/employee/attendance/${row?.employee_id}` : role === "Hr" ? `/hr/allattendance/${row?.employee_id}` : `/signin`}`}>
-                                        <Image width={1000} height={1000} src={row?.avatar || demoprofil} className="rounded-full w-[30px] border border-gray-500 h-[30px]" alt="employee-profile" />
+                                        <Image width={1000} height={1000} src={hasImageExtension(row?.avatar) ? row?.avatar : demoprofile} className="rounded-full w-[30px] border border-gray-500 h-[30px]" alt="employee-profile" />
                                         <span className="underline decoration-solid">{row?.employee_name}</span>
                                     </Link>
                                 </td>

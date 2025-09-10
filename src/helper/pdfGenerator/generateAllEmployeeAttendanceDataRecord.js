@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import logo from "../../../public/images/brand/companypaper.png";
+import logo from "../../../public/images/brand/landscapecompanypaper.png";
 
 const generateAllEmployeeAttendanceDataRecord = async (headers, data, monthyear) => {
 
@@ -86,8 +86,8 @@ const generateAllEmployeeAttendanceDataRecord = async (headers, data, monthyear)
             doc.setTextColor(255, 255, 255);
             doc.text(
                 `Page ${pageCurrent} of ${pageCount}`,
-                pageWidth - 33, // right side
-                pageHeight - 7 // bottom
+                pageWidth - 30, // right side
+                pageHeight - 4 // bottom
             );
 
         },

@@ -1,9 +1,11 @@
 'use client'
 
 import formatTime from "@/helper/formateTime";
+import hasImageExtension from "@/helper/hasImageExtension";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import demoprofile from "../../../public/images/user/demo.jpeg";
 import Loading from "../common/Loading";
 
 const EmployeeShiftAssignCard = ({ allshift, employee, token, getHolidayAndEmployee }) => {
@@ -69,7 +71,7 @@ const EmployeeShiftAssignCard = ({ allshift, employee, token, getHolidayAndEmplo
                 <div className="relative size-14 shrink-0 overflow-hidden rounded-full ring-1 ring-black/5 dark:ring-neutral-800">
                     <Image width={1000}
                         height={1000}
-                        src={employee?.avatar}
+                        src={hasImageExtension(employee?.avatar) ? employee?.avatar : demoprofile}
                         alt={"Employee Profile Photo"}
                         className="size-full object-cover"
                     />

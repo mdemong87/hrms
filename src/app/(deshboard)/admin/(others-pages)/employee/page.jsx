@@ -4,6 +4,7 @@ import FilterSearch from "@/components/common/FilterSearch";
 import Loading from "@/components/common/Loading";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
+import hasImageExtension from "@/helper/hasImageExtension";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
@@ -130,7 +131,7 @@ const AllEmployee = () => {
                                             <td className="text-center border-1 border-gray-200 dark:border-gray-600">{item?.eid}</td>
                                             <td className="px-2 py-4 text-gray-700 whitespace-nowrap dark:text-gray-300 border-1 border-gray-200 dark:border-gray-600">
                                                 <Link href={`/admin/employee/${item?.id}`} className="underline flex items-center gap-1 text-gray-700 whitespace-nowrap dark:text-gray-300">
-                                                    <Image className="w-10 h-10 rounded-full" src={item?.avatar || demoprofile} width={1000} height={1000} alt="profile-image" />
+                                                    <Image className="w-10 h-10 rounded-full" src={hasImageExtension(item?.avatar) ? item?.avatar : demoprofile} width={1000} height={1000} alt="profile-image" />
                                                     <div className="ps-3 pl-0">
                                                         <div className="text-base font-semibold">{item?.fname + " " + item?.lname}</div>
                                                     </div>

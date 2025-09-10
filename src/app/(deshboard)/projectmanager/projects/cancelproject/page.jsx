@@ -37,7 +37,7 @@ const CancledProjects = async () => {
                 <Link href={'/admin/projects/addproject'} className="text-white bg-blue-600 rounded-md px-4 py-2">Add Project</Link>
             </PageBreadcrumb>
 
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
 
                 {
 

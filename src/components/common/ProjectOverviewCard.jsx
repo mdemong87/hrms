@@ -3,6 +3,7 @@
 import ProjectEdit from "@/components/common/ProjectEdit";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
+import hasImageExtension from "@/helper/hasImageExtension";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -222,7 +223,7 @@ const ProjectOverviewCard = ({ id }) => {
                                 <h3 className="font-semibold bg-gray-200 rounded-md dark:bg-gray-600 mb-4 px-3 py-1">Project Manager</h3>
                                 <div className="space-y-3">
                                     <div className="flex items-center gap-3">
-                                        <Image width={1000} height={1000} src={singleProject?.project_manager?.avatar || demoprofile} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
+                                        <Image width={1000} height={1000} src={hasImageExtension(singleProject?.project_manager?.avatar) ? singleProject?.project_manager?.avatar : demoprofile} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
                                         <div>
                                             <p className="text-sm font-medium">{singleProject?.project_manager?.fname + " " + singleProject?.project_manager?.lname}</p>
                                             <p className="text-xs text-gray-400">{singleProject?.project_manager?.designation}</p>
@@ -233,7 +234,7 @@ const ProjectOverviewCard = ({ id }) => {
                                 <div className="space-y-3">
                                     {singleProject?.team_leaders?.map((member, idx) => (
                                         <div key={idx} className="flex items-center gap-3">
-                                            <Image width={1000} height={1000} src={member?.avatar || demoprofile} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
+                                            <Image width={1000} height={1000} src={hasImageExtension(member?.avatar) ? member?.avatar : demoprofile} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
                                             <div>
                                                 <p className="text-sm font-medium">{member.fname + " " + member?.lname}</p>
                                                 <p className="text-xs text-gray-400">{member?.designation}</p>
@@ -245,7 +246,7 @@ const ProjectOverviewCard = ({ id }) => {
                                 <div className="space-y-3">
                                     {singleProject?.employees?.map((member, idx) => (
                                         <div key={idx} className="flex items-center gap-3">
-                                            <Image width={1000} height={1000} src={member?.avatar || demoprofile} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
+                                            <Image width={1000} height={1000} src={hasImageExtension(member?.avatar) ? member?.avatar : demoprofile} alt={"assign-employee-profile-image"} className="w-10 h-10 rounded-full" />
                                             <div>
                                                 <p className="text-sm font-medium">{member?.fname + " " + member?.lname}</p>
                                                 <p className="text-xs text-gray-400">{member?.designation}</p>

@@ -80,7 +80,7 @@ export default function NotificationDropdown() {
             router.push("/admin/leave/request");
             break;
           case accessRole === "Admin" && item.type === "notice":
-            router.push("/admin/leave/request");
+            router.push("/admin/announcement");
             break;
           case accessRole === "Admin" && item.type === "objection":
             router.push("/admin/objection");

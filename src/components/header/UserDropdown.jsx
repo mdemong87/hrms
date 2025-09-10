@@ -1,6 +1,7 @@
 "use client";
 
 import getRole from "@/helper/cookie/getrole";
+import hasImageExtension from "@/helper/hasImageExtension";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import demoprofile from "../../../public/images/user/demo.jpeg";
@@ -85,7 +86,7 @@ export default function UserDropdown() {
           <Image
             width={44}
             height={44}
-            src={userAvatar || demoprofile}
+            src={hasImageExtension(userAvatar) ? userAvatar : demoprofile}
             alt="User"
           />
         </span>
@@ -101,7 +102,7 @@ export default function UserDropdown() {
             <Image
               width={44}
               height={44}
-              src={userAvatar || demoprofile}
+              src={hasImageExtension(userAvatar) ? userAvatar : demoprofile}
               alt="User"
             />
           </span>

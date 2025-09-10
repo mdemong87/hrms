@@ -4,6 +4,7 @@ import BackBtn from "@/components/common/BackBtn";
 import getId from "@/helper/cookie/getid";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
+import hasImageExtension from "@/helper/hasImageExtension";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -219,7 +220,7 @@ const LimitedSingleEmployeeInfo = () => {
                     <div className="flex gap-20 w-full items-end justify-between">
                         <div className="flex flex-col gap-1 items-center justify-center">
                             <div className="text-gray-200 w-[155px] h-[182px] border border-gray-500 bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden">
-                                <Image src={imagepreview ? imagepreview : demoprofile} alt="profile-image" width={1000} height={1000} className="rounded-lg w-full h-full object-cover" />
+                                <Image src={hasImageExtension(imagepreview) ? imagepreview : demoprofile} alt="profile-image" width={1000} height={1000} className="rounded-lg w-full h-full object-cover" />
                             </div>
                             <div className="col-span-2 lg:col-span-1 w-[200px] pt-4">
                                 <Input disabled={isdisable} type="file" accept=".jpg,.jpeg,.png" onChange={(e) => { handleFileChange(e, setimageFile, setimagepreview) }} />

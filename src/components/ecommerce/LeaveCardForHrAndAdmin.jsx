@@ -1,9 +1,11 @@
 'use client'
 
 import getCookie from "@/helper/cookie/gettooken";
+import hasImageExtension from "@/helper/hasImageExtension";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import demoprofile from "../../../public/images/user/demo.jpeg";
 import Loading from "../common/Loading";
 import StatusBadge from "../common/StatusBadge";
 
@@ -82,7 +84,7 @@ function LeaveCardForHrAndAdmin({ item, hanldeLeaveDelete, getAllLeave }) {
             <header className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
                     <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-indigo-50 to-indigo-100 ring-1 ring-indigo-100/60 dark:from-indigo-400/10 dark:to-indigo-400/10 dark:ring-indigo-400/20">
-                        <Image className="w-full h-full rounded-md" src={item?.employee?.image} height={1000} width={1000} alt="Profile-photo" />
+                        <Image className="w-full h-full rounded-md" src={hasImageExtension(item?.employee?.image) ? item?.employee?.image : demoprofile} height={1000} width={1000} alt="Profile-photo" />
                     </div>
                     <div>
                         <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{item?.employee?.fname + " " + item?.employee?.fname}</h3>

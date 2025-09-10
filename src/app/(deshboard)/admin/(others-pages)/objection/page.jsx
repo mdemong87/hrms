@@ -81,10 +81,6 @@ const ObjectionPage = () => {
                 }
 
             </div>
-
-            <div>
-                <button onClick={() => { checkfunction() }}>check</button>
-            </div>
         </div>
     )
 }
