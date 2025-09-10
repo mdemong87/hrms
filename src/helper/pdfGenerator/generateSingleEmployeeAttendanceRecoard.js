@@ -15,69 +15,72 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
     const pageHeight = doc.internal.pageSize.getHeight();
 
 
-    /************ Add Company Branding Praspect *************/
-    doc.addImage(logo.src, "PNG", 0, 0, pageWidth, pageHeight); // x, y, width, height
-
-
-
-    const companyName = "";
-    const textWidth = doc.getTextWidth(companyName);
-    const x = (pageWidth - textWidth) / 2; // center
-    doc.text(companyName, x, 15);
-
-
-
-    /********** Report Title ************/
-    doc.setFontSize(16);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(0, 0, 0);
-    const reportTitle = "Single Employee Attendance Report";
-    const reportWidth = doc.getTextWidth(reportTitle);
-    doc.text(reportTitle, (pageWidth - reportWidth) / 2, 45);
-
-
-
-
-    /*********** Employee Information ***********/
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(0, 0, 0);
-    const Eid = `Employee ID: ${eid}`;
-    doc.text(Eid, 15, 58);
-    const Name = `Employee Name: ${name}`;
-    doc.text(Name, 15, 66);
-    const Position = `Employee Designation: ${position}`;
-    doc.text(Position, 15, 72);
-    const month = `Report of the Month: ${monthyear}`;
-    doc.text(month, 15, 80);
-    const shift = `Working Shift: ${shiftname}`;
-    doc.text(shift, 15, 88);
-
-
-
-
-    /*************** printing date ***************/
-    const today = new Date().toLocaleDateString();
-    doc.setFontSize(10);
-    doc.setTextColor(0, 0, 0);
-    doc.text(`Date: ${today}`, pageWidth - 40, 88);
-
-
-
     /************** make a table from the all data *****************/
     autoTable(doc, {
         head: headers,
         body: data,
-        startY: 99, // leave space after header
+        startY: 98, // leave space after header
+        margin: { top: 50, bottom: 25, },
         theme: "grid",
-        headStyles: { fillColor: [41, 128, 185], textColor: 255, fontStyle: "bold" },
+        headStyles: { fillColor: [93, 111, 191], textColor: 255, fontStyle: "bold" },
         alternateRowStyles: { fillColor: [245, 245, 245] },
 
 
-        /******* page number added ******/
-        didDrawPage: () => {
+
+        /********** Background image before table content **********/
+        willDrawPage: (data) => {
+            doc.addImage(logo.src, "PNG", 0, 0, pageWidth, pageHeight);
+        },
+
+
+
+        /******* For Every Page ******/
+        didDrawPage: (data) => {
+
+
+            /*********** get the page count and current page ************/
             const pageCount = doc.internal.getNumberOfPages();
             const pageCurrent = doc.internal.getCurrentPageInfo().pageNumber;
+
+
+
+            if (pageCurrent == 1) {
+                /********** Report Title ************/
+                doc.setFontSize(16);
+                doc.setFont("helvetica", "bold");
+                doc.setTextColor(0, 0, 0);
+                const reportTitle = "Employee Attendance Report";
+                const reportWidth = doc.getTextWidth(reportTitle);
+                doc.text(reportTitle, (pageWidth - reportWidth) / 2, 88);
+
+                /*********** Employee Information ***********/
+                doc.setFontSize(14);
+                doc.setFont("helvetica", "normal");
+                doc.setTextColor(0, 0, 0);
+                const Eid = `ID: ${eid}`;
+                doc.text(Eid, 15, 46);
+                const Name = `Name: ${name}`;
+                doc.text(Name, 15, 54);
+                const Position = `Designation: ${position}`;
+                doc.text(Position, 15, 62);
+                const month = `Month: ${monthyear}`;
+                doc.text(month, pageWidth - 50, 46);
+                const shift = `Shift: ${shiftname}`;
+                doc.text(shift, pageWidth - 50, 54);
+
+
+
+
+                /*************** printing date ***************/
+                const today = new Date().toLocaleDateString();
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                doc.text(`Date: ${today}`, 15, 70);
+
+            }
+
+
+            /******* page number added in every page *******/
             doc.setFontSize(10);
             doc.setTextColor(255, 255, 255);
             doc.text(
@@ -85,8 +88,15 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
                 pageWidth - 33, // right side
                 pageHeight - 7 // bottom
             );
+
+
         },
+
     });
+
+
+
+
 
 
     /**************** save the document as a pdf document *****************/
@@ -97,3 +107,4 @@ const generateSingleEmployeeAttendanceRecoard = async (headers, data, eid, name,
 
 
 export default generateSingleEmployeeAttendanceRecoard;
+

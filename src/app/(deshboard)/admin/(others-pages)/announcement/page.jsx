@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 //import Editor from "../../../../../components/common/Editor";
+import { formatDate } from "@fullcalendar/core/index.js";
 import HtmlRenderer from "../../../../../components/common/HtmlRenderer";
 
 
@@ -221,7 +222,7 @@ const Announcement = () => {
                                             <td className="w-4 p-4 border border-r">
                                                 {index + 1}
                                             </td>
-                                            <td className="text-center border border-r">{item?.created_at}</td>
+                                            <td className="text-center border border-r">{formatDate(item?.created_at)}</td>
 
                                             <td className="px-2 py-4 border border-r">
                                                 {item?.title}

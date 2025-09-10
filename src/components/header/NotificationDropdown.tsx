@@ -1,7 +1,6 @@
 "use client";
 import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import timeAgo from "../../helper/timeAgo";
@@ -31,16 +30,17 @@ export default function NotificationDropdown() {
   // const [notifying, setNotifying] = useState(true);
   const [notifications, setNotifications] = useState<NotificationsResponse | null>(null);
 
-  /** Toggle dropdown */
+
+  /********************* Toggle dropdown *********************/
   const toggleDropdown = () => setIsOpen(prev => !prev);
   const closeDropdown = () => setIsOpen(false);
 
   const handleClick = () => {
     toggleDropdown();
-    // setNotifying(false);
   };
 
-  /** Fetch notifications */
+
+  /****************** Fetch notifications ***************/
   const getNotification = useCallback(async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/notifications`, {
@@ -62,12 +62,14 @@ export default function NotificationDropdown() {
     }
   }, [token]);
 
-  /** Load notifications on mount */
+  /**************** Load notifications on mount ********************/
   useEffect(() => {
     getNotification();
   }, [getNotification]);
 
-  /** Mark as read */
+
+
+  /************************* Mark as read *********************/
   const markAsRead = async (item: NotificationItem) => {
     try {
       const response = await fetch(
@@ -85,8 +87,62 @@ export default function NotificationDropdown() {
       if (response.ok) {
         closeDropdown();
 
-        if (accessRole === "Admin" && item.type === "leave") {
-          router.push("/admin/leave/request");
+        switch (true) {
+
+          /********* admin ********/
+          case accessRole === "Admin" && item.type === "leave":
+            router.push("/admin/leave/request");
+            break;
+          case accessRole === "Admin" && item.type === "notice":
+            router.push("/admin/leave/request");
+            break;
+          case accessRole === "Admin" && item.type === "objection":
+            router.push("/admin/objection");
+            break;
+          case accessRole === "Admin" && item.type === "project":
+            router.push("/admin/projects");
+            break;
+          case accessRole === "Admin" && item.type === "register":
+            router.push("/admin/employee/newuser");
+            break;
+          /*********** employee ************/
+          case accessRole === "Employee" && item.type === "leave":
+            router.push("/employee/leave/status");
+            break;
+          case accessRole === "Employee" && item.type === "notice":
+            router.push("/employee/announcement");
+            break;
+          case accessRole === "Employee" && item.type === "project":
+            router.push("/employee/projects/myproject");
+            break;
+
+          /*********** hr ************/
+          case accessRole === "Hr" && item.type === "leave":
+            router.push("/hr/leave/request");
+            break;
+          case accessRole === "Hr" && item.type === "notice":
+            router.push("/hr/announcement");
+            break;
+          case accessRole === "Hr" && item.type === "register":
+            router.push("/hr/employee/newuser");
+            break;
+
+          /************ project manager ***********/
+          case accessRole === "Project Manager" && item.type === "leave":
+            router.push("/projectmanager/leave/status");
+            break;
+          case accessRole === "Project Manager" && item.type === "notice":
+            router.push("/projectmanager/announcement");
+            break;
+          case accessRole === "Project Manager" && item.type === "project":
+            router.push("/projectmanager/announcement");
+            break;
+          case accessRole === "Project Manager" && item.type === "notice":
+            router.push("/projectmanager/projects/myproject");
+            break;
+          default:
+            router.push("/signin");
+            break;
         }
 
         // Refresh notifications after marking as read
@@ -98,6 +154,12 @@ export default function NotificationDropdown() {
       console.error("Error updating notification status:", error);
     }
   };
+
+
+
+  console.log(notifications);
+
+
 
   return (
     <div className="relative">
@@ -161,7 +223,7 @@ export default function NotificationDropdown() {
               <li
                 key={item.id}
                 onClick={() => markAsRead(item)}
-                className="flex gap-3 rounded-lg border-b border-gray-100 p-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5 cursor-pointer"
+                className="flex gap-3 items-center rounded-lg border-b border-gray-100 p-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5 cursor-pointer"
               >
                 <span className="relative block w-10 h-10 rounded-full bg-gray-400"></span>
                 <div className="flex flex-col">
@@ -173,6 +235,10 @@ export default function NotificationDropdown() {
                     <span>{timeAgo(item.notification.created_at)}</span>
                   </span>
                 </div>
+                {
+                  item?.is_open === false && <span className="bg-red-600 w-[10px] ml-8 h-[10px] rounded-full">
+                  </span>
+                }
               </li>
             ))
           ) : (
@@ -180,12 +246,11 @@ export default function NotificationDropdown() {
           )}
         </ul>
 
-        <Link
-          href="/"
+        <div
           className="block px-4 py-2 mt-3 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
         >
           View All Notifications
-        </Link>
+        </div>
       </Dropdown>
     </div>
   );
