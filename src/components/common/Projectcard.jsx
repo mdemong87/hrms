@@ -98,7 +98,7 @@ function ProjectCard({ link, item }) {
                 <p className="font-semibold text-sm">Project Progress</p>
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
                     <div
-                        className={`h-2 rounded-full ${item?.status == "To-Do" ? "bg-gray-300" : item?.status == "In Progress" ? "bg-blue-300" : item?.status == "Under Review" ? "bg-purple-300" : item?.status == "Completed" ? "bg-green-300" : item?.status == "Delivered" ? "bg-indigo-300" : "bg-gray-300"}`}
+                        className={`h-2 rounded-full ${item?.status == "To-Do" ? "bg-gray-300" : item?.status == "In Progress" ? "bg-blue-300" : item?.status == "Under Review" ? "bg-purple-300" : item?.status == "Completed" ? "bg-green-300" : item?.status == "Delivered" ? "bg-indigo-300" : item?.status == "On Hold" ? "bg-yellow-300" : "bg-gray-300"}`}
                         style={{ width: `${item?.progress}%` }}
                     ></div>
                 </div>
