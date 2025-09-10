@@ -236,7 +236,7 @@ export default function NotificationDropdown() {
                   </span>
                 </div>
                 {
-                  item?.is_open === false && <span className="bg-red-600 w-[10px] ml-8 h-[10px] rounded-full">
+                  item?.is_open == false && <span className="bg-red-600 w-[10px] ml-8 h-[10px] rounded-full">
                   </span>
                 }
               </li>
