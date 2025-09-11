@@ -1,5 +1,6 @@
 "use client";
 import { Modal } from "@/components/ui/modal";
+import getRole from "@/helper/cookie/getrole";
 import getCookie from "@/helper/cookie/gettooken";
 import { useModal } from "@/hooks/useModal";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -12,6 +13,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 const Calendar = () => {
 
   const token = getCookie();
+  const accessRole = getRole();
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventTitle, setEventTitle] = useState("");
   const [eventStartDate, setEventStartDate] = useState("");
@@ -101,7 +103,11 @@ const Calendar = () => {
     resetModalFields();
     setEventStartDate(selectInfo.startStr);
     setEventEndDate(selectInfo.endStr || selectInfo.startStr);
-    openModal();
+    if (accessRole == 'Admin') {
+      openModal();
+    } else {
+      closeModal();
+    }
   };
 
 
@@ -113,7 +119,11 @@ const Calendar = () => {
     setEventStartDate(event.start?.toISOString().split("T")[0] || "");
     setEventEndDate(event.end?.toISOString().split("T")[0] || "");
     setEventLevel(event.extendedProps.calendar);
-    openModal();
+    if (accessRole == 'Admin') {
+      openModal();
+    } else {
+      closeModal();
+    }
   };
 
 
@@ -176,7 +186,7 @@ const Calendar = () => {
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
-            left: "prev,next addEventButton",
+            left: `prev,next${accessRole == "Admin" ? " addEventButton" : ''}`,
             center: "title",
             right: "dayGridMonth,timeGridWeek,timeGridDay",
           }}
@@ -186,10 +196,12 @@ const Calendar = () => {
           eventClick={handleEventClick}
           eventContent={renderEventContent}
           customButtons={{
+
             addEventButton: {
               text: "Add Event +",
               click: openModal,
             },
+
           }}
 
         />
@@ -259,9 +271,10 @@ const Calendar = () => {
                       </label>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
+                ))
+                }
+              </div >
+            </div >
 
             <div className="mt-6">
               <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
@@ -292,7 +305,7 @@ const Calendar = () => {
                 />
               </div>
             </div>
-          </div>
+          </div >
           <div className="flex items-center gap-3 mt-6 modal-footer sm:justify-end">
             <button
               onClick={closeModal}
@@ -309,9 +322,9 @@ const Calendar = () => {
               {selectedEvent ? "Update Changes" : "Add Event"}
             </button>
           </div>
-        </div>
-      </Modal>
-    </div>
+        </div >
+      </Modal >
+    </div >
   );
 };
 
