@@ -1,11 +1,11 @@
 import AbsenceToday from "@/components/ecommerce/AbsenceToday";
-import DemographicCard from "@/components/ecommerce/DemographicCard";
 import { EcommerceMetrics } from "@/components/ecommerce/EcommerceMetrics";
 import MeetingSchedule from '@/components/ecommerce/MeetingSchedule';
 import MonthlySalesChart from "@/components/ecommerce/MonthlySalesChart";
 import MonthlyTarget from "@/components/ecommerce/MonthlyTarget";
 import StatisticsChart from "@/components/ecommerce/StatisticsChart";
 import { cookies } from "next/headers";
+// import Announcement from "../../../components/c";
 
 export const metadata = {
   title:
@@ -36,6 +36,7 @@ export default async function AdminDeshBoard() {
   }
 
   const deshboardData = await res.json();
+
   console.log(deshboardData);
 
 
@@ -44,17 +45,13 @@ export default async function AdminDeshBoard() {
       <div className="col-span-12 space-y-6 xl:col-span-7">
         <EcommerceMetrics deshboardData={deshboardData} />
 
-        <MonthlySalesChart deshboardData={deshboardData} />
+        <MonthlySalesChart deshboardData={deshboardData?.monthly_sales} />
         <MeetingSchedule deshboardData={deshboardData} />
       </div>
 
       <div className="col-span-12 xl:col-span-5">
         <MonthlyTarget deshboardData={deshboardData} />
-        <AbsenceToday deshboardData={deshboardData} />
-      </div>
-
-      <div className="col-span-12 xl:col-span-5">
-        <DemographicCard deshboardData={deshboardData} />
+        <AbsenceToday deshboardData={deshboardData?.absent_last_day} />
       </div>
 
       <div className="col-span-12 xl:col-span-7">
@@ -62,9 +59,8 @@ export default async function AdminDeshBoard() {
       </div>
 
       <div className="col-span-12">
-        <StatisticsChart deshboardData={deshboardData} />
+        <StatisticsChart deshboardData={deshboardData?.monthly_statistics} />
       </div>
-
 
     </div>
   );

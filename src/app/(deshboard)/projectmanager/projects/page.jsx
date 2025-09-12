@@ -26,7 +26,6 @@ const AllProjects = async () => {
     }
 
     const AllProject = await res.json();
-    console.log(AllProject);
 
 
     return (

@@ -54,7 +54,9 @@ export default function NotificationDropdown() {
   /**************** Load notifications on mount ********************/
   useEffect(() => {
     getNotification();
-    console.log(pathName);
+    if (pathName) {
+      return;
+    }
   }, [getNotification, pathName]);
 
 

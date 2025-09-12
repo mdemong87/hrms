@@ -8,6 +8,7 @@ import { FaDollarSign, FaShekelSign, FaTasks } from "react-icons/fa";
 import { FaChartLine } from "react-icons/fa6";
 import { MdOutlineHolidayVillage, MdOutlineSettings } from "react-icons/md";
 import { PiOfficeChairBold } from "react-icons/pi";
+import { TbTargetArrow } from "react-icons/tb";
 import { TfiAnnouncement } from "react-icons/tfi";
 import LogoutBtn from "../../components/auth/LogoutBtn";
 import { useSidebar } from "../../context/SidebarContext";
@@ -45,6 +46,11 @@ const navItems: NavItem[] = [
     icon: <PageIcon />,
     name: "Leave",
     subItems: [{ name: "Requested Leave", path: "/admin/leave/request", pro: false }],
+  },
+  {
+    icon: <TbTargetArrow className="text-2xl" />,
+    name: "Target",
+    subItems: [{ name: "Monthly Target", path: "/admin/target", pro: false }],
   },
   {
     icon: <PiOfficeChairBold className="text-2xl" />,

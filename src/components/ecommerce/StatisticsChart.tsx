@@ -1,16 +1,23 @@
 "use client";
-import React from "react";
 // import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import ChartTab from "../common/ChartTab";
 import dynamic from "next/dynamic";
+// import ChartTab from "../common/ChartTab";
 
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-export default function StatisticsChart() {
+export default function StatisticsChart({ deshboardData }) {
+
+  const sales = [];
+  const revenue = [];
+  deshboardData?.map((item) => {
+    sales.push(item?.sales);
+    revenue.push(item?.revenue);
+  })
+
   const options: ApexOptions = {
     legend: {
       show: false, // Hide legend
@@ -112,11 +119,11 @@ export default function StatisticsChart() {
   const series = [
     {
       name: "Sales",
-      data: [180, 190, 170, 160, 175, 165, 170, 205, 230, 210, 240, 235],
+      data: sales,
     },
     {
       name: "Revenue",
-      data: [40, 30, 50, 40, 55, 40, 70, 100, 110, 120, 150, 140],
+      data: revenue,
     },
   ];
   return (
@@ -127,12 +134,12 @@ export default function StatisticsChart() {
             Statistics
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Target you’ve set for each month
+            Real-Time Sales & Delivery Insights
           </p>
         </div>
-        <div className="flex items-start w-full gap-3 sm:justify-end">
+        {/* <div className="flex items-start w-full gap-3 sm:justify-end">
           <ChartTab />
-        </div>
+        </div> */}
       </div>
 
       <div className="max-w-full overflow-x-auto custom-scrollbar">

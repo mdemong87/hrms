@@ -43,13 +43,13 @@ export default async function EmployeeDeshBoard() {
             <div className="col-span-12 space-y-6 xl:col-span-7">
                 <EcommerceMetricsForHrprojectManagerEmployee deshboardData={deshboardData} />
 
-                <MonthlySalesChart deshboardData={deshboardData} />
+                <MonthlySalesChart deshboardData={deshboardData?.?.absent_last_day} />
                 <MeetingSchedule deshboardData={deshboardData} />
             </div>
 
             <div className="col-span-12 xl:col-span-5">
                 <MonthlyTarget deshboardData={deshboardData} />
-                <AbsenceToday deshboardData={deshboardData} />
+                <AbsenceToday deshboardData={deshboardData?.absent_last_day} />
             </div>
 
             <div className="col-span-12 xl:col-span-5">
@@ -61,7 +61,7 @@ export default async function EmployeeDeshBoard() {
             </div>
 
             <div className="col-span-12">
-                <StatisticsChart deshboardData={deshboardData} />
+                <StatisticsChart deshboardData={deshboardData?.monthly_statistics} />
             </div>
 
 

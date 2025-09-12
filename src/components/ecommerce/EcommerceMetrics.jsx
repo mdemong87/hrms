@@ -14,11 +14,6 @@ export const EcommerceMetrics = ({ deshboardData }) => {
       <EcommerceMetricesCard title="Cencel Orders" value="1" rate="1%" status={"down"} head={'6'} />
       <EcommerceMetricesCard title="Currently Working" value="6" rate="6%" status={"up"} head={'7'} />
       <EcommerceMetricesCard title="Total Profit" value="$2343" rate="100%" status={"up"} head={'8'} />
-      <EcommerceMetricesCard title="Cencel Orders" value="1" rate="1%" status={"down"} head={'6'} />
-      <EcommerceMetricesCard title="Currently Working" value="6" rate="6%" status={"up"} head={'7'} />
-      <EcommerceMetricesCard title="Total Profit" value="$2343" rate="100%" status={"up"} head={'8'} />
-      <EcommerceMetricesCard title="Total Profit" value="$2343" rate="100%" status={"up"} head={'8'} />
-
     </div >
   );
 };

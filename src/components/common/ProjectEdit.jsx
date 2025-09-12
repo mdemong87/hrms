@@ -1,5 +1,6 @@
 'use client'
 
+import DistributedBalanceInputer from "@/components/common/DistributedBalanceInputer";
 import Loading from "@/components/common/Loading";
 import Input from "@/components/form/input/InputField";
 import Label from "@/components/form/Label";
@@ -15,7 +16,6 @@ import { IoSaveSharp } from "react-icons/io5";
 import { MdCancelPresentation } from "react-icons/md";
 import { toast, ToastContainer } from 'react-toastify';
 
-
 const Editor = dynamic(
     () => import("@/components/common/Editor"),
     { ssr: false }
@@ -24,7 +24,6 @@ const Editor = dynamic(
 
 
 const ProjectEdit = ({ isEdit, setisEdit, singleProject, projectId }) => {
-
 
 
     const token = getCookie();
@@ -43,6 +42,8 @@ const ProjectEdit = ({ isEdit, setisEdit, singleProject, projectId }) => {
     const [priority, setpriority] = useState(singleProject?.priority);
     const [status, setstatus] = useState(singleProject?.status);
     const [description, setdescription] = useState(singleProject?.description);
+    const [ammount, setammount] = useState(singleProject?.amount);
+    const [taken_by, settaken_by] = useState(singleProject?.taken_by);
     const [AllEmployeeAndDepartment, setAllEmployeeAndDepartment] = useState([]);
 
 
@@ -106,11 +107,16 @@ const ProjectEdit = ({ isEdit, setisEdit, singleProject, projectId }) => {
             end_date: endDate,
             status: status,
             priority: priority,
+            taken_by: [taken_by],
+            amount: ammount,
             team_leader: teamLeaderId,
             assign_employee: assignedEmployeeId,
             description: description
         }
 
+
+
+        console.log(addedabledata);
 
 
         try {
@@ -129,7 +135,6 @@ const ProjectEdit = ({ isEdit, setisEdit, singleProject, projectId }) => {
             if (response.ok) {
                 setisloading(false);
                 const data = await response.json();
-                console.log(response);
                 toast.success("Update Project successful");
 
                 // role base redirect all employee page after successfully employee added
@@ -159,6 +164,8 @@ const ProjectEdit = ({ isEdit, setisEdit, singleProject, projectId }) => {
 
 
     }
+
+
 
 
 
@@ -208,6 +215,30 @@ const ProjectEdit = ({ isEdit, setisEdit, singleProject, projectId }) => {
                                         <Input value={clientName} error={isError ? !clientName ? true : false : false} type="text" onChange={(e) => setclientName(e.target.value)} />
                                     </div>
                                 </div>
+
+                                <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2 mb-6">
+                                    <div className="col-span-2 lg:col-span-1">
+                                        <Label>{`Project Budget  (In USD)`}<span className="text-error-500">*</span></Label>
+                                        <Input value={ammount} error={isError ? !ammount ? true : false : false} type="number" onChange={(e) => setammount(e.target.value)} />
+                                    </div>
+                                    <div className="col-span-2 lg:col-span-1">
+                                        <Label>Sales By <span className="text-error-500">*</span></Label>
+                                        <select value={taken_by[0] && taken_by[0]?.id} onChange={(e) =>
+                                            settaken_by(Number(e.target.value))} className={`h-11 w-full appearance-none rounded-lg border px-4 py-2.5 pr-11 text-sm shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 ${isError ? (taken_by?.length < 0) ? "text-error-800 border-error-500 focus:ring-3 focus:ring-error-500/10  dark:text-error-400 dark:border-error-500" : "border-gray-300 dark:border-gray-700" : "border-gray-300 dark:border-gray-700"}`}>
+                                            <option className="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value={-1}>Select Sales Executive</option>
+                                            {
+                                                AllEmployeeAndDepartment?.developers?.map((item, index) => {
+                                                    return (
+                                                        <option key={index} className="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value={item?.id}>{item?.fname + "" + item?.lname}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+
+
+                                    </div>
+                                </div>
+
 
                                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2 mt-6">
 
@@ -277,6 +308,10 @@ const ProjectEdit = ({ isEdit, setisEdit, singleProject, projectId }) => {
                                         <Label>Assign Employee <span className="text-error-500">*</span></Label>
                                         <MultiSelect error={isError ? !assignedEmployee.length > 0 ? true : false : false} options={AllEmployeeAndDepartment?.developers} selectedOptions={assignedEmployeeId} setSelectedOptions={setassignedEmployeeId} />
                                     </div>
+                                </div>
+
+                                <div className="mt-6">
+                                    <DistributedBalanceInputer />
                                 </div>
 
 

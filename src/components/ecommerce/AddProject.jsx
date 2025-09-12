@@ -45,7 +45,7 @@ const AddProject = () => {
     const [status, setstatus] = useState("To-Do");
     const [description, setdescription] = useState('');
     const [ammount, setammount] = useState(0);
-    const [taken_by, settaken_by] = useState([]);
+    const [taken_by, settaken_by] = useState(-1);
     const [AllEmployeeAndDepartment, setAllEmployeeAndDepartment] = useState([]);
 
 
@@ -95,7 +95,7 @@ const AddProject = () => {
 
 
         //check user Fill up all required feilds or not
-        if (!projectName || !clientName || !teamName || !startDate || !endDate || !Department > 0 || !assignedEmployee?.length > 0 || !teamLeader?.length > 0 || !taken_by?.length > 0 || !ammount > 0) {
+        if (!projectName || !clientName || !teamName || !startDate || !endDate || !Department > 0 || !assignedEmployee?.length > 0 || !teamLeader?.length > 0 || !taken_by > 0 || !ammount > 0) {
             setIsError(true);
             return;
         }
@@ -113,12 +113,14 @@ const AddProject = () => {
             status: status,
             priority: priority,
             team_leader: teamLeader,
-            taken_by: taken_by,
+            taken_by: [taken_by],
             amount: ammount,
             assign_employee: assignedEmployee,
             description: description
         }
 
+
+        console.log(addedabledata);
 
 
         try {
@@ -214,7 +216,19 @@ const AddProject = () => {
                                     </div>
                                     <div className="col-span-2 lg:col-span-1">
                                         <Label>Sales By <span className="text-error-500">*</span></Label>
-                                        <MultiSelect error={isError ? !taken_by.length > 0 ? true : false : false} options={AllEmployeeAndDepartment?.developers} selectedOptions={taken_by} setSelectedOptions={settaken_by} />
+                                        <select onChange={(e) =>
+                                            settaken_by(Number(e.target.value))} className={`h-11 w-full appearance-none rounded-lg border px-4 py-2.5 pr-11 text-sm shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 ${isError ? (taken_by < 0) ? "text-error-800 border-error-500 focus:ring-3 focus:ring-error-500/10  dark:text-error-400 dark:border-error-500" : "border-gray-300 dark:border-gray-700" : "border-gray-300 dark:border-gray-700"}`}>
+                                            <option className="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value={-1}>Select Sales Executive</option>
+                                            {
+                                                AllEmployeeAndDepartment?.developers?.map((item, index) => {
+                                                    return (
+                                                        <option key={index} className="text-gray-700 dark:bg-gray-900 dark:text-gray-400" value={item?.id}>{item?.fname + "" + item?.lname}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+
+
                                     </div>
                                 </div>
 

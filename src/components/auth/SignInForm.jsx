@@ -74,6 +74,9 @@ export default function SignInForm() {
             case "Employee":
               router.push('/employee');
               break;
+            case "Team Lead":
+              router.push('//teamlead');
+              break;
             default:
               console.error('Unknown role');
               router.push('/');

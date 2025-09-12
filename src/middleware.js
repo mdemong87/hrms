@@ -52,7 +52,7 @@ export default async function middleware(req) {
 
 
     /************* Check if path starts with any of the given prefixes *************/
-    const startsWithProtectedPrefix = ['/admin', '/hr', '/projectmanager', '/employee']
+    const startsWithProtectedPrefix = ['/admin', '/hr', '/projectmanager', '/employee',]
         .some(prefix => path.startsWith(prefix));
 
 

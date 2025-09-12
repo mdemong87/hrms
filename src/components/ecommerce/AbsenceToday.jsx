@@ -1,13 +1,15 @@
 "use client";
+import hasImageExtension from "@/helper/hasImageExtension";
 // import Chart from "react-apexcharts";
-
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import demoprofile from "../../../public/images/user/demo.jpeg";
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
 });
 
-const AbsenceToday = () => {
+const AbsenceToday = ({ deshboardData }) => {
 
 
     return (
@@ -16,13 +18,13 @@ const AbsenceToday = () => {
                 <div className="">
                     <div>
                         <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-                            Absence Today
+                            Absence Last Day
                         </h3>
                         <p className="mt-1 font-normal text-gray-500 text-theme-sm dark:text-gray-400">
-                            Absence Today Discription
+                            Absence last Day Discription
                         </p>
                     </div>
-                    <div className="text-gray-100 mt-5">
+                    <div className="text-gray-100 mt-5 min-h-[350px] max-h-[350px] overflow-y-scroll">
 
 
                         <div className="relative overflow-x-auto rounded-lg">
@@ -33,7 +35,7 @@ const AbsenceToday = () => {
                                             SL
                                         </th>
                                         <th className="px-6 py-3">
-                                            Emplyee Name
+                                            Image/Name
                                         </th>
                                         <th className="px-6 py-3">
                                             Status
@@ -41,83 +43,34 @@ const AbsenceToday = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                        <td className="px-6 py-4">
-                                            1
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            MD Emon Hossen
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Absence
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                        <td className="px-6 py-4">
-                                            2
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Rana Ahmead
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Absence
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white dark:bg-gray-800">
-                                        <td className="px-6 py-4">
-                                            3
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Ahsan Ahmead
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Absence
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                        <td className="px-6 py-4">
-                                            2
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Rana Ahmead
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Absence
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white dark:bg-gray-800">
-                                        <td className="px-6 py-4">
-                                            3
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Ahsan Ahmead
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Absence
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                        <td className="px-6 py-4">
-                                            2
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Rana Ahmead
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Absence
-                                        </td>
-                                    </tr>
-                                    <tr className="bg-white dark:bg-gray-800">
-                                        <td className="px-6 py-4">
-                                            3
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Ahsan Ahmead
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            Absence
-                                        </td>
-                                    </tr>
+
+
+                                    {
+                                        deshboardData?.map((item, index) => {
+                                            return (
+                                                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                                    <td className="px-6 py-4">
+                                                        {index + 1}
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-2">
+                                                            <Image src={hasImageExtension(item?.image) ? item?.image : demoprofile} alt="Profile_Image" className="w-[30px] h-[30px] rounded-full" width={1000} height={1000} />
+                                                            {item?.employee_name}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        {item?.status}
+                                                    </td>
+                                                </tr>
+
+                                            )
+                                        })
+                                    }
+
+
+
+
+
                                 </tbody>
                             </table>
                         </div>
