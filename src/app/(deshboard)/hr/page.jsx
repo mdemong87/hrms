@@ -44,7 +44,7 @@ export default async function HrDeshBoard() {
             <div className="col-span-12 space-y-6 xl:col-span-7">
                 <EcommerceMetricsForHrprojectManagerEmployee deshboardData={deshboardData} />
 
-                <MonthlySalesChart deshboardData={deshboardData?.?.absent_last_day} />
+                <MonthlySalesChart deshboardData={deshboardData?.absent_last_day} />
                 <MeetingSchedule deshboardData={deshboardData} />
             </div>
 
