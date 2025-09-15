@@ -1,5 +1,4 @@
 "use client";
-import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
 
 // Dynamically import the ReactApexChart component
@@ -17,7 +16,7 @@ export default function MonthlySalesChart({ deshboardData }) {
   })
 
 
-  const options: ApexOptions = {
+  const options = {
     colors: ["#465fff"],
     chart: {
       fontFamily: "Outfit, sans-serif",
@@ -92,7 +91,7 @@ export default function MonthlySalesChart({ deshboardData }) {
         show: false,
       },
       y: {
-        formatter: (val: number) => `${val}`,
+        formatter: (val) => `${val}`,
       },
     },
   };

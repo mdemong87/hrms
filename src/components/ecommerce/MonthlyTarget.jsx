@@ -1,6 +1,5 @@
 "use client";
 // import Chart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -9,7 +8,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 
 export default function MonthlyTarget({ deshboardData }) {
   const series = [deshboardData?.target_card?.percentage_achieved];
-  const options: ApexOptions = {
+  const options = {
     colors: ["#465FFF"],
     chart: {
       fontFamily: "Outfit, sans-serif",

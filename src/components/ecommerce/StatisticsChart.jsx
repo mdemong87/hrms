@@ -1,6 +1,5 @@
 "use client";
 // import Chart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
 // import ChartTab from "../common/ChartTab";
 
@@ -18,7 +17,7 @@ export default function StatisticsChart({ deshboardData }) {
     revenue.push(item?.revenue);
   })
 
-  const options: ApexOptions = {
+  const options = {
     legend: {
       show: false, // Hide legend
       position: "top",

@@ -61,7 +61,10 @@
     "src/app/(deshboard)/hr/profile/page.jsx",
     "src/components/calendar/Calendar.jsx",
     "src/components/form/MultiSelect.jsx",
-    "src/components/header/NotificationDropdown.jsx"
+    "src/components/header/NotificationDropdown.jsx",
+    "src/components/ecommerce/MonthlySalesChart.jsx",
+    "src/components/ecommerce/MonthlyTarget.jsx",
+    "src/components/ecommerce/StatisticsChart.jsx"
   ],
   "exclude": [
     "node_modules"
