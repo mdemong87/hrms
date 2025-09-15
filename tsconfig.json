@@ -1,0 +1,72 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/layout/AppHeader.jsx",
+    "src/app/(admin)/(others-pages)/employee/attendance/[id]/page.jsx",
+    "src/components/auth/SignInForm.jsx",
+    "src/components/auth/SignUpForm.jsx",
+    "src/components/form/Select.jsx",
+    "src/app/(admin)/(others-pages)/employee/attendance/page.jsx",
+    "src/app/(deshboard)/admin/layout.jsx",
+    "src/app/(deshboard)/projectmanager/layout.jsx",
+    "src/app/(deshboard)/hr/layout.jsx",
+    "src/app/(deshboard)/employee/layout.jsx",
+    "src/components/common/PageBreadCrumb.jsx",
+    "src/components/form/input/TextArea.jsx",
+    "src/components/form/input/InputField.jsx",
+    "src/components/example/ModalExample/FormInModal.jsx",
+    "src/components/form/form-elements/InputGroup.jsx",
+    "src/components/form/form-elements/InputStates.jsx",
+    "src/components/form/form-elements/RadioButtons.jsx",
+    "src/components/form/form-elements/TextAreaInput.jsx",
+    "src/components/form/form-elements/ToggleSwitch.jsx",
+    "src/components/user-profile/UserAddressCard.jsx",
+    "src/components/user-profile/UserInfoCard.jsx",
+    "src/components/user-profile/UserMetaCard.jsx",
+    "src/components/header/UserDropdown.jsx",
+    "src/app/(deshboard)/admin/page.jsx",
+    "src/components/ecommerce/EcommerceMetrics.jsx",
+    "src/app/(deshboard)/hr/profile/page.jsx",
+    "src/components/calendar/Calendar.jsx",
+    "src/components/form/MultiSelect.jsx",
+    "src/components/header/NotificationDropdown.jsx",
+    "src/components/ecommerce/MonthlySalesChart.jsx",
+    "src/components/ecommerce/MonthlyTarget.jsx",
+    "src/components/ecommerce/StatisticsChart.jsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
