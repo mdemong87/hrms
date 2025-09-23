@@ -311,7 +311,7 @@ const ProjectEdit = ({ isEdit, setisEdit, singleProject, projectId }) => {
                                 </div>
 
                                 <div className="mt-6">
-                                    <DistributedBalanceInputer />
+                                    <DistributedBalanceInputer assignedEmployee={assignedEmployee} totalBudget={ammount} />
                                 </div>
 
 

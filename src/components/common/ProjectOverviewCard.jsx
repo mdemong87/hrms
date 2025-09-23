@@ -123,6 +123,10 @@ const ProjectOverviewCard = ({ id }) => {
 
 
 
+    console.log(singleProject);
+
+
+
     return (
         <div
             className={`w-full max-w-6xl grid grid-cols-1 lg:grid-cols-4 gap-6 p-4 transition bg-white text-slate-900 dark:bg-slate-900 dark:text-white rounded-lg relative`}
